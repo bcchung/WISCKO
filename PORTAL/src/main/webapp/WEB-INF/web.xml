@@ -21,7 +21,6 @@
         <filter-name>encodingFilter</filter-name>
         <url-pattern>*.do</url-pattern>
     </filter-mapping>
-    <!-- ?œí”Œë¦??ŒìŠ¤?ì„œ???„ëž˜???„í„°?¬ìš© ??‹  JSP ì¶œë ¥??<c:out> ?œê·¸ë¥??¬ìš©?˜ëŠ” ê²ƒì„ ê¸°ë³¸?•ì±…?¼ë¡œ ?œë‹¤  -->
     <!--
     <filter-mapping>
         <filter-name>HTMLTagFilter</filter-name>
