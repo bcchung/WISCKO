@@ -11,24 +11,24 @@
     </appender>
     
     <logger name="egovframework" additivity="false">
-        <level value="INFO"/>
+        <level value="ERROR"/>
         <appender-ref ref="console"/>
     </logger>
 
 	<!-- log SQL with timing information, post execution -->
 	<logger name="jdbc.sqltiming" additivity="false">
-		<level value="INFO" />
+		<level value="ERROR" />
 		<appender-ref ref="console" />
 	</logger>
  
 	
 	<logger name="org.springframework" additivity="false">
-		<level value="INFO" />
+		<level value="ERROR" />
 		<appender-ref ref="console" />
 	</logger>
 	
 	<root>
-		<level value="DEBUG" />
+		<level value="ERROR" />
 		<appender-ref ref="console" />
 	</root>
 	                   

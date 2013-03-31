@@ -19,7 +19,8 @@
     </filter>
     <filter-mapping>
         <filter-name>encodingFilter</filter-name>
-        <url-pattern>*.do</url-pattern>
+        <!-- <url-pattern>*.do</url-pattern> -->
+        <url-pattern>/*</url-pattern>
     </filter-mapping>
     <!--
     <filter-mapping>
@@ -53,6 +54,10 @@
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
+    
+    <listener>
+	    <listener-class>egovframework.com.cmm.RequestContextListener</listener-class>
+	</listener>
 
     <servlet>
         <servlet-name>action</servlet-name>

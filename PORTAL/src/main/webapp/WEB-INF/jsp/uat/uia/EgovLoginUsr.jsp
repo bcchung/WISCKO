@@ -127,13 +127,13 @@ function fnInit() {
 
 	            <table summary="로그인 테이블">
 	               <tr>
-	                 <td class="td_width">아이디</td>
+	                 <td class="td_width"><spring:message code="label.user.id"/></td>
 	                 <td class="td_content">
 	                     <input type="text" name="id" id="id" title="아이디" maxlength="10"/>
 	                 </td>
 	               </tr>
 	               <tr>
-	                 <td class="td_width">비밀번호</td>
+	                 <td class="td_width"><spring:message code="label.user.pswd"/></td>
 	                 <td class="td_content">
 	                     <input type="password" name="password" id="password" title="비밀번호" onKeyDown="javascript:if (event.keyCode == 13) { actionLogin(); }"/>
 	                     <input type="checkbox" name="checkId" id="checkId" title="암호저장여부" onClick="javascript:saveid(document.loginForm);" />ID저장

@@ -101,7 +101,7 @@ function fnSbscrb(){
 	        <input type="hidden" name="zip_url" value="<c:url value='/sym/cmm/EgovCcmZipSearchPopup.do'/>" />
 	        
 	        <!-- sub title start -->
-            <div><h2>일반회원 가입신청</h2></div>
+            <div><h2><spring:message code="join.label.join.request"/></h2></div>
             <!-- sub title end -->
             
             <!--detail area start -->
@@ -109,7 +109,7 @@ function fnSbscrb(){
                 <div class="search_top_table">
                     <table summary="일반회원 가입정보">
 			            <tr> 
-			                <td class="td_width">일반회원아이디
+			                <td class="td_width"><spring:message code="join.label.id"/>
 			                    <img src="<c:url value='/'/>images/required.gif" alt="필수항목" title="필수항목" width="15" height="15"/>
 			                </td>
 			                <td class="td_content">
@@ -122,7 +122,7 @@ function fnSbscrb(){
 			                </td>
 			            </tr>
 			            <tr> 
-			                <td class="td_width">일반회원이름
+			                <td class="td_width"><spring:message code="join.label.name"/>
 			                    <img src="<c:url value='/'/>images/required.gif" alt="필수항목" title="필수항목" width="15" height="15"/>
 			                </td>
 			                <td class="td_content">
@@ -133,7 +133,7 @@ function fnSbscrb(){
 			                </td>
 			            </tr>
 			            <tr> 
-			                <td class="td_width">비밀번호
+			                <td class="td_width"><spring:message code="join.label.pswd"/>
 			                    <img src="<c:url value='/'/>images/required.gif" alt="필수항목" title="필수항목" width="15" height="15"/>
 			                </td>
 			                <td class="td_content">
@@ -142,7 +142,7 @@ function fnSbscrb(){
 			                </td>
 			            </tr>
 			            <tr> 
-			                <td class="td_width">비밀번호확인
+			                <td class="td_width"><spring:message code="join.label.pswd.confirm"/>
 			                    <img src="<c:url value='/'/>images/required.gif" alt="필수항목" title="필수항목" width="15" height="15"/>
 			                </td>
 			                <td class="td_content">
@@ -150,7 +150,7 @@ function fnSbscrb(){
 			                </td>
 			            </tr>
 			            <tr> 
-			                <td class="td_width">비밀번호힌트
+			                <td class="td_width"><spring:message code="join.label.pswd.question"/>
 			                    <img src="<c:url value='/'/>images/required.gif" alt="필수항목" title="필수항목" width="15" height="15"/>
 			                </td>
 			                <td class="td_content">
@@ -162,7 +162,7 @@ function fnSbscrb(){
 			                    </td>
 			            </tr>
 			            <tr> 
-			                <td class="td_width">비밀번호정답
+			                <td class="td_width"><spring:message code="join.label.pswd.answer"/>
 			                    <img src="<c:url value='/'/>images/required.gif" alt="필수항목" title="필수항목" width="15" height="15"/>
 			                </td>
 			                <td class="td_content">
@@ -171,7 +171,7 @@ function fnSbscrb(){
 			                </td>
 			            </tr>
 			            <tr>
-			                <td class="td_width">성별구분코드&nbsp;&nbsp;</td>
+			                <td class="td_width"><spring:message code="join.label.gender"/>&nbsp;&nbsp;</td>
 			                <td class="td_content">
 			                    <form:select path="sexdstnCode">
 			                        <form:option value="" label="--선택하세요--"/>
@@ -180,7 +180,7 @@ function fnSbscrb(){
 			                </td>
 			            </tr>
 			            <tr> 
-			                <td class="td_width">전화번호
+			                <td class="td_width"><spring:message code="join.label.tel"/>
 			                </td>
 			                <td class="td_content">
 			                    <form:input path="areaNo" cssClass="txaIpt" size="5" maxlength="5" />
@@ -192,14 +192,14 @@ function fnSbscrb(){
 			                </td>
 			            </tr>
 			            <tr> 
-			                <td class="td_width">팩스번호&nbsp;&nbsp;</td>
+			                <td class="td_width"><spring:message code="join.label.fax"/>&nbsp;&nbsp;</td>
 			                <td class="td_content">
 			                    <form:input path="mberFxnum" cssClass="txaIpt" size="20"  maxlength="15" />
 			                    <div><form:errors path="mberFxnum" cssClass="error" /></div>
 			                </td>
 			            </tr>
 			            <tr> 
-			                <td class="td_width">핸드폰번호
+			                <td class="td_width"><spring:message code="join.label.cell"/>
 			                </td>
 			                <td class="td_content">
 			                    <form:input path="moblphonNo" cssClass="txaIpt" size="20" maxlength="15" />
@@ -207,7 +207,7 @@ function fnSbscrb(){
 			                </td>
 			            </tr>
 			            <tr> 
-			                <td class="td_width">이메일주소
+			                <td class="td_width"><spring:message code="join.label.email"/>
 			                </td>
 			                <td class="td_content">
 			                    <form:input path="mberEmailAdres" cssClass="txaIpt" size="30" maxlength="50" />
@@ -215,7 +215,7 @@ function fnSbscrb(){
 			                </td>
 			            </tr>
 			            <tr> 
-			                <td class="td_width">우편번호
+			                <td class="td_width"><spring:message code="join.label.zip"/>
 			                </td>
 			                <td class="td_content">
 			                    <input name="zip_view" title="우편번호" type="text" size="20" value="<c:out value='${mberManageVO.zip}'/>" maxlength="8" readonly="readonly">
@@ -227,7 +227,7 @@ function fnSbscrb(){
 			                </td>
 			            </tr>
 			            <tr>
-			                <td class="td_width">주소
+			                <td class="td_width"><spring:message code="join.label.addr1"/>
 			                </td>
 			                <td class="td_content">
 			                    <form:input path="adres" cssClass="txaIpt" size="70" maxlength="100" readonly="true" />
@@ -235,7 +235,7 @@ function fnSbscrb(){
 			                </td>
 			            </tr>
 			            <tr> 
-			                <td class="td_width">상세주소&nbsp;&nbsp;</td>
+			                <td class="td_width"><spring:message code="join.label.addr2"/>&nbsp;&nbsp;</td>
 			                <td class="td_content">
 			                    <form:input path="detailAdres" cssClass="txaIpt" size="70" maxlength="100" />
 			                    <div><form:errors path="detailAdres" cssClass="error" /></div>

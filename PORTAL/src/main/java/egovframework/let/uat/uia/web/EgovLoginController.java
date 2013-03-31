@@ -1,6 +1,7 @@
 package egovframework.let.uat.uia.web;
 
 import javax.annotation.Resource;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -15,6 +16,9 @@ import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.let.uat.uia.service.EgovLoginService;
 import egovframework.rte.fdl.cmmn.trace.LeaveaTrace;
 import egovframework.rte.fdl.property.EgovPropertyService;
+import java.util.Locale;
+
+import org.springframework.context.i18n.LocaleContextHolder;
 /**
  * 일반 로그인을 처리하는 컨트롤러 클래스
  * @author 공통서비스 개발팀 박지욱
@@ -63,6 +67,9 @@ public class EgovLoginController {
 			HttpServletResponse response,
 			ModelMap model) 
 			throws Exception {
+    	Locale locale = LocaleContextHolder.getLocale();
+    	System.out.println("[System Locale] = [" + locale + "]");
+    	
     	return "uat/uia/EgovLoginUsr";
 	}
 	

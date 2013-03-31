@@ -30,8 +30,12 @@
            if(loginVO == null){ 
         %>
         <ul>
-           <li>|</li>
-        
+           <li><a href="?locale=ko_KR">한국어</a></li>
+		   <li>|</li>
+           <li><a href="?locale=en_US">영어</a></li>
+		   <li>|</li>
+		   <li><a href="?locale=zh_CN">중국어</a></li>
+		   <li>|</li>
            <li><a href="<c:url value='/uat/uia/egovLoginUsr.do'/>">로그인</a></li>
         </ul>
         <% }else{ %>

@@ -18,10 +18,11 @@
                 <value>classpath:/egovframework/rte/fdl/property/messages/properties</value>
             </list>
         </property>
+        <property name="defaultEncoding" value="UTF-8"/>
         <property name="cacheSeconds">
             <value>60</value>
         </property>
-    </bean>    
+    </bean>
     
     <!--인증된 유저의 LoginVO, 권한, 인증 여부를 확인 할 수있는 서비스 클래스
     <bean id="egovUserDetailsHelper" class="egovframework.com.cmm.util.EgovUserDetailsHelper">
@@ -33,7 +34,7 @@
     <!-- 0. 세션/시큐리티를 제외한 테스트위한 인증(더미)을 사용하는 빈
     <bean id="egovTestUserDetailsService" class="egovframework.com.cmm.service.impl.EgovTestUserDetailsServiceImpl"/>
      -->
-    <!-- 1. 세션을 이용한 인증을 사용하는 빈 
+    <!-- 1. 세션을 이용한 인증을 사용하는 빈
     <bean id="egovUserDetailsSessionService" class="egovframework.com.cmm.service.impl.EgovUserDetailsSessionServiceImpl"/>
     -->
     <!-- 2. 시큐리티를 이용한 인증을 사용할 빈 
@@ -100,5 +101,4 @@
     
     <!-- component-scan 설정-->
     <context:component-scan base-package="egovframework"/>
-        
 </beans>
