@@ -22,6 +22,7 @@
         <dd><a href="#leftmenu_div">좌메뉴 바로가기</a></dd>
     </dl>
 </div>
+<a href="?locale=ko_KR">KOREAN</a> | <a href="?locale=en_US">ENGLISH</a> | <a href="?locale=zh_CN">CHINESE</a>
 <div class="login_area_loc">
 	<div class="loginbg01"></div>
 	<div class="loginbg02">
@@ -30,12 +31,6 @@
            if(loginVO == null){ 
         %>
         <ul>
-           <li><a href="?locale=ko_KR">한국어</a></li>
-		   <li>|</li>
-           <li><a href="?locale=en_US">영어</a></li>
-		   <li>|</li>
-		   <li><a href="?locale=zh_CN">중국어</a></li>
-		   <li>|</li>
            <li><a href="<c:url value='/uat/uia/egovLoginUsr.do'/>">로그인</a></li>
         </ul>
         <% }else{ %>
@@ -47,10 +42,11 @@
         </ul>        
         <% } %> 
     </div>
-		<div class="loginbg03"></div>
+	<div class="loginbg03"></div>
 </div>
 <h1><a href="<c:url value='/'/>cmm/main/mainPage.do">템플릿 로고</a>
-    <a href="<c:url value='/EgovPageLink.do?link=main/sample_menu/Intro'/>" target="_blank"><img width="20" height="20" src="<c:url value='/images/question.jpg'/>" alt="메뉴구성 설명" title="메뉴구성 설명"></a>
+    <%-- <a href="<c:url value='/EgovPageLink.do?link=main/sample_menu/Intro'/>" target="_blank"><img width="20" height="20" src="<c:url value='/images/question.jpg'/>" alt="메뉴구성 설명" title="메뉴구성 설명"></a> --%>
+    
 </h1>		 
 <div id="SubTopSearch">
 <form action="#LINK" name="SubTopSearchForm" id="SubTopSearchForm" method="post">

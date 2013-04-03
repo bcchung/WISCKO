@@ -30,12 +30,6 @@
            if(loginVO == null){ 
         %>
 		<ul>
-		   <li><a href="?locale=ko_KR">한국어</a></li>
-		   <li>|</li>
-           <li><a href="?locale=en_US">영어</a></li>
-		   <li>|</li>
-		   <li><a href="?locale=zh_CN">중국어</a></li>
-		   <li>|</li>
            <li><a href="<c:url value='/uat/uia/egovLoginUsr.do'/>">로그인</a></li>
         </ul>
         <% }else{ %>
@@ -51,7 +45,8 @@
 </div>		
 <h1><a href="<c:url value='/'/>cmm/main/mainPage.do">템플릿 로고</a>
 </h1>
-<a href="<c:url value='/EgovPageLink.do?link=main/sample_menu/Intro'/>" target="_blank"><img width="20" height="20" src="<c:url value='/images/question.jpg'/>" alt="메뉴구성 설명" title="메뉴구성 설명"></a>
+<%-- <a href="<c:url value='/EgovPageLink.do?link=main/sample_menu/Intro'/>" target="_blank"><img width="20" height="20" src="<c:url value='/images/question.jpg'/>" alt="메뉴구성 설명" title="메뉴구성 설명"></a> --%>
+<a href="?locale=ko_KR">KOREAN</a> | <a href="?locale=en_US">ENGLISH</a> | <a href="?locale=zh_CN">CHINESE</a>
 
 <div id="TopSearch">
 <dl style="display: block;">

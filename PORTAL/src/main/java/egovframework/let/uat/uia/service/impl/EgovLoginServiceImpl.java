@@ -1,6 +1,7 @@
 package egovframework.let.uat.uia.service.impl;
 import javax.annotation.Resource;
 
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import egovframework.com.cmm.LoginVO;
@@ -33,6 +34,8 @@ public class EgovLoginServiceImpl extends AbstractServiceImpl implements
     @Resource(name="loginDAO")
     private LoginDAO loginDAO;
     
+    Logger log = Logger.getLogger(this.getClass());
+    
     /**
 	 * 일반 로그인을 처리한다
 	 * @param vo LoginVO
@@ -44,6 +47,8 @@ public class EgovLoginServiceImpl extends AbstractServiceImpl implements
     	// 1. 입력한 비밀번호를 암호화한다.
     	String enpassword = EgovFileScrty.encryptPassword(vo.getPassword());
     	vo.setPassword(enpassword);
+    	
+    	log.error("[enpassword]" + enpassword);
     	
     	// 2. 아이디와 암호화된 비밀번호가 DB와 일치하는지 확인한다.
     	LoginVO loginVO = loginDAO.actionLogin(vo);

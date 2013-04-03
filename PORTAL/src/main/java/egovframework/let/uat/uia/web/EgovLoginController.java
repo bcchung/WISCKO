@@ -5,6 +5,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -55,6 +56,8 @@ public class EgovLoginController {
     @Resource(name="leaveaTrace") 
     LeaveaTrace leaveaTrace;
     
+    Logger log = Logger.getLogger(this.getClass());
+    
 	/**
 	 * 로그인 화면으로 들어간다
 	 * @param vo - 로그인후 이동할 URL이 담긴 LoginVO
@@ -68,7 +71,7 @@ public class EgovLoginController {
 			ModelMap model) 
 			throws Exception {
     	Locale locale = LocaleContextHolder.getLocale();
-    	System.out.println("[System Locale] = [" + locale + "]");
+    	log.error("[System Locale] = [" + locale + "]");
     	
     	return "uat/uia/EgovLoginUsr";
 	}
@@ -95,6 +98,7 @@ public class EgovLoginController {
 
             // 2. spring security 연동
         	request.getSession().setAttribute("LoginVO", resultVO);
+//        	return "forward:/uat/uia/actionMain.do";
             return "redirect:/j_spring_security_check?j_username=" + resultVO.getUserSe() + resultVO.getId() + "&j_password=" + resultVO.getUniqId();
     		
         } else {
@@ -140,5 +144,6 @@ public class EgovLoginController {
 			leaveaTrace.trace("fail.common.msg", this.getClass());
 		}
     	return "redirect:/j_spring_security_logout";
+//    	return "forward:/index.do";
     }
 }

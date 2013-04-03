@@ -44,7 +44,7 @@
               FROM LETTNGNRLMBER
              WHERE mber_id = #id#
                AND password = #password#
-               AND mber_sttus = 'P'
+               /*AND mber_sttus = 'P'*/
             ]]>
         </isEqual>
 	</select>
