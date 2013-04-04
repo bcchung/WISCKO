@@ -1,4 +1,5 @@
 package egovframework.let.cop.bbs.web;
+
 import java.util.List;
 import java.util.Map;
 
@@ -26,591 +27,605 @@ import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 
 /**
- * 게시판 속성관리를 위한 컨트롤러  클래스
+ * 게시판 속성관리를 위한 컨트롤러 클래스
+ * 
  * @author 공통 서비스 개발팀 이삼섭
  * @since 2009.03.12
  * @version 1.0
  * @see
- *  
- * <pre>
+ * 
+ *      <pre>
  * << 개정이력(Modification Information) >>
  * 
  *   수정일      수정자          수정내용
  *  -------    --------    ---------------------------
  *  2009.03.12  이삼섭          최초 생성
  *  2009.06.26	한성곤		2단계 기능 추가 (댓글관리, 만족도조사)
- *  2011.08.31  JJY            경량환경 템플릿 커스터마이징버전 생성 
- *  
- *  </pre>
+ *  2011.08.31  JJY            경량환경 템플릿 커스터마이징버전 생성
+ * 
+ * </pre>
  */
 @Controller
 public class EgovBBSAttributeManageController {
 
-    @Resource(name = "EgovBBSAttributeManageService")
-    private EgovBBSAttributeManageService bbsAttrbService;
+	@Resource(name = "EgovBBSAttributeManageService")
+	private EgovBBSAttributeManageService	bbsAttrbService;
 
-    @Resource(name = "EgovCmmUseService")
-    private EgovCmmUseService cmmUseService;
+	@Resource(name = "EgovCmmUseService")
+	private EgovCmmUseService				cmmUseService;
 
-    @Resource(name = "propertiesService")
-    protected EgovPropertyService propertyService;
-    
-  //SHT-CUSTOMIZING//@Resource(name = "EgovCommunityManageService")
-  //SHT-CUSTOMIZING//private EgovCommunityManageService cmmntyService;	// 커뮤니티 관리자 권한 확인
-    
-  //SHT-CUSTOMIZING//@Resource(name = "EgovClubManageService")
-  //SHT-CUSTOMIZING//private EgovClubManageService clubService;		// 동호회 운영자 권한 확인
+	@Resource(name = "propertiesService")
+	protected EgovPropertyService			propertyService;
 
-    @Autowired
-    private DefaultBeanValidator beanValidator;
+	// SHT-CUSTOMIZING//@Resource(name = "EgovCommunityManageService")
+	// SHT-CUSTOMIZING//private EgovCommunityManageService cmmntyService; //
+	// 커뮤니티 관리자 권한 확인
 
-    /**
-     * 커뮤니티 관리자 및 동호회 운영자 권한을 확인한다.
-     * 
-     * @param boardMaster
-     * @throws EgovBizException
-     */
-    protected void checkAuthority(BoardMaster boardMaster) throws Exception {
-    //SHT-CUSTOMIZING//String targetId = boardMaster.getTrgetId();
-	
-	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-	
-	if (user == null) {
-	    throw new EgovBizException("인증된 사용자 정보가 존재하지 않습니다.");
-	}
-	
-	//SHT-CUSTOMIZING//if (targetId.startsWith("CMMNTY_")) {
-	//SHT-CUSTOMIZING//    CommunityUser cmmntyUser = new CommunityUser();
-	    
-	//SHT-CUSTOMIZING//    cmmntyUser.setCmmntyId(boardMaster.getTrgetId());
-	//SHT-CUSTOMIZING//    cmmntyUser.setEmplyrId(user.getUniqId());
-	    
-	//SHT-CUSTOMIZING//    if (!cmmntyService.isManager(cmmntyUser)) {
-	//SHT-CUSTOMIZING//	throw new EgovBizException("해당 커뮤니티 관리자만 사용하실 수 있습니다.");
-	//SHT-CUSTOMIZING//    }
-	//SHT-CUSTOMIZING//} else if (targetId.startsWith("CLB_")) {
-	//SHT-CUSTOMIZING//    ClubUser clubUser = new ClubUser();
-	    
-	//SHT-CUSTOMIZING//    clubUser.setClbId(boardMaster.getTrgetId());
-	//SHT-CUSTOMIZING//    clubUser.setEmplyrId(user.getUniqId());
-	    
-	//SHT-CUSTOMIZING//    if (!clubService.isOperator(clubUser)) {
-	//SHT-CUSTOMIZING//	throw new EgovBizException("해당 동호회 운영자만 사용하실 수 있습니다.");
-	//SHT-CUSTOMIZING//    }
-	//SHT-CUSTOMIZING//} else {
-	//SHT-CUSTOMIZING//    throw new EgovBizException("대상ID 정보가 정확하지 않습니다.");
-	//SHT-CUSTOMIZING//}
-    }
-	
+	// SHT-CUSTOMIZING//@Resource(name = "EgovClubManageService")
+	// SHT-CUSTOMIZING//private EgovClubManageService clubService; // 동호회 운영자 권한
+	// 확인
+
+	@Autowired
+	private DefaultBeanValidator			beanValidator;
+
 	/**
-     * 신규 게시판 마스터 등록을 위한 등록페이지로 이동한다.
-     * 
-     * @param boardMasterVO
-     * @param model
-     * @return
-     * @throws Exception
-     */
-    @SuppressWarnings("unchecked")
-    @RequestMapping("/cop/bbs/addBBSMaster.do")
-    public String addBBSMaster(@ModelAttribute("searchVO") BoardMasterVO boardMasterVO, ModelMap model) throws Exception {
-	BoardMaster boardMaster = new BoardMaster();
+	 * 커뮤니티 관리자 및 동호회 운영자 권한을 확인한다.
+	 * 
+	 * @param boardMaster
+	 * @throws EgovBizException
+	 */
+	protected void checkAuthority(BoardMaster boardMaster) throws Exception {
+		// SHT-CUSTOMIZING//String targetId = boardMaster.getTrgetId();
 
-	ComDefaultCodeVO vo = new ComDefaultCodeVO();
-	
-	vo.setCodeId("COM004");
-	
-	List codeResult = cmmUseService.selectCmmCodeDetail(vo);
-	
-	model.addAttribute("typeList", codeResult);
+		LoginVO user = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 
-	vo.setCodeId("COM009");
-	
-	codeResult = cmmUseService.selectCmmCodeDetail(vo);
-	
-	model.addAttribute("attrbList", codeResult);
-	model.addAttribute("boardMaster", boardMaster);
+		if (user == null) {
+			throw new EgovBizException("인증된 사용자 정보가 존재하지 않습니다.");
+		}
 
-	//---------------------------------
-	// 2009.06.26 : 2단계 기능 추가
-	//---------------------------------
-	String flag = propertyService.getString("Globals.addedOptions");
-	if (flag != null && flag.trim().equalsIgnoreCase("true")) {
-	    model.addAttribute("addedOptions", "true");
-	}
-	////-------------------------------
+		// SHT-CUSTOMIZING//if (targetId.startsWith("CMMNTY_")) {
+		// SHT-CUSTOMIZING// CommunityUser cmmntyUser = new CommunityUser();
 
-	return "cop/bbs/EgovBoardMstrRegist";
-    }
+		// SHT-CUSTOMIZING// cmmntyUser.setCmmntyId(boardMaster.getTrgetId());
+		// SHT-CUSTOMIZING// cmmntyUser.setEmplyrId(user.getUniqId());
 
-    /**
-     * 신규 게시판 마스터 정보를 등록한다.
-     * 
-     * @param boardMasterVO
-     * @param boardMaster
-     * @param status
-     * @return
-     * @throws Exception
-     */
-    @SuppressWarnings("unchecked")
-    @RequestMapping("/cop/bbs/insertBBSMasterInf.do")
-    public String insertBBSMasterInf(@ModelAttribute("searchVO") BoardMasterVO boardMasterVO, @ModelAttribute("boardMaster") BoardMaster boardMaster,
-	    BindingResult bindingResult, SessionStatus status, ModelMap model) throws Exception {
-	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		// SHT-CUSTOMIZING// if (!cmmntyService.isManager(cmmntyUser)) {
+		// SHT-CUSTOMIZING// throw new
+		// EgovBizException("해당 커뮤니티 관리자만 사용하실 수 있습니다.");
+		// SHT-CUSTOMIZING// }
+		// SHT-CUSTOMIZING//} else if (targetId.startsWith("CLB_")) {
+		// SHT-CUSTOMIZING// ClubUser clubUser = new ClubUser();
 
-	beanValidator.validate(boardMaster, bindingResult);
-	if (bindingResult.hasErrors()) {
+		// SHT-CUSTOMIZING// clubUser.setClbId(boardMaster.getTrgetId());
+		// SHT-CUSTOMIZING// clubUser.setEmplyrId(user.getUniqId());
 
-	    ComDefaultCodeVO vo = new ComDefaultCodeVO();
-	    
-	    vo.setCodeId("COM004");
-	    
-	    List codeResult = cmmUseService.selectCmmCodeDetail(vo);
-	    
-	    model.addAttribute("typeList", codeResult);
-
-	    vo.setCodeId("COM009");
-	   
-	    codeResult = cmmUseService.selectCmmCodeDetail(vo);
-	    
-	    model.addAttribute("attrbList", codeResult);
-
-	    return "cop/bbs/EgovBoardMstrRegist";
-	}
-	
-	if (isAuthenticated) {
-	    boardMaster.setFrstRegisterId(user.getUniqId());
-	    boardMaster.setUseAt("Y");
-	    boardMaster.setTrgetId("SYSTEMDEFAULT_REGIST");
-	    boardMaster.setPosblAtchFileSize(propertyService.getString("posblAtchFileSize"));
-
-	    bbsAttrbService.insertBBSMastetInf(boardMaster);
+		// SHT-CUSTOMIZING// if (!clubService.isOperator(clubUser)) {
+		// SHT-CUSTOMIZING// throw new
+		// EgovBizException("해당 동호회 운영자만 사용하실 수 있습니다.");
+		// SHT-CUSTOMIZING// }
+		// SHT-CUSTOMIZING//} else {
+		// SHT-CUSTOMIZING// throw new EgovBizException("대상ID 정보가 정확하지 않습니다.");
+		// SHT-CUSTOMIZING//}
 	}
 
-	return "forward:/cop/bbs/SelectBBSMasterInfs.do";
-    }
+	/**
+	 * 신규 게시판 마스터 등록을 위한 등록페이지로 이동한다.
+	 * 
+	 * @param boardMasterVO
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	@RequestMapping("/cop/bbs/addBBSMaster.do")
+	public String addBBSMaster(@ModelAttribute("searchVO") BoardMasterVO boardMasterVO, ModelMap model)
+			throws Exception {
+		BoardMaster boardMaster = new BoardMaster();
 
-    /**
-     * 게시판 마스터 목록을 조회한다.
-     * 
-     * @param boardMasterVO
-     * @param model
-     * @return
-     * @throws Exception
-     */
-    @RequestMapping("/cop/bbs/SelectBBSMasterInfs.do")
-    public String selectBBSMasterInfs(@ModelAttribute("searchVO") BoardMasterVO boardMasterVO, ModelMap model) throws Exception {
-	boardMasterVO.setPageUnit(propertyService.getInt("pageUnit"));
-	boardMasterVO.setPageSize(propertyService.getInt("pageSize"));
+		ComDefaultCodeVO vo = new ComDefaultCodeVO();
 
-	PaginationInfo paginationInfo = new PaginationInfo();
-	
-	paginationInfo.setCurrentPageNo(boardMasterVO.getPageIndex());
-	paginationInfo.setRecordCountPerPage(boardMasterVO.getPageUnit());
-	paginationInfo.setPageSize(boardMasterVO.getPageSize());
+		vo.setCodeId("COM004");
 
-	boardMasterVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
-	boardMasterVO.setLastIndex(paginationInfo.getLastRecordIndex());
-	boardMasterVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+		List codeResult = cmmUseService.selectCmmCodeDetail(vo);
 
-	Map<String, Object> map = bbsAttrbService.selectBBSMasterInfs(boardMasterVO);
-	int totCnt = Integer.parseInt((String)map.get("resultCnt"));
-	
-	paginationInfo.setTotalRecordCount(totCnt);
+		model.addAttribute("typeList", codeResult);
 
-	model.addAttribute("resultList", map.get("resultList"));
-	model.addAttribute("resultCnt", map.get("resultCnt"));	
-	model.addAttribute("paginationInfo", paginationInfo);
+		vo.setCodeId("COM009");
 
-	return "cop/bbs/EgovBoardMstrList";
-    }
+		codeResult = cmmUseService.selectCmmCodeDetail(vo);
 
-    /**
-     * 게시판 마스터 상세내용을 조회한다.
-     * 
-     * @param boardMasterVO
-     * @param model
-     * @return
-     * @throws Exception
-     */
-    @RequestMapping("/cop/bbs/SelectBBSMasterInf.do")
-    public String selectBBSMasterInf(@ModelAttribute("searchVO") BoardMasterVO searchVO, ModelMap model) throws Exception {
-	BoardMasterVO vo = bbsAttrbService.selectBBSMasterInf(searchVO);
+		model.addAttribute("attrbList", codeResult);
+		model.addAttribute("boardMaster", boardMaster);
 
-	model.addAttribute("result", vo);
-	
-	//---------------------------------
-	// 2009.06.26 : 2단계 기능 추가
-	//---------------------------------
-	String flag = propertyService.getString("Globals.addedOptions");
-	if (flag != null && flag.trim().equalsIgnoreCase("true")) {
-	    model.addAttribute("addedOptions", "true");
-	}
-	////-------------------------------
-	
-	return "cop/bbs/EgovBoardMstrUpdt";
-    }
+		// ---------------------------------
+		// 2009.06.26 : 2단계 기능 추가
+		// ---------------------------------
+		String flag = propertyService.getString("Globals.addedOptions");
+		if (flag != null && flag.trim().equalsIgnoreCase("true")) {
+			model.addAttribute("addedOptions", "true");
+		}
+		// //-------------------------------
 
-    /**
-     * 게시판 마스터 정보를 수정한다.
-     * 
-     * @param boardMasterVO
-     * @param boardMaster
-     * @param model
-     * @return
-     * @throws Exception
-     */
-    @RequestMapping("/cop/bbs/UpdateBBSMasterInf.do")
-    public String updateBBSMasterInf(@ModelAttribute("searchVO") BoardMasterVO boardMasterVO, @ModelAttribute("boardMaster") BoardMaster boardMaster,
-	    BindingResult bindingResult, ModelMap model) throws Exception {
-
-	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-
-	beanValidator.validate(boardMaster, bindingResult);
-	if (bindingResult.hasErrors()) {
-	    BoardMasterVO vo = bbsAttrbService.selectBBSMasterInf(boardMasterVO);
-
-	    model.addAttribute("result", vo);
-	    
-	    return "cop/bbs/EgovBoardMstrUpdt";
+		return "cop/bbs/EgovBoardMstrRegist";
 	}
 
-	if (isAuthenticated) {
-	    boardMaster.setLastUpdusrId(user.getUniqId());
-	    boardMaster.setPosblAtchFileSize(propertyService.getString("posblAtchFileSize"));
-	    bbsAttrbService.updateBBSMasterInf(boardMaster);
+	/**
+	 * 신규 게시판 마스터 정보를 등록한다.
+	 * 
+	 * @param boardMasterVO
+	 * @param boardMaster
+	 * @param status
+	 * @return
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	@RequestMapping("/cop/bbs/insertBBSMasterInf.do")
+	public String insertBBSMasterInf(@ModelAttribute("searchVO") BoardMasterVO boardMasterVO,
+			@ModelAttribute("boardMaster") BoardMaster boardMaster, BindingResult bindingResult, SessionStatus status,
+			ModelMap model) throws Exception {
+		LoginVO user = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+
+		beanValidator.validate(boardMaster, bindingResult);
+		if (bindingResult.hasErrors()) {
+
+			ComDefaultCodeVO vo = new ComDefaultCodeVO();
+
+			vo.setCodeId("COM004");
+
+			List codeResult = cmmUseService.selectCmmCodeDetail(vo);
+
+			model.addAttribute("typeList", codeResult);
+
+			vo.setCodeId("COM009");
+
+			codeResult = cmmUseService.selectCmmCodeDetail(vo);
+
+			model.addAttribute("attrbList", codeResult);
+
+			return "cop/bbs/EgovBoardMstrRegist";
+		}
+
+		if (isAuthenticated) {
+			boardMaster.setFrstRegisterId(user.getUniqId());
+			boardMaster.setUseAt("Y");
+			boardMaster.setTrgetId("SYSTEMDEFAULT_REGIST");
+			boardMaster.setPosblAtchFileSize(propertyService.getString("posblAtchFileSize"));
+
+			bbsAttrbService.insertBBSMastetInf(boardMaster);
+		}
+
+		return "forward:/cop/bbs/SelectBBSMasterInfs.do";
 	}
 
-	return "forward:/cop/bbs/SelectBBSMasterInfs.do";
-    }
+	/**
+	 * 게시판 마스터 목록을 조회한다.
+	 * 
+	 * @param boardMasterVO
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping("/cop/bbs/SelectBBSMasterInfs.do")
+	public String selectBBSMasterInfs(@ModelAttribute("searchVO") BoardMasterVO boardMasterVO, ModelMap model)
+			throws Exception {
+		boardMasterVO.setPageUnit(propertyService.getInt("pageUnit"));
+		boardMasterVO.setPageSize(propertyService.getInt("pageSize"));
 
-    /**
-     * 게시판 마스터 정보를 삭제한다.
-     * 
-     * @param boardMasterVO
-     * @param boardMaster
-     * @param status
-     * @return
-     * @throws Exception
-     */
-    @RequestMapping("/cop/bbs/DeleteBBSMasterInf.do")
-    public String deleteBBSMasterInf(@ModelAttribute("searchVO") BoardMasterVO boardMasterVO, @ModelAttribute("boardMaster") BoardMaster boardMaster,
-	    SessionStatus status) throws Exception {
+		PaginationInfo paginationInfo = new PaginationInfo();
 
-	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		paginationInfo.setCurrentPageNo(boardMasterVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(boardMasterVO.getPageUnit());
+		paginationInfo.setPageSize(boardMasterVO.getPageSize());
 
-	if (isAuthenticated) {
-	    boardMaster.setLastUpdusrId(user.getUniqId());
-	    bbsAttrbService.deleteBBSMasterInf(boardMaster);
-	}
-	// status.setComplete();
-	return "forward:/cop/bbs/SelectBBSMasterInfs.do";
-    }
+		boardMasterVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		boardMasterVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		boardMasterVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
-    /**
-     * 게시판 마스터 선택 팝업을 위한 목록을 조회한다.
-     * 
-     * @param boardMasterVO
-     * @param model
-     * @return
-     * @throws Exception
-     */
-    @RequestMapping("/cop/bbs/SelectBBSMasterInfsPop.do")
-    public String selectBBSMasterInfsPop(@ModelAttribute("searchVO") BoardMasterVO boardMasterVO, ModelMap model) throws Exception {
-	boardMasterVO.setPageUnit(propertyService.getInt("pageUnit"));
-	boardMasterVO.setPageSize(propertyService.getInt("pageSize"));
+		Map<String, Object> map = bbsAttrbService.selectBBSMasterInfs(boardMasterVO);
+		int totCnt = Integer.parseInt((String) map.get("resultCnt"));
 
-	PaginationInfo paginationInfo = new PaginationInfo();
-	
-	paginationInfo.setCurrentPageNo(boardMasterVO.getPageIndex());
-	paginationInfo.setRecordCountPerPage(boardMasterVO.getPageUnit());
-	paginationInfo.setPageSize(boardMasterVO.getPageSize());
+		paginationInfo.setTotalRecordCount(totCnt);
 
-	boardMasterVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
-	boardMasterVO.setLastIndex(paginationInfo.getLastRecordIndex());
-	boardMasterVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+		model.addAttribute("resultList", map.get("resultList"));
+		model.addAttribute("resultCnt", map.get("resultCnt"));
+		model.addAttribute("paginationInfo", paginationInfo);
 
-	boardMasterVO.setUseAt("Y");
-	
-	Map<String, Object> map = bbsAttrbService.selectNotUsedBdMstrList(boardMasterVO);
-	int totCnt = Integer.parseInt((String)map.get("resultCnt"));
-	
-	paginationInfo.setTotalRecordCount(totCnt);
-
-	model.addAttribute("resultList", map.get("resultList"));
-	model.addAttribute("resultCnt", map.get("resultCnt"));	
-	model.addAttribute("paginationInfo", paginationInfo);
-
-	return "cop/bbs/EgovBoardMstrListPop";
-    }
-
-    /**
-     * 게시판 사용을 위한 신규 게시판 속성정보를 생성한다.
-     * 
-     * @param boardMasterVO
-     * @param boardMaster
-     * @param bindingResult
-     * @param status
-     * @param model
-     * @return
-     * @throws Exception
-     */
-    @SuppressWarnings("unchecked")
-    @RequestMapping("/cop/bbs/insertBdMstrByTrget.do")
-    public String insertBdMstrByTrget(@ModelAttribute("searchVO") BoardMasterVO boardMasterVO,
-	    @ModelAttribute("boardMaster") BoardMaster boardMaster, BindingResult bindingResult, SessionStatus status, ModelMap model)
-	    throws Exception {
-
-	checkAuthority(boardMasterVO);	// server-side 권한 확인
-	
-	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-
-	beanValidator.validate(boardMaster, bindingResult);
-	if (bindingResult.hasErrors()) {
-
-	    ComDefaultCodeVO vo = new ComDefaultCodeVO();
-	    
-	    vo.setCodeId("COM004");
-	    
-	    List codeResult = cmmUseService.selectCmmCodeDetail(vo);
-	    
-	    model.addAttribute("typeList", codeResult);
-
-	    vo.setCodeId("COM009");
-	    
-	    codeResult = cmmUseService.selectCmmCodeDetail(vo);
-	    
-	    model.addAttribute("attrbList", codeResult);
-
-	    return "cop/bbs/EgovBdMstrRegistByTrget";
+		return "cop/bbs/EgovBoardMstrList";
 	}
 
-	boardMaster.setFrstRegisterId(user.getUniqId());
-	boardMaster.setUseAt("Y");
-	boardMaster.setBbsUseFlag("Y");
+	/**
+	 * 게시판 마스터 상세내용을 조회한다.
+	 * 
+	 * @param boardMasterVO
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping("/cop/bbs/SelectBBSMasterInf.do")
+	public String selectBBSMasterInf(@ModelAttribute("searchVO") BoardMasterVO searchVO, ModelMap model)
+			throws Exception {
+		BoardMasterVO vo = bbsAttrbService.selectBBSMasterInf(searchVO);
 
-	String registSeCode = "REGC06";
+		model.addAttribute("result", vo);
 
-	if ("CLB".equals(EgovStringUtil.cutString(boardMaster.getTrgetId(), 3))) {
-	    registSeCode = "REGC05";
-	}
-	boardMaster.setRegistSeCode(registSeCode);
+		// ---------------------------------
+		// 2009.06.26 : 2단계 기능 추가
+		// ---------------------------------
+		String flag = propertyService.getString("Globals.addedOptions");
+		if (flag != null && flag.trim().equalsIgnoreCase("true")) {
+			model.addAttribute("addedOptions", "true");
+		}
+		// //-------------------------------
 
-	if (isAuthenticated) {
-	    bbsAttrbService.insertBBSMastetInf(boardMaster);
-	    model.addAttribute("S_FLAG", "S");
-	}
-
-	return "forward:/cop/bbs/selectBdMstrListByTrget.do";
-    }
-
-    /**
-     * 사용중인 게시판 속성 정보의 목록을 조회 한다.
-     * 
-     * @param boardMasterVO
-     * @param model
-     * @return
-     * @throws Exception
-     */
-    @RequestMapping("/cop/bbs/selectBdMstrListByTrget.do")
-    public String selectBdMstrListByTrget(@ModelAttribute("searchVO") BoardMasterVO boardMasterVO, ModelMap model) throws Exception {
-	checkAuthority(boardMasterVO);	// server-side 권한 확인
-	
-	boardMasterVO.setPageUnit(propertyService.getInt("pageUnit"));
-	boardMasterVO.setPageSize(propertyService.getInt("pageSize"));
-
-	PaginationInfo paginationInfo = new PaginationInfo();
-	
-	paginationInfo.setCurrentPageNo(boardMasterVO.getPageIndex());
-	paginationInfo.setRecordCountPerPage(boardMasterVO.getPageUnit());
-	paginationInfo.setPageSize(boardMasterVO.getPageSize());
-
-	boardMasterVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
-	boardMasterVO.setLastIndex(paginationInfo.getLastRecordIndex());
-	boardMasterVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
-
-	Map<String, Object> map = bbsAttrbService.selectBdMstrListByTrget(boardMasterVO);
-	int totCnt = Integer.parseInt((String)map.get("resultCnt"));
-	paginationInfo.setTotalRecordCount(totCnt);
-
-	model.addAttribute("resultList", map.get("resultList"));
-	model.addAttribute("resultCnt", map.get("resultCnt"));
-	model.addAttribute("paginationInfo", paginationInfo);
-	model.addAttribute("trgetId", boardMasterVO.getTrgetId());
-	
-	return "cop/bbs/EgovBBSListByTrget";
-    }
-
-    /**
-     * 게시판 사용을 위한 게시판 속성정보 한 건을 상세조회한다.
-     * 
-     * @param boardMasterVO
-     * @param model
-     * @return
-     * @throws Exception
-     */
-    @RequestMapping("/cop/bbs/SelectBBSMasterInfByTrget.do")
-    public String selectBBSMasterInfByTrget(@ModelAttribute("searchVO") BoardMasterVO boardMasterVO, Map<String, Object> commandMap, ModelMap model)
-	    throws Exception {
-
-	checkAuthority(boardMasterVO);	// server-side 권한 확인
-	
-	BoardMasterVO vo = bbsAttrbService.selectBBSMasterInf(boardMasterVO);
-	
-	//String trgetId = (String)commandMap.get("param_trgetId");
-	//String bbsId = (String)commandMap.get("param_bbsId");
-
-	vo.setTrgetId(boardMasterVO.getTrgetId());
-	
-	model.addAttribute("result", vo);
-	
-	//---------------------------------
-	// 2009.06.26 : 2단계 기능 추가
-	//---------------------------------
-	String flag = propertyService.getString("Globals.addedOptions");
-	if (flag != null && flag.trim().equalsIgnoreCase("true")) {
-	    model.addAttribute("addedOptions", "true");
-	}
-	////-------------------------------
-	
-	return "cop/bbs/EgovBdMstrUpdtByTrget";
-    }
-
-    /**
-     * 게시판 사용을 위한 게시판 속성정보를 수정한다.
-     * 
-     * @param boardMasterVO
-     * @param boardMaster
-     * @param model
-     * @return
-     * @throws Exception
-     */
-    @RequestMapping("/cop/bbs/UpdateBBSMasterInfByTrget.do")
-    public String updateBBSMasterInfByTrget(@ModelAttribute("searchVO") BoardMasterVO boardMasterVO,
-	    @ModelAttribute("boardMaster") BoardMaster boardMaster, BindingResult bindingResult, ModelMap model) throws Exception {
-
-	checkAuthority(boardMasterVO);	// server-side 권한 확인
-	
-	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-
-	beanValidator.validate(boardMaster, bindingResult);
-	if (bindingResult.hasErrors()) {
-	    BoardMasterVO vo = new BoardMasterVO();
-	    
-	    vo = bbsAttrbService.selectBBSMasterInf(boardMasterVO);
-
-	    model.addAttribute("result", vo);
-	    
-	    return "cop/bbs/EgovBoardMstrUpdt";
+		return "cop/bbs/EgovBoardMstrUpdt";
 	}
 
-	boardMaster.setLastUpdusrId(user.getUniqId());
-	boardMaster.setUseAt("Y");
-	
-	if (isAuthenticated) {
-	    bbsAttrbService.updateBBSMasterInf(boardMaster);
+	/**
+	 * 게시판 마스터 정보를 수정한다.
+	 * 
+	 * @param boardMasterVO
+	 * @param boardMaster
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping("/cop/bbs/UpdateBBSMasterInf.do")
+	public String updateBBSMasterInf(@ModelAttribute("searchVO") BoardMasterVO boardMasterVO,
+			@ModelAttribute("boardMaster") BoardMaster boardMaster, BindingResult bindingResult, ModelMap model)
+			throws Exception {
+
+		LoginVO user = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+
+		beanValidator.validate(boardMaster, bindingResult);
+		if (bindingResult.hasErrors()) {
+			BoardMasterVO vo = bbsAttrbService.selectBBSMasterInf(boardMasterVO);
+
+			model.addAttribute("result", vo);
+
+			return "cop/bbs/EgovBoardMstrUpdt";
+		}
+
+		if (isAuthenticated) {
+			boardMaster.setLastUpdusrId(user.getUniqId());
+			boardMaster.setPosblAtchFileSize(propertyService.getString("posblAtchFileSize"));
+			bbsAttrbService.updateBBSMasterInf(boardMaster);
+		}
+
+		return "forward:/cop/bbs/SelectBBSMasterInfs.do";
 	}
 
-	return "forward:/cop/bbs/selectBdMstrListByTrget.do";
-    }
+	/**
+	 * 게시판 마스터 정보를 삭제한다.
+	 * 
+	 * @param boardMasterVO
+	 * @param boardMaster
+	 * @param status
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping("/cop/bbs/DeleteBBSMasterInf.do")
+	public String deleteBBSMasterInf(@ModelAttribute("searchVO") BoardMasterVO boardMasterVO,
+			@ModelAttribute("boardMaster") BoardMaster boardMaster, SessionStatus status) throws Exception {
 
-    /**
-     * 커뮤니티, 동호회에서 사용을 위한 게시판 마스터 등록 화면으로 이동한다.
-     * 
-     * @param boardMasterVO
-     * @param sessionVO
-     * @param model
-     * @return
-     * @throws Exception
-     */
-    @SuppressWarnings("unchecked")
-    @RequestMapping("/cop/bbs/addBBSMasterByTrget.do")
-    public String addBBSMasterByTrget(@ModelAttribute("searchVO") BoardMasterVO boardMasterVO, ModelMap model) throws Exception {
-	checkAuthority(boardMasterVO);	// server-side 권한 확인
-	
-	ComDefaultCodeVO vo = new ComDefaultCodeVO();
-	
-	vo.setCodeId("COM004");
-	
-	List codeResult = cmmUseService.selectCmmCodeDetail(vo);
-	
-	model.addAttribute("typeList", codeResult);
+		LoginVO user = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
 
-	vo.setCodeId("COM009");
-	
-	codeResult = cmmUseService.selectCmmCodeDetail(vo);
-	
-	model.addAttribute("attrbList", codeResult);
-
-	BoardMaster boardMaster = new BoardMaster();
-	
-	model.addAttribute("boardMaster", boardMaster);
-	
-	//---------------------------------
-	// 2009.06.26 : 2단계 기능 추가
-	//---------------------------------
-	String flag = propertyService.getString("Globals.addedOptions");
-	if (flag != null && flag.trim().equalsIgnoreCase("true")) {
-	    model.addAttribute("addedOptions", "true");
-	}
-	////-------------------------------
-
-	return "cop/bbs/EgovBdMstrRegistByTrget";
-    }
-
-    /**
-     * 등록된 게시판 속성정보를 삭제한다.
-     * 
-     * @param boardMasterVO
-     * @param boardMaster
-     * @param sessionVO
-     * @param status
-     * @return
-     * @throws Exception
-     */
-    @RequestMapping("/cop/bbs/DeleteBBSMasterInfByTrget.do")
-    public String deleteBBSMasterInfByTrget(@ModelAttribute("searchVO") BoardMasterVO boardMasterVO,
-	    @ModelAttribute("boardMaster") BoardMaster boardMaster, SessionStatus status) throws Exception {
-
-	checkAuthority(boardMasterVO);	// server-side 권한 확인
-	
-	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-
-	boardMaster.setLastUpdusrId(user.getUniqId());
-	
-	if (isAuthenticated) {
-	    bbsAttrbService.deleteBBSMasterInf(boardMaster);
+		if (isAuthenticated) {
+			boardMaster.setLastUpdusrId(user.getUniqId());
+			bbsAttrbService.deleteBBSMasterInf(boardMaster);
+		}
+		// status.setComplete();
+		return "forward:/cop/bbs/SelectBBSMasterInfs.do";
 	}
 
-	// status.setComplete();
-	return "forward:/cop/bbs/selectBdMstrListByTrget.do";
-    }
+	/**
+	 * 게시판 마스터 선택 팝업을 위한 목록을 조회한다.
+	 * 
+	 * @param boardMasterVO
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping("/cop/bbs/SelectBBSMasterInfsPop.do")
+	public String selectBBSMasterInfsPop(@ModelAttribute("searchVO") BoardMasterVO boardMasterVO, ModelMap model)
+			throws Exception {
+		boardMasterVO.setPageUnit(propertyService.getInt("pageUnit"));
+		boardMasterVO.setPageSize(propertyService.getInt("pageSize"));
 
-    /**
-     * 커뮤니티, 동호회에서 사용중인 게시판 속성 정보의 목록 조회한다.
-     * 
-     * @param commandMap
-     * @param sessionVO
-     * @param model
-     * @return
-     * @throws Exception
-     */
-    @RequestMapping("/cop/bbs/selectAllBdMstrByTrget.do")
-    public String selectAllBdMstrByTrget(Map<String, Object> commandMap, ModelMap model) throws Exception {
-	String trgetId = (String)commandMap.get("param_trgetId");
-	BoardMasterVO vo = new BoardMasterVO();
-	
-	vo.setTrgetId(trgetId);
-	
-	List<BoardMasterVO> result = bbsAttrbService.selectAllBdMstrByTrget(vo);
+		PaginationInfo paginationInfo = new PaginationInfo();
 
-	model.addAttribute("resultList", result);
-	
-	return "cop/bbs/EgovBdListPortlet";
-    }
+		paginationInfo.setCurrentPageNo(boardMasterVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(boardMasterVO.getPageUnit());
+		paginationInfo.setPageSize(boardMasterVO.getPageSize());
+
+		boardMasterVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		boardMasterVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		boardMasterVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+
+		boardMasterVO.setUseAt("Y");
+
+		Map<String, Object> map = bbsAttrbService.selectNotUsedBdMstrList(boardMasterVO);
+		int totCnt = Integer.parseInt((String) map.get("resultCnt"));
+
+		paginationInfo.setTotalRecordCount(totCnt);
+
+		model.addAttribute("resultList", map.get("resultList"));
+		model.addAttribute("resultCnt", map.get("resultCnt"));
+		model.addAttribute("paginationInfo", paginationInfo);
+
+		return "cop/bbs/EgovBoardMstrListPop";
+	}
+
+	/**
+	 * 게시판 사용을 위한 신규 게시판 속성정보를 생성한다.
+	 * 
+	 * @param boardMasterVO
+	 * @param boardMaster
+	 * @param bindingResult
+	 * @param status
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	@RequestMapping("/cop/bbs/insertBdMstrByTrget.do")
+	public String insertBdMstrByTrget(@ModelAttribute("searchVO") BoardMasterVO boardMasterVO,
+			@ModelAttribute("boardMaster") BoardMaster boardMaster, BindingResult bindingResult, SessionStatus status,
+			ModelMap model) throws Exception {
+
+		checkAuthority(boardMasterVO); // server-side 권한 확인
+
+		LoginVO user = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+
+		beanValidator.validate(boardMaster, bindingResult);
+		if (bindingResult.hasErrors()) {
+
+			ComDefaultCodeVO vo = new ComDefaultCodeVO();
+
+			vo.setCodeId("COM004");
+
+			List codeResult = cmmUseService.selectCmmCodeDetail(vo);
+
+			model.addAttribute("typeList", codeResult);
+
+			vo.setCodeId("COM009");
+
+			codeResult = cmmUseService.selectCmmCodeDetail(vo);
+
+			model.addAttribute("attrbList", codeResult);
+
+			return "cop/bbs/EgovBdMstrRegistByTrget";
+		}
+
+		boardMaster.setFrstRegisterId(user.getUniqId());
+		boardMaster.setUseAt("Y");
+		boardMaster.setBbsUseFlag("Y");
+
+		String registSeCode = "REGC06";
+
+		if ("CLB".equals(EgovStringUtil.cutString(boardMaster.getTrgetId(), 3))) {
+			registSeCode = "REGC05";
+		}
+		boardMaster.setRegistSeCode(registSeCode);
+
+		if (isAuthenticated) {
+			bbsAttrbService.insertBBSMastetInf(boardMaster);
+			model.addAttribute("S_FLAG", "S");
+		}
+
+		return "forward:/cop/bbs/selectBdMstrListByTrget.do";
+	}
+
+	/**
+	 * 사용중인 게시판 속성 정보의 목록을 조회 한다.
+	 * 
+	 * @param boardMasterVO
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping("/cop/bbs/selectBdMstrListByTrget.do")
+	public String selectBdMstrListByTrget(@ModelAttribute("searchVO") BoardMasterVO boardMasterVO, ModelMap model)
+			throws Exception {
+		checkAuthority(boardMasterVO); // server-side 권한 확인
+
+		boardMasterVO.setPageUnit(propertyService.getInt("pageUnit"));
+		boardMasterVO.setPageSize(propertyService.getInt("pageSize"));
+
+		PaginationInfo paginationInfo = new PaginationInfo();
+
+		paginationInfo.setCurrentPageNo(boardMasterVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(boardMasterVO.getPageUnit());
+		paginationInfo.setPageSize(boardMasterVO.getPageSize());
+
+		boardMasterVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		boardMasterVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		boardMasterVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+
+		Map<String, Object> map = bbsAttrbService.selectBdMstrListByTrget(boardMasterVO);
+		int totCnt = Integer.parseInt((String) map.get("resultCnt"));
+		paginationInfo.setTotalRecordCount(totCnt);
+
+		model.addAttribute("resultList", map.get("resultList"));
+		model.addAttribute("resultCnt", map.get("resultCnt"));
+		model.addAttribute("paginationInfo", paginationInfo);
+		model.addAttribute("trgetId", boardMasterVO.getTrgetId());
+
+		return "cop/bbs/EgovBBSListByTrget";
+	}
+
+	/**
+	 * 게시판 사용을 위한 게시판 속성정보 한 건을 상세조회한다.
+	 * 
+	 * @param boardMasterVO
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping("/cop/bbs/SelectBBSMasterInfByTrget.do")
+	public String selectBBSMasterInfByTrget(@ModelAttribute("searchVO") BoardMasterVO boardMasterVO,
+			Map<String, Object> commandMap, ModelMap model) throws Exception {
+
+		checkAuthority(boardMasterVO); // server-side 권한 확인
+
+		BoardMasterVO vo = bbsAttrbService.selectBBSMasterInf(boardMasterVO);
+
+		// String trgetId = (String)commandMap.get("param_trgetId");
+		// String bbsId = (String)commandMap.get("param_bbsId");
+
+		vo.setTrgetId(boardMasterVO.getTrgetId());
+
+		model.addAttribute("result", vo);
+
+		// ---------------------------------
+		// 2009.06.26 : 2단계 기능 추가
+		// ---------------------------------
+		String flag = propertyService.getString("Globals.addedOptions");
+		if (flag != null && flag.trim().equalsIgnoreCase("true")) {
+			model.addAttribute("addedOptions", "true");
+		}
+		// //-------------------------------
+
+		return "cop/bbs/EgovBdMstrUpdtByTrget";
+	}
+
+	/**
+	 * 게시판 사용을 위한 게시판 속성정보를 수정한다.
+	 * 
+	 * @param boardMasterVO
+	 * @param boardMaster
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping("/cop/bbs/UpdateBBSMasterInfByTrget.do")
+	public String updateBBSMasterInfByTrget(@ModelAttribute("searchVO") BoardMasterVO boardMasterVO,
+			@ModelAttribute("boardMaster") BoardMaster boardMaster, BindingResult bindingResult, ModelMap model)
+			throws Exception {
+
+		checkAuthority(boardMasterVO); // server-side 권한 확인
+
+		LoginVO user = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+
+		beanValidator.validate(boardMaster, bindingResult);
+		if (bindingResult.hasErrors()) {
+			BoardMasterVO vo = new BoardMasterVO();
+
+			vo = bbsAttrbService.selectBBSMasterInf(boardMasterVO);
+
+			model.addAttribute("result", vo);
+
+			return "cop/bbs/EgovBoardMstrUpdt";
+		}
+
+		boardMaster.setLastUpdusrId(user.getUniqId());
+		boardMaster.setUseAt("Y");
+
+		if (isAuthenticated) {
+			bbsAttrbService.updateBBSMasterInf(boardMaster);
+		}
+
+		return "forward:/cop/bbs/selectBdMstrListByTrget.do";
+	}
+
+	/**
+	 * 커뮤니티, 동호회에서 사용을 위한 게시판 마스터 등록 화면으로 이동한다.
+	 * 
+	 * @param boardMasterVO
+	 * @param sessionVO
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	@RequestMapping("/cop/bbs/addBBSMasterByTrget.do")
+	public String addBBSMasterByTrget(@ModelAttribute("searchVO") BoardMasterVO boardMasterVO, ModelMap model)
+			throws Exception {
+		checkAuthority(boardMasterVO); // server-side 권한 확인
+
+		ComDefaultCodeVO vo = new ComDefaultCodeVO();
+
+		vo.setCodeId("COM004");
+
+		List codeResult = cmmUseService.selectCmmCodeDetail(vo);
+
+		model.addAttribute("typeList", codeResult);
+
+		vo.setCodeId("COM009");
+
+		codeResult = cmmUseService.selectCmmCodeDetail(vo);
+
+		model.addAttribute("attrbList", codeResult);
+
+		BoardMaster boardMaster = new BoardMaster();
+
+		model.addAttribute("boardMaster", boardMaster);
+
+		// ---------------------------------
+		// 2009.06.26 : 2단계 기능 추가
+		// ---------------------------------
+		String flag = propertyService.getString("Globals.addedOptions");
+		if (flag != null && flag.trim().equalsIgnoreCase("true")) {
+			model.addAttribute("addedOptions", "true");
+		}
+		// //-------------------------------
+
+		return "cop/bbs/EgovBdMstrRegistByTrget";
+	}
+
+	/**
+	 * 등록된 게시판 속성정보를 삭제한다.
+	 * 
+	 * @param boardMasterVO
+	 * @param boardMaster
+	 * @param sessionVO
+	 * @param status
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping("/cop/bbs/DeleteBBSMasterInfByTrget.do")
+	public String deleteBBSMasterInfByTrget(@ModelAttribute("searchVO") BoardMasterVO boardMasterVO,
+			@ModelAttribute("boardMaster") BoardMaster boardMaster, SessionStatus status) throws Exception {
+
+		checkAuthority(boardMasterVO); // server-side 권한 확인
+
+		LoginVO user = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+
+		boardMaster.setLastUpdusrId(user.getUniqId());
+
+		if (isAuthenticated) {
+			bbsAttrbService.deleteBBSMasterInf(boardMaster);
+		}
+
+		// status.setComplete();
+		return "forward:/cop/bbs/selectBdMstrListByTrget.do";
+	}
+
+	/**
+	 * 커뮤니티, 동호회에서 사용중인 게시판 속성 정보의 목록 조회한다.
+	 * 
+	 * @param commandMap
+	 * @param sessionVO
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping("/cop/bbs/selectAllBdMstrByTrget.do")
+	public String selectAllBdMstrByTrget(Map<String, Object> commandMap, ModelMap model) throws Exception {
+		String trgetId = (String) commandMap.get("param_trgetId");
+		BoardMasterVO vo = new BoardMasterVO();
+
+		vo.setTrgetId(trgetId);
+
+		List<BoardMasterVO> result = bbsAttrbService.selectAllBdMstrByTrget(vo);
+
+		model.addAttribute("resultList", result);
+
+		return "cop/bbs/EgovBdListPortlet";
+	}
 }
