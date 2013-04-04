@@ -11,7 +11,7 @@
     author   : 공통서비스개발팀 박정규
     since    : 2009.02.01
 --%>
-<%@ page contentType="text/html; charset=utf-8"%>
+<%@ page contentType="text/html; charset=UTF-8"%>
 <%@ page import="java.util.Date"  %>
 <%@ taglib prefix="c"   uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"  %>
@@ -24,7 +24,7 @@
 <html>
 <head>
 <title>FAQ 등록</title>
-<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <meta http-equiv="content-language" content="ko">
 <link rel="stylesheet" href="<c:url value='/'/>/css/default.css" type="text/css" >
 <script type="text/javascript" src="<c:url value='/js/EgovMultiFile.js'/>" ></script>

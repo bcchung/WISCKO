@@ -12,7 +12,7 @@
     since    : 2009.03.09
    
 --%>
-<%@ page contentType="text/html; charset=utf-8"%>
+<%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="ui" uri="http://egovframework.gov/ctl/ui"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
@@ -26,7 +26,7 @@
 <html>
 <head>
 <title>설문조사</title>
-<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <meta http-equiv="content-language" content="ko">
 <link rel="stylesheet" href="<c:url value='/'/>/css/default.css" type="text/css" >
 <script type="text/javascript" src="<c:url value="/validator.do"/>"></script>
@@ -390,7 +390,7 @@ function fn_egov_RadioBoxValue(sbName)
             <!--detail area end -->
 
 			<!-- 설문템플릿설정 -->
-			<c:import charEncoding="utf-8" url="/uss/olp/qri/template/template.do" > 
+			<c:import charEncoding="UTF-8" url="/uss/olp/qri/template/template.do" > 
 			<c:param name="templateUrl" value="${QustnrTmplatManage[0].qestnrTmplatCours}" /> 
 			</c:import>  
 

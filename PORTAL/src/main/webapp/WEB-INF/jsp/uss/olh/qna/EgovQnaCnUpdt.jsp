@@ -11,7 +11,7 @@
     author   : 공통서비스개발팀 박정규
     since    : 2009.02.01
 --%>
-<%@ page contentType="text/html; charset=utf-8"%>
+<%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
@@ -22,7 +22,7 @@
 <html>
 <head>
 <title>Q&amp;A 수정</title>
-<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <meta http-equiv="content-language" content="ko">
 <link rel="stylesheet" href="<c:url value='/'/>/css/default.css" type="text/css" >
 <script type="text/javascript" src="<c:url value="/validator.do"/>"></script>

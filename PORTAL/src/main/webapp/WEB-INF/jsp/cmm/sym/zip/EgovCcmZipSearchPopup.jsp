@@ -11,7 +11,7 @@
     author   : 공통서비스 개발팀 이중호
     since    : 2009.04.01
 --%>
-<%@ page contentType="text/html; charset=utf-8"%>
+<%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="ui" uri="http://egovframework.gov/ctl/ui"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
@@ -20,7 +20,7 @@
 <html>
 <head>
 <title>우편번호 찾기</title>
-<meta http-equiv="content-type" content="text/html; charset=utf-8" >
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" >
 <meta http-equiv="content-language" content="ko">
 <link type="text/css" rel="stylesheet" href="<c:url value='/css/zip.css'/>"/>
 <link rel="stylesheet" href="<c:url value='/css/default.css'/>" type="text/css" >

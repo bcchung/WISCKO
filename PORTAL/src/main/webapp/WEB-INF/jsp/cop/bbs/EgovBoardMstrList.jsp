@@ -1,17 +1,4 @@
-<%--
-  Class Name : EgovBoardMstrList.jsp
-  Description : 게시판 속성 목록화면
-  Modification Information
- 
-      수정일         수정자                   수정내용
-    -------    --------    ---------------------------
-     2009.03.12   이삼섭          최초 생성
-     2011.08.31  JJY       경량환경 버전 생성
- 
-    author   : 공통서비스 개발팀 이삼섭
-    since    : 2009.03.12
---%>
-<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="ui" uri="http://egovframework.gov/ctl/ui"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
@@ -19,11 +6,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" >
-<meta http-equiv="content-language" content="ko">
 <link href="<c:url value='/'/>css/default.css" rel="stylesheet" type="text/css" >
-
-<script type="text/javascript" src="<c:url value='/js/EgovBBSMng.js' />"></script>
 <script type="text/javascript">
 	function press(event) {
 		if (event.keyCode==13) {
@@ -48,8 +31,6 @@
 		document.frm.submit();			
 	}
 </script>
-<title>게시판 목록조회</title>
-
 <style type="text/css">
 	h1 {font-size:12px;}
 	caption {visibility:hidden; font-size:0; height:0; margin:0; padding:0; line-height:0;}

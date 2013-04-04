@@ -12,25 +12,19 @@
     author   : 공통서비스 개발팀 이삼섭
     since    : 2009.03.12
 --%>
-<%@ page language="java" contentType="text/html; charset=utf-8"
-	pageEncoding="utf-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="ui" uri="http://egovframework.gov/ctl/ui"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<%@ taglib prefix="validator"
-	uri="http://www.springmodules.org/tags/commons-validator"%>
+<%@ taglib prefix="validator" uri="http://www.springmodules.org/tags/commons-validator"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" >
-<meta http-equiv="content-language" content="ko">
 <link rel="stylesheet" href="<c:url value='/'/>/css/default.css" type="text/css" >
-<script type="text/javascript" src="<c:url value='/js/EgovBBSMng.js' />"></script>
 <script type="text/javascript" src="<c:url value="/validator.do"/>"></script>
-<validator:javascript formName="boardMaster" staticJavascript="false"
-	xhtml="true" cdata="false" />
+<validator:javascript formName="boardMaster" staticJavascript="false" xhtml="true" cdata="false" />
 <script type="text/javascript">
 	function fn_egov_regist_brdMstr(){
 		if (!validateBoardMaster(document.boardMaster)){
@@ -65,30 +59,12 @@
 	}
 	
 </script>
-
-<title>게시판 생성</title>
-
 <style type="text/css">
-h1 {
-	font-size: 12px;
-}
-
-caption {
-	visibility: hidden;
-	font-size: 0;
-	height: 0;
-	margin: 0;
-	padding: 0;
-	line-height: 0;
-}
+	h1 { font-size: 12px; }
+	caption { visibility: hidden; font-size: 0; height: 0; margin: 0; padding: 0; line-height: 0; }
 </style>
-
-
 </head>
 <body>
-<noscript class="noScriptTitle">자바스크립트를 지원하지 않는 브라우저에서는 일부
-기능을 사용하실 수 없습니다.</noscript>
-
 <!-- login status start -->
 <div id="login_area"><c:import
 	url="/EgovPageLink.do?link=main/inc/EgovIncTborder" /></div>

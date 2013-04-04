@@ -12,7 +12,7 @@
     since    : 2009.03.09
    
 --%>
-<%@ page contentType="text/html; charset=utf-8"%>
+<%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="ui" uri="http://egovframework.gov/ctl/ui"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
@@ -26,7 +26,7 @@
 <html>
 <head>
 <title>개인정보보호정책 수정</title>
-<meta http-equiv="content-type" content="text/html; charset=utf-8" >
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" >
 <meta http-equiv="content-language" content="ko">
 <link rel="stylesheet" href="<c:url value='/'/>/css/default.css" type="text/css" >
 <script type="text/javascript" src="<c:url value="/validator.do"/>"></script>

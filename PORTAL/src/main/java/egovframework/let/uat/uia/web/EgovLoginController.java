@@ -71,7 +71,7 @@ public class EgovLoginController {
 			ModelMap model) 
 			throws Exception {
     	Locale locale = LocaleContextHolder.getLocale();
-    	log.error("[System Locale] = [" + locale + "]");
+//    	log.error("[System Locale] = [" + locale + "]");
     	
     	return "uat/uia/EgovLoginUsr";
 	}
