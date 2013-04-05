@@ -14,7 +14,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="ui" uri="http://egovframework.gov/ctl/ui"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
@@ -146,12 +146,12 @@
         <!-- ##Smart Editor Start## -->
         <c:import url="/editor/SmartEditor.jsp" charEncoding="UTF-8">
             <c:param name="v_width">600</c:param>
-            <c:param name="v_height">600</c:param>
+            <c:param name="v_height">400</c:param>
         </c:import>
         <script type="text/javascript">
             var editorContent = document.getElementById("nttCn").value;
             document.getElementById("editorData").value = editorContent;
-            document.getElementById("editorSetBtn").click();
+            fn_setEditor();
         </script>
         <!-- ##Smart Editor End## -->
         

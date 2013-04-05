@@ -34,6 +34,7 @@
      -->
      <!-- ReqeustMapping 과 Controller 클래스 매핑을 위한 mvc 설정 -->
     <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+    	<property name="synchronizeOnSession" value="true" />
         <property name="webBindingInitializer">
             <bean class="egovframework.com.cmm.web.EgovBindingInitializer"/>
         </property>

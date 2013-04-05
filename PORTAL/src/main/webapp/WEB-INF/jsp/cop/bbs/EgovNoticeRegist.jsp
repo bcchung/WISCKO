@@ -14,7 +14,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="ui" uri="http://egovframework.gov/ctl/ui"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="validator" uri="http://www.springmodules.org/tags/commons-validator" %>
@@ -22,8 +22,6 @@
 <html>
 <head>
 <%-- <link href="<c:url value='${brdMstrVO.tmplatCours}' />" rel="stylesheet" type="text/css"> --%>
-<%-- <script type="text/javascript" src="<c:url value='/js/EgovBBSMng.js' />"></script> --%>
-<!-- script type="text/javascript" src="<c:url value='/html/egovframework/cmm/utl/htmlarea/EgovWebEditor.js'/>" ></script-->
 <script type="text/javascript" src="<c:url value='/js/EgovMultiFile.js'/>" ></script>
 <script type="text/javascript" src="<c:url value='/js/EgovCalPopup.js'/>" ></script>
 <script type="text/javascript" src="<c:url value="/validator.do"/>"></script>
@@ -84,6 +82,9 @@
 <div id="content_field">
 
 <form:form commandName="board" name="board" method="post" enctype="multipart/form-data" >
+<!-- 중복방지 Token Parameter -->
+<input type="hidden" name="TOKEN_KEY" value="<%=request.getAttribute("TOKEN_KEY")%>" />
+<!-- 중복방지 Token Parameter -->
 
 <input name="pageIndex" type="hidden" value="<c:out value='${searchVO.pageIndex}'/>"/>
 <input type="hidden" name="bbsId" value="<c:out value='${bdMstr.bbsId}'/>" />
@@ -135,7 +136,7 @@
                         <!-- ##Smart Editor Start## -->
                         <c:import url="/editor/SmartEditor.jsp" charEncoding="UTF-8">
                             <c:param name="v_width">600</c:param>
-                            <c:param name="v_height">600</c:param>
+                            <c:param name="v_height">400</c:param>
                         </c:import>
                         <!-- ##Smart Editor End## -->
                       

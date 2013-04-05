@@ -14,14 +14,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="ui" uri="http://egovframework.gov/ctl/ui"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="validator" uri="http://www.springmodules.org/tags/commons-validator" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<link href="<c:url value='${brdMstrVO.tmplatCours}' />" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="<c:url value='/js/EgovMultiFile.js'/>" ></script>
 <script type="text/javascript" src="<c:url value='/js/EgovCalPopup.js'/>" ></script>
 <script type="text/javascript" src="<c:url value="/validator.do"/>"></script>
@@ -35,6 +34,12 @@
 
     function fn_egov_regist_notice() {
         //document.board.onsubmit();
+        
+        /* #### ==== SmartEditor Layout Start ==== #### */
+        fn_getEditor();
+		var editorContent = document.getElementById("editorData").value;
+		document.getElementById("nttCn").value = editorContent;
+		/* #### ==== SmartEditor Layout End   ==== #### */
 
         if (!validateBoard(document.board)){
             return;
@@ -127,7 +132,14 @@
             <td class="td_width"><LABEL for="nttCn"><spring:message code="cop.nttCn" /></LABEL>
             <img src="<c:url value='/'/>images/required.gif" alt="필수항목" title="필수항목" width="15" height="15"/></td>
             <td class="td_content">
-              <textarea id="nttCn" name="nttCn" class="textarea"  cols="95" rows="28"></textarea> 
+              		<textarea name="nttCn" id="nttCn" style="display:none;"></textarea>
+                        
+                    <!-- ##Smart Editor Start## -->
+                    <c:import url="/editor/SmartEditor.jsp" charEncoding="UTF-8">
+                        <c:param name="v_width">600</c:param>
+                        <c:param name="v_height">400</c:param>
+                    </c:import>
+                    <!-- ##Smart Editor End## -->
               <form:errors path="nttCn" />
             </td>
           </tr>
