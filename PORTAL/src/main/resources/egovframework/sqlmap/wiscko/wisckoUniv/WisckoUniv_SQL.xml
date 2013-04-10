@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="WisckoUniv">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="wisckoUnivSerarchVO" type="com.wiscko.wisckoUniv.service.WisckoUnivDefaultVO"/>
+	
+	<resultMap id="wisckoUniv" class="com.wiscko.wisckoUniv.service.WisckoUnivVO">
+		<result property="univId" column="UNIV_ID" columnIndex="1"/>
+		<result property="sortOrdr" column="SORT_ORDR" columnIndex="2"/>
+		<result property="useAt" column="USE_AT" columnIndex="3"/>
+		<result property="frstRegistPnttm" column="FRST_REGIST_PNTTM" columnIndex="4"/>
+		<result property="frstRegisterId" column="FRST_REGISTER_ID" columnIndex="5"/>
+		<result property="lastUpdtPnttm" column="LAST_UPDT_PNTTM" columnIndex="6"/>
+		<result property="lastUpdusrId" column="LAST_UPDUSR_ID" columnIndex="7"/>
+		<result property="ctprvnCd" column="CTPRVN_CD" columnIndex="8"/>
+		<result property="signguCd" column="SIGNGU_CD" columnIndex="9"/>
+		<result property="univLogo" column="UNIV_LOGO" columnIndex="10"/>
+		<result property="univNm" column="UNIV_NM" columnIndex="11"/>
+	</resultMap>
+	
+	<insert id="wisckoUnivDAO.insertWisckoUniv_S">
+		<![CDATA[
+			INSERT INTO wiscko_univ 
+				( UNIV_ID
+				  , SORT_ORDR
+				  , USE_AT
+				  , FRST_REGIST_PNTTM
+				  , FRST_REGISTER_ID
+				  , CTPRVN_CD
+				  , SIGNGU_CD
+				  , UNIV_LOGO
+				  , UNIV_NM )
+			VALUES ( #univId#
+				  , #sortOrdr#
+				  , #useAt#
+				  , SYSDATE()
+				  , #frstRegisterId#
+				  , #ctprvnCd#
+				  , #signguCd#
+				  , #univLogo#
+				  , #univNm# )
+		]]>
+	</insert>
+	
+	<update id="wisckoUnivDAO.updateWisckoUniv_S">
+		<![CDATA[
+			UPDATE wiscko_univ
+			SET UNIV_ID=#univId#
+				, SORT_ORDR=#sortOrdr#
+				, USE_AT=#useAt#
+				, LAST_UPDT_PNTTM=SYSDATE()
+				, LAST_UPDUSR_ID=#lastUpdusrId#
+				, CTPRVN_CD=#ctprvnCd#
+				, SIGNGU_CD=#signguCd#
+				, UNIV_LOGO=#univLogo#
+				, UNIV_NM=#univNm#
+			]]>
+	</update>
+	
+	<delete id="wisckoUnivDAO.deleteWisckoUniv_S">
+		<![CDATA[
+			DELETE FROM wiscko_univ 
+			]]>
+	</delete>
+	
+	<select id="wisckoUnivDAO.selectWisckoUniv_S" resultMap="wisckoUniv">
+		<![CDATA[
+			SELECT
+				UNIV_ID
+				, SORT_ORDR
+				, USE_AT
+				, FRST_REGIST_PNTTM
+				, FRST_REGISTER_ID
+				, LAST_UPDT_PNTTM
+				, LAST_UPDUSR_ID
+				, CTPRVN_CD
+				, SIGNGU_CD
+				, UNIV_LOGO
+				, UNIV_NM
+			FROM wiscko_univ
+			]]>
+	</select>
+	
+	<select id="wisckoUnivDAO.selectWisckoUnivList_D" parameterClass="wisckoUnivSerarchVO" resultClass="egovMap">
+			SELECT
+								UNIV_ID
+								, SORT_ORDR
+								, USE_AT
+								, FRST_REGIST_PNTTM
+								, FRST_REGISTER_ID
+								, LAST_UPDT_PNTTM
+								, LAST_UPDUSR_ID
+								, CTPRVN_CD
+								, SIGNGU_CD
+								, UNIV_LOGO
+								, UNIV_NM
+					FROM wiscko_univ
+			WHERE 1=1
+			<isEqual prepend="AND" property="searchCondition" compareValue="0">
+				UNIV_ID = #searchKeyword#
+			</isEqual>
+			<isEqual prepend="AND" property="searchCondition" compareValue="1">
+				SORT_ORDR LIKE CONCAT('%',#searchKeyword#,'%')
+			</isEqual>
+				ORDER BY UNIV_ID DESC
+				limit #firstIndex#, #recordCountPerPage#	
+	</select>	
+	<select id="wisckoUnivDAO.selectWisckoUnivListTotCnt_S" parameterClass="wisckoUnivSerarchVO" resultClass="int">
+			SELECT COUNT(*) totcnt
+			FROM wiscko_univ
+			WHERE 1=1
+			<isEqual prepend="AND" property="searchCondition" compareValue="0">
+				UNIV_ID = #searchKeyword#
+			</isEqual>
+			<isEqual prepend="AND" property="searchCondition" compareValue="1">
+				SORT_ORDR LIKE CONCAT('%',#searchKeyword#,'%')
+			</isEqual>
+	</select>
+
+</sqlMap>
