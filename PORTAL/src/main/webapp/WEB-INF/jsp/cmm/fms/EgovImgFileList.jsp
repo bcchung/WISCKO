@@ -12,22 +12,36 @@
     since    : 2009.03.31
 --%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="ui" uri="http://egovframework.gov/ctl/ui"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-	<table>
-      	<c:forEach var="fileVO" items="${fileList}" varStatus="status">
-	      <tr>
-	      	<td></td>
-	      </tr>      	      		
-	      <tr>
-	       <td>
-	       		<img src='<c:url value='/cmm/fms/getImage.do'/>?atchFileId=<c:out value="${fileVO.atchFileId}"/>&fileSn=<c:out value="${fileVO.fileSn}"/>'  width="640" alt="파일보기링크" />
-	       </td>
-	      </tr>
-	      <tr>
-	      	<td></td>
-	      </tr>  
-        </c:forEach>
-      </table>
+
+<script type="text/javascript">
+	function fn_egov_downFile(atchFileId, fileSn){
+		window.open("<c:url value='/cmm/fms/FileDown.do?atchFileId="+atchFileId+"&fileSn="+fileSn+"'/>");
+	}	
+	
+	function fn_egov_deleteFile(atchFileId, fileSn) {
+		forms = document.getElementsByTagName("form");
+
+		for (var i = 0; i < forms.length; i++) {
+			if (typeof(forms[i].atchFileId) != "undefined" &&
+					typeof(forms[i].fileSn) != "undefined") {
+				form = forms[i];
+			}
+		}
+		form.atchFileId.value = atchFileId;
+		form.fileSn.value = fileSn;
+		form.action = '<c:url value="/cmm/fms/deleteFileInfs.do"/>';
+		form.submit();
+	}
+</script>
+<c:forEach var="fileVO" items="${fileList}" varStatus="status">
+	<img
+		src='<c:url value='/cmm/fms/getImage.do'/>?atchFileId=<c:out value="${fileVO.atchFileId}"/>&fileSn=<c:out value="${fileVO.fileSn}"/>'
+		width="<c:out value="${imageWidth}"/>" alt="파일보기링크"/>
+	<img alt="파일 삭제" src="<c:url value='/images/btn/bu5_close.gif'/>" 
+			       		width="19" height="18" onClick="javascript:fn_egov_deleteFile('<c:out value="${fileVO.atchFileId}"/>','<c:out value="${fileVO.fileSn}"/>');" />
+	<c:if test="${!status.last}"><br/></c:if>
+</c:forEach>

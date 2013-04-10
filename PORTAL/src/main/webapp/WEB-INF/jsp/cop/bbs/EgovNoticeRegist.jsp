@@ -116,7 +116,7 @@
 <!--detail area start -->
 <div class="search_service">
     <div class="search_top_table">
-        <table >
+        <table>
                 <tr>
                     <td class="td_width" ><label for="nttSj"><spring:message code="cop.nttSj" /></label>
                     <img src="<c:url value='/images/required.gif' />" width="15" height="15" alt="required" />
@@ -175,14 +175,14 @@
                 </c:choose>
             
                 <c:if test="${bdMstr.fileAtchPosblAt == 'Y'}">          
-                  <tr>
-                    <td class="td_width" ><label for="egovComFileUploader"><spring:message code="cop.atchFile" /></label></td>
-                    <td class="td_content" colspan="3">
-                                <input name="file_1" id="egovComFileUploader" type="file" />
-                                    <div id="egovComFileList"></div>
-                    </td>
-                  </tr>
-              </c:if>
+	                <tr>
+		                <td class="td_width" ><label for="egovComFileUploader"><spring:message code="cop.atchFile" /></label></td>
+		                <td class="td_content" colspan="3">
+		                	<input name="file_1" id="egovComFileUploader" type="file" />
+							<div id="egovComFileList"></div>
+		                </td>
+	                </tr>
+              	</c:if>
             </table>
             <c:if test="${bdMstr.fileAtchPosblAt == 'Y'}">
             <script type="text/javascript">

@@ -43,7 +43,7 @@ import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
  * @version 1.0
  * @see
  * 
- * <pre>
+ *      <pre>
  * << 개정이력(Modification Information) >>
  * 
  *   수정일      수정자          수정내용
@@ -55,7 +55,7 @@ import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
  * </pre>
  */
 @Controller
-//@SessionAttributes("board")
+// @SessionAttributes("board")
 public class EgovBBSManageController {
 
 	@Resource(name = "EgovBBSManageService")
@@ -75,7 +75,7 @@ public class EgovBBSManageController {
 
 	@Resource(name = "egovMessageSource")
 	EgovMessageSource						egovMessageSource;
-	
+
 	// ---------------------------------
 	// 2009.06.29 : 2단계 기능 추가
 	// ---------------------------------
@@ -297,8 +297,8 @@ public class EgovBBSManageController {
 	 * @throws Exception
 	 */
 	@RequestMapping("/cop/bbs/addBoardArticle.do")
-	public String addBoardArticle(HttpServletRequest request,
-			@ModelAttribute("searchVO") BoardVO boardVO, ModelMap model) throws Exception {
+	public String addBoardArticle(HttpServletRequest request, @ModelAttribute("searchVO") BoardVO boardVO,
+			ModelMap model) throws Exception {
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
 		if (!isAuthenticated) {
 			model.addAttribute("message", egovMessageSource.getMessage("fail.common.login"));
@@ -325,7 +325,7 @@ public class EgovBBSManageController {
 
 		model.addAttribute("brdMstrVO", bdMstr);
 		// //-----------------------------
-		
+
 		/* 중복방지 Token 생성 */
 		TokenMngUtil.saveToken(request);
 
@@ -343,17 +343,16 @@ public class EgovBBSManageController {
 	 * @throws Exception
 	 */
 	@RequestMapping("/cop/bbs/insertBoardArticle.do")
-	public String insertBoardArticle(final MultipartHttpServletRequest multiRequest,
-			HttpServletRequest request,
+	public String insertBoardArticle(final MultipartHttpServletRequest multiRequest, HttpServletRequest request,
 			@ModelAttribute("searchVO") BoardVO boardVO, @ModelAttribute("bdMstr") BoardMaster bdMstr,
 			@ModelAttribute("board") Board board, BindingResult bindingResult, SessionStatus status, ModelMap model)
 			throws Exception {
 
 		LoginVO user = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-		
+
 		/* 중복방지 Token 체크 */
-		if(!TokenMngUtil.isTokenValid(request)) {
+		if (!TokenMngUtil.isTokenValid(request)) {
 			model.addAttribute("message", egovMessageSource.getMessage("errors.reflesh.notPermit"));
 			return "uat/uia/EgovLoginUsr";
 		}
@@ -408,7 +407,7 @@ public class EgovBBSManageController {
 		}
 		/* 중복방지 Token 초기화 */
 		TokenMngUtil.resetToken(request);
-		
+
 		status.setComplete();
 		return "forward:/cop/bbs/selectBoardList.do";
 	}
@@ -436,7 +435,7 @@ public class EgovBBSManageController {
 
 		vo.setBbsId(boardVO.getBbsId());
 		vo.setUniqId(user.getUniqId());
-		
+
 		BoardVO result = bbsMngService.selectBoardArticle(boardVO);
 
 		master = bbsAttrbService.selectBBSMasterInf(vo);

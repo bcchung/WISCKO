@@ -40,7 +40,8 @@ import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
  *
  * </pre>
  */
-@Controller@SessionAttributes(types = ComDefaultVO.class)
+@Controller
+@SessionAttributes(types = ComDefaultVO.class)
 public class EgovMainController {
 	
 	/**

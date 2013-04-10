@@ -100,5 +100,5 @@
     <alias name="spring.RegularCommonsMultipartResolver" alias="multipartResolver" />
     
     <!-- component-scan 설정-->
-    <context:component-scan base-package="egovframework"/>
+    <context:component-scan base-package="egovframework, com"/>
 </beans>

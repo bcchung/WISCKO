@@ -19,10 +19,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<title>Q&amp;A답변상세조회</title>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8">
-<meta http-equiv="content-language" content="ko">
-<link rel="stylesheet" href="<c:url value='/'/>/css/default.css" type="text/css" >
 <script type="text/javaScript" language="javascript">
 
 /* ********************************************************
@@ -54,20 +50,7 @@ function fn_egov_updt_qnacnanswer(qaId){
 </head>
  
 <body>
-<!-- login status start -->
-<div id="login_area"><c:import url="/EgovPageLink.do?link=main/inc/EgovIncTborder" /></div>
-<!-- //login status end -->
-<!-- wrap start -->
-<div id="wrap"> 
-    <!-- header start -->
-    <div id="subheader"><c:import url="/sym/mms/EgovMainMenuHead.do" /></div>  
-    <!-- //header end -->
-    <!--  타이틀 이미지 시작 -->
-    <div id="title_img_div"><img src="<c:url value='/'/>images/title_image/img_title05.gif" alt="" /></div>
-    <!--  //타이틀 이미지 끝 -->
-    <div id="bodywrap">
-        <div id="leftmenu_div"><c:import url="/sym/mms/EgovMainMenuLeft.do" /></div>
-        <div id="middle_content">
+
             <!-- 현재위치 네비게이션 시작 -->
             <div id="cur_loc">
                     <div id="cur_loc_align">
@@ -228,13 +211,6 @@ function fn_egov_updt_qnacnanswer(qaId){
 			</form>
 
             </div><!-- contents end -->
-        </div>
-    </div>
-    <!-- footer 시작 -->
-    <div id="footer"><c:import url="/EgovPageLink.do?link=main/inc/EgovIncFooter" /></div>
-    <!-- //footer 끝 -->
-</div>
-<!-- //wrap end -->
 
 </body>
 </html>

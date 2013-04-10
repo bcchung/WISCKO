@@ -147,8 +147,7 @@
 
 <div id="paging_div"><ul class="paging_align">
 	<ui:pagination paginationInfo="${paginationInfo}" type="image" jsFunction="fn_egov_select_brdMstr" />
-	</ul>
-</div>
+</ul></div>
 <input name="pageIndex" type="hidden" value="<c:out value='${searchVO.pageIndex}'/>"/>
 
 </div>

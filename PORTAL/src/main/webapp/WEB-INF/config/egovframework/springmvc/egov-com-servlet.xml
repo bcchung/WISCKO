@@ -11,7 +11,7 @@
         - The controllers are autodetected POJOs labeled with the @Controller annotation.
     -->
     <!-- 패키지 내 Controller, Service, Repository 클래스의 auto detect를 위한 mvc 설정 -->
-    <context:component-scan base-package="egovframework">
+    <context:component-scan base-package="egovframework, com">
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Service"/>
         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Repository"/>
@@ -123,7 +123,7 @@
 	</bean>
 	   
 	<bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
-		<property name="defaultLocale" value="en_US" />
+		<property name="defaultLocale" value="ko_KR" />
 	</bean>   
 	   
 	<bean id="handlerMapping" class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">   
