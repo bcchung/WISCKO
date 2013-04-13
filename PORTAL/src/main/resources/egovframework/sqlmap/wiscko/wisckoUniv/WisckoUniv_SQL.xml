@@ -10,14 +10,10 @@
 		<result property="univId" column="UNIV_ID" columnIndex="1"/>
 		<result property="sortOrdr" column="SORT_ORDR" columnIndex="2"/>
 		<result property="useAt" column="USE_AT" columnIndex="3"/>
-		<result property="frstRegistPnttm" column="FRST_REGIST_PNTTM" columnIndex="4"/>
-		<result property="frstRegisterId" column="FRST_REGISTER_ID" columnIndex="5"/>
-		<result property="lastUpdtPnttm" column="LAST_UPDT_PNTTM" columnIndex="6"/>
-		<result property="lastUpdusrId" column="LAST_UPDUSR_ID" columnIndex="7"/>
-		<result property="ctprvnCd" column="CTPRVN_CD" columnIndex="8"/>
-		<result property="signguCd" column="SIGNGU_CD" columnIndex="9"/>
-		<result property="univLogo" column="UNIV_LOGO" columnIndex="10"/>
-		<result property="univNm" column="UNIV_NM" columnIndex="11"/>
+		<result property="ctprvnCd" column="CTPRVN_CD" columnIndex="4"/>
+		<result property="signguCd" column="SIGNGU_CD" columnIndex="5"/>
+		<result property="univLogo" column="UNIV_LOGO" columnIndex="6"/>
+		<result property="univNm" column="UNIV_NM" columnIndex="7"/>
 	</resultMap>
 	
 	<insert id="wisckoUnivDAO.insertWisckoUniv_S">
@@ -71,10 +67,6 @@
 				UNIV_ID
 				, SORT_ORDR
 				, USE_AT
-				, FRST_REGIST_PNTTM
-				, FRST_REGISTER_ID
-				, LAST_UPDT_PNTTM
-				, LAST_UPDUSR_ID
 				, CTPRVN_CD
 				, SIGNGU_CD
 				, UNIV_LOGO
@@ -84,39 +76,31 @@
 	</select>
 	
 	<select id="wisckoUnivDAO.selectWisckoUnivList_D" parameterClass="wisckoUnivSerarchVO" resultClass="egovMap">
-			SELECT
-								UNIV_ID
-								, SORT_ORDR
-								, USE_AT
-								, FRST_REGIST_PNTTM
-								, FRST_REGISTER_ID
-								, LAST_UPDT_PNTTM
-								, LAST_UPDUSR_ID
-								, CTPRVN_CD
-								, SIGNGU_CD
-								, UNIV_LOGO
-								, UNIV_NM
-					FROM wiscko_univ
-			WHERE 1=1
-			<isEqual prepend="AND" property="searchCondition" compareValue="0">
-				UNIV_ID = #searchKeyword#
-			</isEqual>
-			<isEqual prepend="AND" property="searchCondition" compareValue="1">
-				SORT_ORDR LIKE CONCAT('%',#searchKeyword#,'%')
-			</isEqual>
-				ORDER BY UNIV_ID DESC
-				limit #firstIndex#, #recordCountPerPage#	
+		SELECT
+					UNIV_ID
+					, SORT_ORDR
+					, USE_AT
+					, DATE_FORMAT(LAST_UPDT_PNTTM, '%Y-%m-%d') as LAST_UPDT_PNTTM
+					, LAST_UPDUSR_ID
+					, CTPRVN_CD
+					, SIGNGU_CD
+					, UNIV_LOGO
+					, UNIV_NM
+		FROM wiscko_univ
+		WHERE 1=1
+		<isEqual prepend="AND" property="searchCondition" compareValue="0">
+			UNIV_NM LIKE CONCAT('%',#searchKeyword#,'%')
+		</isEqual>
+			ORDER BY UNIV_ID DESC
+			limit #firstIndex#, #recordCountPerPage#	
 	</select>	
 	<select id="wisckoUnivDAO.selectWisckoUnivListTotCnt_S" parameterClass="wisckoUnivSerarchVO" resultClass="int">
-			SELECT COUNT(*) totcnt
-			FROM wiscko_univ
-			WHERE 1=1
-			<isEqual prepend="AND" property="searchCondition" compareValue="0">
-				UNIV_ID = #searchKeyword#
-			</isEqual>
-			<isEqual prepend="AND" property="searchCondition" compareValue="1">
-				SORT_ORDR LIKE CONCAT('%',#searchKeyword#,'%')
-			</isEqual>
+		SELECT COUNT(*) totcnt
+		FROM wiscko_univ
+		WHERE 1=1
+		<isEqual prepend="AND" property="searchCondition" compareValue="0">
+			UNIV_NM LIKE CONCAT('%',#searchKeyword#,'%')
+		</isEqual>
 	</select>
 
 </sqlMap>

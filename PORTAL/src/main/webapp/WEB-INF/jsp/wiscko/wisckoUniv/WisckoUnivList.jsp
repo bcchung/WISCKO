@@ -82,15 +82,14 @@ function fn_egov_link_page(pageNo){
 <!-- search area start-->
 <div class="search_service">
     <div class="search_area">
-    <div class="search_conditions" >
-    <label for="searchCnd" >검색유형선택</label>
-        <select name="searchCnd" class="select" title="검색유형선력">
-            <%-- <option value="0" <c:if test="${searchVO.searchCnd == '0'}">selected="selected"</c:if> >게시판명</option>
-            <option value="1" <c:if test="${searchVO.searchCnd == '1'}">selected="selected"</c:if> >게시판유형</option> --%>   
-        </select>
-        <label for="searchWrd" >검색어</label>
-        <%-- <input title="검색값입력" name="searchWrd" type="text" size="35" value='<c:out value="${searchVO.searchWrd}" />' maxlength="35" onkeypress="press(event);"> --%>
-    </div>
+	    <div class="search_conditions" >
+	    <label for="searchCondition" >검색유형선택</label>
+	        <select name="searchCondition" class="select" title="검색유형선력">
+	            <option value="0" <c:if test="${searchVO.searchCondition == '0'}">selected="selected"</c:if> >대학명</option>
+	        </select>
+	        <label for="searchKeyword" >검색어</label>
+	        <input name="searchKeyword" type="text">
+	    </div>
         <div class="search_buttons">
             <input type="submit" value="<spring:message code="button.inquire" />" onclick="fn_egov_select_brdMstr('1'); return false;" />
             <a href="<c:url value='/wiscko/wisckoUniv/addWisckoUnivView.do'/>" onclick="fn_egov_addView(); return false;"><spring:message code="button.create"/></a>
@@ -106,28 +105,26 @@ function fn_egov_link_page(pageNo){
 	<div id="table">
 		<table width="100%" border="0" cellpadding="0" cellspacing="0">
 			<colgroup>
-				<col/>				
-				<col/>				
-				<col/>				
-				<col/>				
-				<col/>				
-				<col/>				
-				<col/>				
-				<col/>				
+				<col />
+				<col />
+				<col />
+				<col />
+				<col />
+				<col />
+				<col />		
 			</colgroup>		  
 			<tr>
 				<th align="center">대학교명</th>
 				<th align="center">로고</th>
 				<th align="center">도시코드</th>
-				<th align="center">시군구코드</th>
 				<th align="center">정렬순서</th>
 				<th align="center">사용여부</th>
-				<th align="center">수정일자</th>
 				<th align="center">수정자</th>
+				<th align="center">수정일자</th>
 			</tr>
 			<c:if test="${fn:length(resultList) == 0}">
         	<tr>
-                <td colspan="9"><spring:message code="common.nodata.msg" /></td>
+                <td colspan="7"><spring:message code="common.nodata.msg" /></td>
             </tr>
             </c:if>
 			<c:forEach var="result" items="${resultList}" varStatus="status">
@@ -138,14 +135,14 @@ function fn_egov_link_page(pageNo){
 					<c:import url="/cmm/fms/selectImageFileInfs.do" charEncoding="UTF-8">
 		                <c:param name="atchFileId" value="${result.univLogo}" />
 		                <c:param name="imageWidth" value="100" />
+		                <c:param name="delPosbleAt" value="N" />
 		            </c:import>
 				&nbsp;</td>
 				<td align="center" class="listtd"><c:out value="${result.ctprvnCd}"/>&nbsp;</td>
-				<td align="center" class="listtd"><c:out value="${result.signguCd}"/>&nbsp;</td>
 				<td align="center" class="listtd"><c:out value="${result.sortOrdr}"/>&nbsp;</td>
 				<td align="center" class="listtd"><c:out value="${result.useAt}"/>&nbsp;</td>
-				<td align="center" class="listtd"><c:out value="${result.lastUpdtPnttm}"/>&nbsp;</td>
 				<td align="center" class="listtd"><c:out value="${result.lastUpdusrId}"/>&nbsp;</td>
+				<td align="center" class="listtd"><c:out value="${result.lastUpdtPnttm}"/>&nbsp;</td>
 			</tr>
 			</c:forEach>
 		</table>
@@ -155,9 +152,11 @@ function fn_egov_link_page(pageNo){
 </div>
 <!-- search result end -->
 
-<div id="paging_div"><ul class="paging_align">
-	<ui:pagination paginationInfo="${paginationInfo}" type="image" jsFunction="fn_egov_select_brdMstr" />
-</ul></div>
+<div id="paging_div">
+	<ul class="paging_align">
+		<ui:pagination paginationInfo="${paginationInfo}" type="image" jsFunction="fn_egov_select_brdMstr" />
+	</ul>
+</div>
 <input name="pageIndex" type="hidden" value="<c:out value='${searchVO.pageIndex}'/>"/>
 
 </form:form>

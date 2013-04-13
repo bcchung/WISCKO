@@ -58,8 +58,19 @@ public class FileVO implements Serializable {
      * 저장파일명
      */
     public String streFileNm = "";
+    
+    //썸네일파일명
+    public String thumbNailFileNm = "";
 
-    /**
+	public String getThumbNailFileNm() {
+		return thumbNailFileNm;
+	}
+
+	public void setThumbNailFileNm(String thumbNailFileNm) {
+		this.thumbNailFileNm = thumbNailFileNm;
+	}
+
+	/**
      * atchFileId attribute를 리턴한다.
      * 
      * @return the atchFileId

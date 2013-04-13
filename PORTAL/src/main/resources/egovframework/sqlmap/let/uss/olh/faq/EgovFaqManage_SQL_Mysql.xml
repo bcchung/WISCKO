@@ -25,7 +25,7 @@
 					DATE_FORMAT(FRST_REGIST_PNTTM,'%Y-%m-%d') FRST_REGIST_PNTTM   , FRST_REGISTER_ID, 
 					DATE_FORMAT(LAST_UPDT_PNTTM,'%Y-%m-%d')   LAST_UPDT_PNTTM	  , LAST_UPDUSR_ID			 			  			 			  
 			FROM	LETTNFAQINFO		
-			WHERE	FAQ_ID=#faqId#					
+			WHERE	LOCALE = #locale# AND FAQ_ID=#faqId#					
 		]]>
 	</select>
 	
@@ -43,7 +43,7 @@
 				LAST_UPDT_PNTTM LAST_UPDT_PNTTM,
 				LAST_UPDUSR_ID			 
 			FROM	LETTNFAQINFO                               			
-			WHERE	1=1   			
+			WHERE	LOCALE = #locale#   			
 		]]>					
 			<isEqual prepend="AND" property="searchCondition" compareValue="qestnSj">
 				<![CDATA[QESTN_SJ LIKE CONCAT('%', #searchKeyword#, '%')]]>
@@ -56,7 +56,7 @@
 		<![CDATA[
 			SELECT 	COUNT(*) totcnt
 			FROM 	LETTNFAQINFO
-			WHERE 	1=1
+			WHERE 	LOCALE = #locale#   
 		]]>			
 			<isEqual prepend="AND" property="searchCondition" compareValue="qestnSj">
 				<![CDATA[QESTN_SJ LIKE CONCAT('%', #searchKeyword#, '%')]]>
@@ -66,7 +66,7 @@
 	<insert id="FaqManageDAO.insertFaqCn">	
 		<![CDATA[	
 			INSERT INTO LETTNFAQINFO
-				   (FAQ_ID
+				   (LOCALE, FAQ_ID
 				  , QESTN_SJ
 				  , QESTN_CN
 				  , ANSWER_CN
@@ -76,7 +76,7 @@
 				  , FRST_REGISTER_ID 
 				  , LAST_UPDT_PNTTM 
 				  , LAST_UPDUSR_ID) 
-			VALUES ( #faqId#
+			VALUES (#locale#, #faqId#
 				  , #qestnSj#
 				  , #qestnCn#
 				  , #answerCn#
@@ -95,7 +95,7 @@
 				    RDCNT= IFNULL(RDCNT,0) + 1				  			
 				  , LAST_UPDT_PNTTM=sysdate()
 				  , LAST_UPDUSR_ID=#lastUpdusrId#
- 			WHERE  FAQ_ID=#faqId#
+ 			WHERE  LOCALE = #locale# AND FAQ_ID=#faqId#
 		]]>
 	</update>
 
@@ -109,14 +109,14 @@
 				  , ATCH_FILE_ID=#atchFileId#				  			
 				  , LAST_UPDT_PNTTM=sysdate()
 				  , LAST_UPDUSR_ID=#lastUpdusrId#
- 			WHERE  FAQ_ID=#faqId#
+ 			WHERE  LOCALE = #locale# AND FAQ_ID=#faqId#
 		]]>
 	</update>
 	
 	<delete id="FaqManageDAO.deleteFaqCn">
 		<![CDATA[
 			DELETE FROM LETTNFAQINFO 
-			WHERE  FAQ_ID=#faqId#
+			WHERE  LOCALE = #locale# AND FAQ_ID=#faqId#
 		]]>
 	</delete>
 	

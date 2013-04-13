@@ -1,5 +1,6 @@
 package egovframework.com.cmm.service;
 
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -17,6 +18,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.annotation.Resource;
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -76,7 +78,7 @@ public class EgovFileMngUtil {
 		if ("".equals(storePath) || storePath == null) {
 			storePathString = propertyService.getString("Globals.fileStorePath");
 		} else {
-			storePathString = propertyService.getString(storePath);
+			storePathString = storePath;
 		}
 
 		if ("".equals(atchFileId) || atchFileId == null) {
@@ -116,6 +118,8 @@ public class EgovFileMngUtil {
 			// String fileName = orginFileName.substring(0, index);
 			String fileExt = orginFileName.substring(index + 1);
 			String newName = KeyStr + EgovStringUtil.getTimeStamp() + fileKey;
+			String thumbNailFile = "";
+			
 			long _size = file.getSize();
 
 			if (!"".equals(orginFileName)) {
@@ -130,7 +134,18 @@ public class EgovFileMngUtil {
 			fvo.setStreFileNm(newName);
 			fvo.setAtchFileId(atchFileIdString);
 			fvo.setFileSn(String.valueOf(fileKey));
-
+			
+			/** ThumbNail 파일 생성 (이미지파일일 경우) **/
+			String fileExtEntry = "BMP|EMF|EXIF|GIF|GUID|ICON|JPEG|JPG|MEMORYBMP|PNG|TIFF|WMF";
+			boolean rescaleSuccess = false;
+			if(fileExtEntry.indexOf(fileExt.toUpperCase()) != -1) {
+				rescaleSuccess = convertThumbNail(new File(filePath), filePath, fileExt, 200, 200);
+				if(rescaleSuccess) {
+					fvo.setThumbNailFileNm(newName + "_thumb");	//썸네일파일명
+				}
+			}
+			/** ThumbNail 파일 생성 (이미지파일일 경우) **/
+			
 			// writeFile(file, newName, storePathString);
 			result.add(fvo);
 
@@ -138,6 +153,38 @@ public class EgovFileMngUtil {
 		}
 
 		return result;
+	}
+	
+	/**
+	 * 이미지 파일 썸네일 생성 (java-image-scaling-0.8.5.jar 사용)
+	 * @param srcFile
+	 * @param destPath
+	 * @param imageFormat
+	 * @param destWidth
+	 * @param destHeight
+	 * @return
+	 */
+	protected boolean convertThumbNail(File srcFile, String destPath, String imageFormat, int destWidth, int destHeight) {
+		
+		ResampleOp resampleOp = new ResampleOp(destWidth, destHeight);
+		resampleOp.setUnsharpenMask(AdvancedResizeOp.UnsharpenMask.Soft);
+
+		try {
+			FileInputStream fis = new FileInputStream(srcFile);
+			BufferedImage srcBuffer = ImageIO.read(fis);
+			
+			//BufferedImage thumbImage = new BufferedImage(srcImage.getWidth(null), srcImage.getHeight(null), BufferedImage.TYPE_INT_RGB);
+			BufferedImage rescaleImage = resampleOp.filter(srcBuffer, null);
+			
+			String thumNailFile = destPath + "_thumb";
+			ImageIO.write(rescaleImage, imageFormat, new File(thumNailFile));
+
+			return true;
+		} catch (IOException e) {
+			e.printStackTrace();
+			LOG.error(e.getMessage());
+			return false;
+		}
 	}
 
 	/**
@@ -351,7 +398,7 @@ public class EgovFileMngUtil {
 			}
 		}
 	}
-
+	
 	/**
 	 * 서버 파일에 대하여 다운로드를 처리한다.
 	 * 

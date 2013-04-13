@@ -38,10 +38,11 @@
 	}
 </script>
 <c:forEach var="fileVO" items="${fileList}" varStatus="status">
-	<img
-		src='<c:url value='/cmm/fms/getImage.do'/>?atchFileId=<c:out value="${fileVO.atchFileId}"/>&fileSn=<c:out value="${fileVO.fileSn}"/>'
+	<img src='<c:url value='/cmm/fms/getImage.do'/>?atchFileId=<c:out value="${fileVO.atchFileId}"/>&fileSn=<c:out value="${fileVO.fileSn}"/>'
 		width="<c:out value="${imageWidth}"/>" alt="파일보기링크"/>
-	<img alt="파일 삭제" src="<c:url value='/images/btn/bu5_close.gif'/>" 
-			       		width="19" height="18" onClick="javascript:fn_egov_deleteFile('<c:out value="${fileVO.atchFileId}"/>','<c:out value="${fileVO.fileSn}"/>');" />
+	<c:if test="${delPosbleAt == 'Y' }">
+		<img alt="파일 삭제" src="<c:url value='/images/btn/bu5_close.gif'/>" 
+			width="19" height="18" onClick="javascript:fn_egov_deleteFile('<c:out value="${fileVO.atchFileId}"/>','<c:out value="${fileVO.fileSn}"/>');" />
+	</c:if>
 	<c:if test="${!status.last}"><br/></c:if>
 </c:forEach>

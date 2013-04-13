@@ -19,9 +19,23 @@
 			CODE_ID, CODE, CODE_NM, CODE_DC
 			FROM 
 			LETTCCMMNDETAILCODE
-			WHERE
-			USE_AT = 'Y'
+			WHERE LOCALE = #locale#
+			AND USE_AT = 'Y'
 			AND CODE_ID = #codeId#
+		]]>
+	</select>
+	
+	<select id="CmmUseDAO.selectLevelCodeDetail" parameterClass="ComDefaultCodeVO" resultMap="CmmCodeDetail">
+		<![CDATA[ 
+			SELECT CODE_ID
+			     , CODE
+			     , CODE_NM
+			     , CODE_DC
+			  FROM lettclevelcode
+			 WHERE LOCALE = #locale#
+			   AND USE_AT = 'Y'
+			   AND CODE_ID = #codeId# 
+			   AND UPPER_CODE = #upperCode#
 		]]>
 	</select>
 

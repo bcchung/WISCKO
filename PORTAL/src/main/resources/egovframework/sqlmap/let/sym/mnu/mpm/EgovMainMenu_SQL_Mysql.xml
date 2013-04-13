@@ -18,13 +18,15 @@
 				, B.RELATE_IMAGE_PATH AS relateImagePath
 				, B.RELATE_IMAGE_NM AS relateImageNm
 				, B.PROGRM_FILE_NM AS progrmFileNm
-				, (SELECT C.URL FROM LETTNPROGRMLIST C WHERE B.PROGRM_FILE_NM = C.PROGRM_FILE_NM) AS chkURL
+				, (SELECT C.URL FROM LETTNPROGRMLIST C WHERE B.LOCALE = C.LOCALE AND B.PROGRM_FILE_NM = C.PROGRM_FILE_NM) AS chkURL
 			FROM LETTNMENUCREATDTLS A, LETTNMENUINFO B 
 			WHERE  B.Menu_NO > 0 
 			AND    B.UPPER_MENU_NO = 0  
+			AND    A.LOCALE = B.LOCALE
 			AND    A.MENU_NO  = B.MENU_NO 
 			AND    A.AUTHOR_CODE = (SELECT C.AUTHOR_CODE from LETTNEMPLYRSCRTYESTBS C
 	                                WHERE  C.SCRTY_DTRMN_TRGET_ID = #tmp_UniqId#)
+	        AND A.LOCALE = #locale#
 			ORDER BY MENU_ORDR
 		]]> 
 	</select>
@@ -38,11 +40,13 @@
 				 , B.UPPER_MENU_NO AS upperMenuId
 				 , B.RELATE_IMAGE_PATH AS relateImagePath
 				 , B.RELATE_IMAGE_NM AS relateImageNm
-				 , (SELECT C.URL FROM LETTNPROGRMLIST C WHERE B.PROGRM_FILE_NM = C.PROGRM_FILE_NM) AS chkURL	
+				 , (SELECT C.URL FROM LETTNPROGRMLIST C WHERE B.LOCALE = C.LOCALE AND B.PROGRM_FILE_NM = C.PROGRM_FILE_NM) AS chkURL	
 			FROM   LETTNMENUCREATDTLS A, LETTNMENUINFO B
-			WHERE  A.MENU_NO  = B.MENU_NO 
+			WHERE  A.LOCALE = B.LOCALE
+			AND    A.MENU_NO  = B.MENU_NO 
 			AND    A.AUTHOR_CODE = (SELECT AUTHOR_CODE from LETTNEMPLYRSCRTYESTBS
 	                                WHERE  SCRTY_DTRMN_TRGET_ID = #tmp_UniqId#)
+	        AND A.LOCALE = #locale#
 			ORDER BY B.MENU_ORDR
 		]]> 
 	</select>
@@ -51,9 +55,11 @@
 		<![CDATA[ 
 			SELECT URL 
 			FROM   LETTNPROGRMLIST
-			WHERE  PROGRM_FILE_NM =
+			WHERE LOCALE = #locale# 
+			  AND PROGRM_FILE_NM =
 			       (SELECT PROGRM_FILE_NM FROM LETTNMENUINFO
-				    WHERE MENU_NO = #menuNo#)
+				    WHERE LOCALE = #locale# AND MENU_NO = #menuNo#)
+				    
 		]]> 
 	</select>
 
@@ -61,11 +67,12 @@
 		<![CDATA[ 
 			select MIN(MENU_NO) 
 			from   LETTNMENUINFO
-			where  UPPER_MENU_NO = #menuNo#
+			where  LOCALE = #locale# and UPPER_MENU_NO = #menuNo#
 			and    MENU_ORDR =
 			      (select MIN(MENU_ORDR) 
 			       from LETTNMENUCREATDTLS A, LETTNMENUINFO B
-			       where A.MENU_NO = B.MENU_NO
+			       where A.LOCALE = B.LOCALE
+			       AND A.MENU_NO = B.MENU_NO
 			       AND   A.AUTHOR_CODE = (SELECT AUTHOR_CODE from LETTNEMPLYRSCRTYESTBS
 	                                      WHERE  SCRTY_DTRMN_TRGET_ID = #tempValue#)
 			       AND   B.UPPER_MENU_NO = #menuNo#)
@@ -76,14 +83,15 @@
 		<![CDATA[ 
 			select count(MENU_NO) 
 			from   LETTNMENUINFO
-			where  UPPER_MENU_NO = #menuNo#
+			where  LOCALE = #locale# and UPPER_MENU_NO = #menuNo#
 			and    MENU_ORDR =
 			      (select MIN(MENU_ORDR) 
 			       from LETTNMENUCREATDTLS A, LETTNMENUINFO B
-			       where A.MENU_NO = B.MENU_NO
+			       where A.LOCALE = B.LOCALE  AND A.MENU_NO = B.MENU_NO
 			       AND   A.AUTHOR_CODE = (SELECT AUTHOR_CODE from LETTNEMPLYRSCRTYESTBS
 	                                      WHERE  SCRTY_DTRMN_TRGET_ID = #tempValue#)
 			       AND   B.UPPER_MENU_NO = #menuNo#)
+			       AND A.LOCALE = #locale#
 		]]> 
 	</select>
 	
@@ -102,7 +110,9 @@
             FROM LETTNMENUCREATDTLS A, LETTNMENUINFO B 
             WHERE  B.Menu_NO > 0 
             AND    B.UPPER_MENU_NO = 0  
+            AND    A.LOCALE = B.LOCALE
             AND    A.MENU_NO  = B.MENU_NO 
+            AND    A.LOCALE = #locale#
             AND    A.AUTHOR_CODE = #authorCode#
             ORDER BY B.MENU_ORDR
         ]]> 
@@ -119,7 +129,8 @@
                  , B.RELATE_IMAGE_NM AS relateImageNm
                  , (SELECT C.URL FROM LETTNPROGRMLIST C WHERE B.PROGRM_FILE_NM = C.PROGRM_FILE_NM) AS chkURL    
             FROM   LETTNMENUCREATDTLS A, LETTNMENUINFO B
-            WHERE  A.MENU_NO  = B.MENU_NO 
+            WHERE  A.LOCALE = B.LOCALE AND A.MENU_NO  = B.MENU_NO 
+            AND    A.LOCALE = #locale#
             AND    A.AUTHOR_CODE =  #authorCode#
             ORDER BY B.MENU_ORDR
         ]]> 

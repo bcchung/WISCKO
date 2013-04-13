@@ -21,9 +21,11 @@ import com.wiscko.wisckoUniv.service.WisckoUnivDefaultVO;
 import com.wiscko.wisckoUniv.service.WisckoUnivService;
 import com.wiscko.wisckoUniv.service.WisckoUnivVO;
 
+import egovframework.com.cmm.ComDefaultCodeVO;
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.TokenMngUtil;
+import egovframework.com.cmm.service.EgovCmmUseService;
 import egovframework.com.cmm.service.EgovFileMngService;
 import egovframework.com.cmm.service.EgovFileMngUtil;
 import egovframework.com.cmm.service.FileVO;
@@ -63,6 +65,10 @@ public class WisckoUnivController {
 	private EgovFileMngUtil			fileUtil;
 
 	private String					storePath;
+	
+	/** cmmUseService */
+    @Resource(name="EgovCmmUseService")
+    private EgovCmmUseService cmmUseService;
 
 	/**
 	 * wiscko_univ List (pageing)
@@ -107,7 +113,17 @@ public class WisckoUnivController {
 
 		/* 중복방지 Token 생성 */
 		TokenMngUtil.saveToken(request);
-
+		
+		/** 코드 조회 **/
+		ComDefaultCodeVO vo = new ComDefaultCodeVO();
+        vo.setCodeId("CITYTC");
+        vo.setUpperCode("0");
+        model.addAttribute("cityTcList", cmmUseService.selectLevelCodeDetail(vo));
+        
+        vo.setCodeId("NATTC");
+        model.addAttribute("natTcList", cmmUseService.selectCmmCodeDetail(vo));
+        /** 코드 조회 **/
+        
 		return "/wiscko/wisckoUniv/WisckoUnivRegister";
 	}
 
@@ -134,7 +150,7 @@ public class WisckoUnivController {
 		
 		
 		//저장경로 지정
-		storePath = propertiesService.getString("Globals.thumnailfileStorePath") + "/UNIV/";
+		storePath = propertiesService.getString("Globals.thumbNailfileStorePath") + "UNIV/";
 
 		final Map<String, MultipartFile> files = multiRequest.getFileMap();
 		String atchFileId = "";
@@ -165,6 +181,17 @@ public class WisckoUnivController {
 		WisckoUnivVO wisckoUnivVO = new WisckoUnivVO();
 		wisckoUnivVO.setUnivId(univId);
 		model.addAttribute(selectWisckoUniv(wisckoUnivVO, searchVO));
+		
+		/** 코드 조회 **/
+		ComDefaultCodeVO vo = new ComDefaultCodeVO();
+        vo.setCodeId("CITYTC");
+        vo.setUpperCode("0");
+        model.addAttribute("cityTcList", cmmUseService.selectLevelCodeDetail(vo));
+        
+        vo.setCodeId("NATTC");
+        model.addAttribute("natTcList", cmmUseService.selectCmmCodeDetail(vo));
+        /** 코드 조회 **/
+		
 		return "/wiscko/wisckoUniv/WisckoUnivRegister";
 	}
 
@@ -191,7 +218,7 @@ public class WisckoUnivController {
 		
 		
 		//저장경로 지정
-		storePath = propertiesService.getString("Globals.thumnailfileStorePath") + "/UNIV/";
+		storePath = propertiesService.getString("Globals.thumbNailfileStorePath") + "UNIV/";
 
 		String atchFileId = wisckoUnivVO.getUnivLogo();
 

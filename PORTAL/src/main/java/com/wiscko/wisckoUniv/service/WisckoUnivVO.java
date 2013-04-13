@@ -18,6 +18,8 @@ public class WisckoUnivVO extends WisckoUnivDefaultVO{
     /** UNIV_ID */
     private String univId;
     
+    private String locale;
+    
     /** SORT_ORDR */
     private long sortOrdr = 0L;
     
@@ -48,92 +50,140 @@ public class WisckoUnivVO extends WisckoUnivDefaultVO{
     /** UNIV_NM */
     private String univNm;
     
-    public String getUnivId() {
-        return this.univId;
-    }
+    private long nttNo = 0L;
     
-    public void setUnivId(String univId) {
-        this.univId = univId;
-    }
+    private String nttSj;
     
-    public long getSortOrdr() {
-        return this.sortOrdr;
-    }
+    private String nttCn;
     
-    public void setSortOrdr(long sortOrdr) {
-        this.sortOrdr = sortOrdr;
-    }
-    
-    public String getUseAt() {
-        return this.useAt;
-    }
-    
-    public void setUseAt(String useAt) {
-        this.useAt = useAt;
-    }
-    
-    public String getFrstRegistPnttm() {
-        return this.frstRegistPnttm;
-    }
-    
-    public void setFrstRegistPnttm(String frstRegistPnttm) {
-        this.frstRegistPnttm = frstRegistPnttm;
-    }
-    
-    public String getFrstRegisterId() {
-        return this.frstRegisterId;
-    }
-    
-    public void setFrstRegisterId(String frstRegisterId) {
-        this.frstRegisterId = frstRegisterId;
-    }
-    
-    public String getLastUpdtPnttm() {
-        return this.lastUpdtPnttm;
-    }
-    
-    public void setLastUpdtPnttm(String lastUpdtPnttm) {
-        this.lastUpdtPnttm = lastUpdtPnttm;
-    }
-    
-    public String getLastUpdusrId() {
-        return this.lastUpdusrId;
-    }
-    
-    public void setLastUpdusrId(String lastUpdusrId) {
-        this.lastUpdusrId = lastUpdusrId;
-    }
-    
-    public String getCtprvnCd() {
-        return this.ctprvnCd;
-    }
-    
-    public void setCtprvnCd(String ctprvnCd) {
-        this.ctprvnCd = ctprvnCd;
-    }
-    
-    public String getSignguCd() {
-        return this.signguCd;
-    }
-    
-    public void setSignguCd(String signguCd) {
-        this.signguCd = signguCd;
-    }
-    
-    public String getUnivLogo() {
-        return this.univLogo;
-    }
-    
-    public void setUnivLogo(String univLogo) {
-        this.univLogo = univLogo;
-    }
-    
-    public String getUnivNm() {
-        return this.univNm;
-    }
-    
-    public void setUnivNm(String univNm) {
-        this.univNm = univNm;
-    }
+    private String atchFileId;
+
+	public String getUnivId() {
+		return univId;
+	}
+
+	public void setUnivId(String univId) {
+		this.univId = univId;
+	}
+
+	public long getSortOrdr() {
+		return sortOrdr;
+	}
+
+	public void setSortOrdr(long sortOrdr) {
+		this.sortOrdr = sortOrdr;
+	}
+
+	public String getUseAt() {
+		return useAt;
+	}
+
+	public void setUseAt(String useAt) {
+		this.useAt = useAt;
+	}
+
+	public String getFrstRegistPnttm() {
+		return frstRegistPnttm;
+	}
+
+	public void setFrstRegistPnttm(String frstRegistPnttm) {
+		this.frstRegistPnttm = frstRegistPnttm;
+	}
+
+	public String getFrstRegisterId() {
+		return frstRegisterId;
+	}
+
+	public void setFrstRegisterId(String frstRegisterId) {
+		this.frstRegisterId = frstRegisterId;
+	}
+
+	public String getLastUpdtPnttm() {
+		return lastUpdtPnttm;
+	}
+
+	public void setLastUpdtPnttm(String lastUpdtPnttm) {
+		this.lastUpdtPnttm = lastUpdtPnttm;
+	}
+
+	public String getLastUpdusrId() {
+		return lastUpdusrId;
+	}
+
+	public void setLastUpdusrId(String lastUpdusrId) {
+		this.lastUpdusrId = lastUpdusrId;
+	}
+
+	public String getCtprvnCd() {
+		return ctprvnCd;
+	}
+
+	public void setCtprvnCd(String ctprvnCd) {
+		this.ctprvnCd = ctprvnCd;
+	}
+
+	public String getSignguCd() {
+		return signguCd;
+	}
+
+	public void setSignguCd(String signguCd) {
+		this.signguCd = signguCd;
+	}
+
+	public String getUnivLogo() {
+		return univLogo;
+	}
+
+	public void setUnivLogo(String univLogo) {
+		this.univLogo = univLogo;
+	}
+
+	public String getUnivNm() {
+		return univNm;
+	}
+
+	public void setUnivNm(String univNm) {
+		this.univNm = univNm;
+	}
+
+	public long getNttNo() {
+		return nttNo;
+	}
+
+	public void setNttNo(long nttNo) {
+		this.nttNo = nttNo;
+	}
+
+	public String getNttSj() {
+		return nttSj;
+	}
+
+	public void setNttSj(String nttSj) {
+		this.nttSj = nttSj;
+	}
+
+	public String getNttCn() {
+		return nttCn;
+	}
+
+	public void setNttCn(String nttCn) {
+		this.nttCn = nttCn;
+	}
+
+	public String getAtchFileId() {
+		return atchFileId;
+	}
+
+	public void setAtchFileId(String atchFileId) {
+		this.atchFileId = atchFileId;
+	}
+
+	public String getLocale() {
+		return locale;
+	}
+
+	public void setLocale(String locale) {
+		this.locale = locale;
+	}
     
 }

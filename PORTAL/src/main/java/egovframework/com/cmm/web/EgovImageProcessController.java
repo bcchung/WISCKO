@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import egovframework.com.cmm.SessionVO;
 import egovframework.com.cmm.service.EgovFileMngService;
 import egovframework.com.cmm.service.FileVO;
+import egovframework.rte.fdl.string.EgovStringUtil;
 
 
 /**
@@ -72,7 +73,16 @@ public class EgovImageProcessController extends HttpServlet {
 	
 		//String fileLoaction = fvo.getFileStreCours() + fvo.getStreFileNm();
 	
-		File file = new File(fvo.getFileStreCours(), fvo.getStreFileNm());
+		File file;
+		
+		/** 썸네일 이미지가 있을경우 파일명 변경 **/
+		if(!EgovStringUtil.isNull(fvo.getThumbNailFileNm())) {
+			file = new File(fvo.getFileStreCours(), fvo.getThumbNailFileNm());
+		} else {
+			file = new File(fvo.getFileStreCours(), fvo.getStreFileNm());
+		}
+		/** 썸네일 이미지가 있을경우 파일명 변경 **/
+		
 		FileInputStream fis = null; new FileInputStream(file);
 	
 		BufferedInputStream in = null;

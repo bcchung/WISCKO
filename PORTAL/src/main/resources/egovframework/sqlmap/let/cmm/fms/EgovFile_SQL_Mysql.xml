@@ -27,6 +27,7 @@
 		<result property="fileStreCours" column="FILE_STRE_COURS" columnIndex="6"/>
 		<result property="orignlFileNm" column="ORIGNL_FILE_NM" columnIndex="7"/>
 		<result property="streFileNm" column="STRE_FILE_NM" columnIndex="8"/>
+		<result property="thumbNailFileNm" column="THUMB_NAIL_FILE_NM" columnIndex="9"/>
 	</resultMap>	
 
 
@@ -60,10 +61,10 @@
 		<![CDATA[
 			INSERT INTO LETTNFILEDETAIL
 			( ATCH_FILE_ID, FILE_SN, FILE_STRE_COURS, STRE_FILE_NM, 
-			  ORIGNL_FILE_NM, FILE_EXTSN, FILE_SIZE, FILE_CN )
+			  ORIGNL_FILE_NM, THUMB_NAIL_FILE_NM, FILE_EXTSN, FILE_SIZE, FILE_CN )
 			VALUES
 			( #atchFileId#, #fileSn#, #fileStreCours#, #streFileNm#, 
-			  #orignlFileNm#, #fileExtsn#, #fileMg#, #fileCn# )			
+			  #orignlFileNm#, #thumbNailFileNm#, #fileExtsn#, #fileMg#, #fileCn# )			
 		]]>
 	</insert>	
 	
@@ -88,7 +89,7 @@
  	<select id="FileManageDAO.selectFileInf" parameterClass="FileVO" resultMap="fileDetail" >
  		<![CDATA[
 			SELECT 
-				ATCH_FILE_ID, FILE_CN, FILE_SN, FILE_STRE_COURS, STRE_FILE_NM,
+				ATCH_FILE_ID, FILE_CN, FILE_SN, FILE_STRE_COURS, STRE_FILE_NM, THUMB_NAIL_FILE_NM,
 				FILE_EXTSN, ORIGNL_FILE_NM, FILE_SIZE
 			FROM
 				LETTNFILEDETAIL

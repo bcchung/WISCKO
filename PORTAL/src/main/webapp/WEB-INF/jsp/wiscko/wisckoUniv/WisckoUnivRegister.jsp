@@ -3,6 +3,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="validator" uri="http://www.springmodules.org/tags/commons-validator" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="ajax" uri="http://ajaxtags.sourceforge.net/tags/ajaxtags"%>
 <%
  /**
   * @Class Name : WisckoUnivRegister.jsp
@@ -28,6 +29,14 @@
 <!-- script type="text/javascript" src="<c:url value='/cmmn/validator.do'/>"></script -->
 <!-- validator:javascript formName="wisckoUnivVO" staticJavascript="false" xhtml="true" cdata="false"/ -->
 <script type="text/javascript" src="<c:url value='/js/EgovMultiFile.js'/>" ></script>
+<!-- AjaxTags Library -->
+<script type="text/javascript" src="<c:url value='/ajaxtags/js/prototype.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/ajaxtags/js/scriptaculous/scriptaculous.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/ajaxtags/js/overlibmws/overlibmws.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/ajaxtags/js/ajaxtags.js'/>"></script>
+<link type="text/css" rel="stylesheet" href="<c:url value='/ajaxtags/css/ajaxtags.css'/>" />
+<link type="text/css" rel="stylesheet" href="<c:url value='/ajaxtags/css/displaytag.css'/>" />
+<!-- AjaxTags Library -->
 <script type="text/javaScript" language="javascript" defer="defer">
 <!--
 /* List View function */
@@ -114,8 +123,10 @@ function fn_egov_check_file(flag) {
     
 	<table width="100%" border="1" cellpadding="0" cellspacing="0" >
 		<colgroup>
-			<col width="150"/>
-			<col width=""/>
+			<col width="15%"/>
+			<col width="35%"/>
+			<col width="15%"/>
+			<col width="35%"/>
 		</colgroup>
 			
 		<c:if test="${registerFlag == 'Update'}">
@@ -124,35 +135,61 @@ function fn_egov_check_file(flag) {
 		</c:if>
 		<tr>
 			<td class="td_width">대학교명</td>
-			<td class="td_content">
-				<form:input path="univNm" cssClass="txt"/>
+			<td class="td_content" colspan="3">
+				<form:input path="univNm" cssClass="txt" size="80"/>
 				&nbsp;<form:errors path="univNm" />
 			</td>
-			<td class="td_width">로고</td>
-			<td class="td_content">
+		</tr>	
+	    <tr>
+			<td class="td_width">대학로고<br/>(미리보기)</td>
+			<td class="td_content" colspan="3">
 				<c:choose>
 					<c:when test="${empty wisckoUnivVO.univLogo}">
-			            <form:input path="ctprvnCd" cssClass="txt"/>
-						&nbsp;<form:errors path="ctprvnCd" />
 					</c:when>
 					<c:otherwise>
 						<c:import url="/cmm/fms/selectImageFileInfs.do" charEncoding="UTF-8">
 			                <c:param name="atchFileId" value="${wisckoUnivVO.univLogo}" />
-			                <c:param name="imageWidth" value="100" />
+			                <c:param name="imageWidth" value="200" />
+			                <c:param name="delPosbleAt" value="Y" />
 			            </c:import>
 		            </c:otherwise>
 				</c:choose>
 			</td>
 		</tr>	
+	    <tr>
+	      <td class="td_width"><label for="egovComFileUploader">대학로고</label></td>
+	      <td class="td_content" colspan="3">
+		      <div id="file_upload_posbl"  style="display:none;" >
+		            <input name="file_1" id="egovComFileUploader" type="file" />
+		            <div id="egovComFileList"></div>
+		      </div>
+		      <div id="file_upload_imposbl"  style="display:none;" >
+		          <spring:message code="common.imposbl.fileupload" />
+		      </div>
+		      <c:if test="${empty wisckoUnivVO.univLogo}">
+		          <input type="hidden" id="fileListCnt" name="fileListCnt" value="0" />
+		      </c:if> 
+	      </td>
+	    </tr>
 		<tr>
 			<td class="td_width">도시코드</td>
 			<td class="td_content">
-				<form:input path="ctprvnCd" cssClass="txt"/>
+				<form:select path="ctprvnCd">
+					<option value=""> :: 선택 :: </option>
+					<c:forEach var="result" items="${cityTcList}">
+						<option value="${result.code}" label="${result.codeNm}"
+						<c:if test="${result.code eq wisckoUnivVO.ctprvnCd}">selected="selected"</c:if> />
+					</c:forEach>
+				</form:select>
 				&nbsp;<form:errors path="ctprvnCd" />
 			</td>
 			<td class="td_width">시군구코드</td>
 			<td class="td_content">
-				<form:input path="signguCd" cssClass="txt"/>
+				<form:select path="signguCd">
+					<option value=""> :: 선택 :: </option>
+				</form:select>
+				<ajax:select baseUrl="${pageContext.request.contextPath}/selectCityCodeSecond.do" 
+					source="ctprvnCd" target="signguCd" parameters="cityCodeFirst={ctprvnCd}" />
 				&nbsp;<form:errors path="signguCd" />
 			</td>
 		</tr>	
@@ -169,24 +206,30 @@ function fn_egov_check_file(flag) {
 				&nbsp;<form:errors path="useAt" />
 			</td>
 		</tr>
-	    <tr>
-	      <td class="td_width"><label for="egovComFileUploader"><spring:message code="cop.atchFile" /></label></td>
-	      <td class="td_content" colspan="3">
-		      <div id="file_upload_posbl"  style="display:none;" >    
-		            <input name="file_1" id="egovComFileUploader" type="file" />
-		            <div id="egovComFileList"></div>
-		      </div>
-		      <div id="file_upload_imposbl"  style="display:none;" >
-		          <spring:message code="common.imposbl.fileupload" />
-		      </div>
-	      <c:if test="${empty wisckoUnivVO.univLogo}">
-	          <input type="hidden" id="fileListCnt" name="fileListCnt" value="0" />
-	      </c:if> 
-	      </td>
-	    </tr>
+		<tr>
+			<td class="td_width">Locale</td>
+			<td class="td_content" colspan="3">
+				<c:forEach var="result" items="${natTcList}">
+					<form:radiobutton path="locale" label="${result.codeNm}" value="${result.code}" />
+				</c:forEach>
+			</td>
+		</tr>
+		<tr>
+			<td class="td_width">대학소개</td>
+			<td class="td_content" colspan="3">
+	            <textarea name="nttCn" id="nttCn" style="display:none;"></textarea>
+	            
+	            <!-- ##Smart Editor Start## -->
+	            <c:import url="/editor/SmartEditor.jsp" charEncoding="UTF-8">
+	                <c:param name="v_width">600</c:param>
+	                <c:param name="v_height">400</c:param>
+	            </c:import>
+	            <!-- ##Smart Editor End## -->
+	          
+	            <form:errors path="nttCn" />
+            </td>
+		</tr>
 	</table>
-	
-	
 	<script type="text/javascript">
 		var existFileNum = 0;        
 		var maxFileNum = 1;

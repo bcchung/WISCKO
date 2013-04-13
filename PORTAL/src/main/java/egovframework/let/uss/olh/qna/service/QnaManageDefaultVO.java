@@ -3,6 +3,9 @@ package egovframework.let.uss.olh.qna.service;
 import java.io.Serializable;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
+import org.springframework.context.i18n.LocaleContextHolder;
+
+import egovframework.rte.fdl.string.EgovStringUtil;
 
 /**
  * 
@@ -55,6 +58,8 @@ public class QnaManageDefaultVO implements Serializable {
 
     /** recordCountPerPage */
     private int recordCountPerPage = 10;
+    
+    private String locale;
 
 	/**
 	 * searchCondition attribute 를 리턴한다.
@@ -206,6 +211,18 @@ public class QnaManageDefaultVO implements Serializable {
     public String toString() {
     	return ToStringBuilder.reflectionToString(this);
     }
+
+	public String getLocale() {
+		if(EgovStringUtil.isNull(locale)) {
+			locale = LocaleContextHolder.getLocale().getLanguage().toUpperCase();
+		}
+		
+		return locale;
+	}
+
+	public void setLocale(String locale) {
+		this.locale = locale;
+	}
     
     
     

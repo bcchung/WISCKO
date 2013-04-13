@@ -29,6 +29,6 @@ out.println("[System Locale] ======================== [" + locale + "]");
 %>
 
 
-<a href="?locale=ko">한국어</a> | <a href="?locale=en">영어</a> | <a href="?locale=de">독일어</a><br/>
+<a href="?locale=KO">KOREAN</a> | <a href="?locale=EN">ENGLISH</a> | <a href="?locale=ZH">CHINESE</a><br/>
 </body>
 </html>

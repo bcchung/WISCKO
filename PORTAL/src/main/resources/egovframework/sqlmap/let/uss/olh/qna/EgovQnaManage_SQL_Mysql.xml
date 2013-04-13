@@ -45,10 +45,10 @@
 					DATE_FORMAT(C.FRST_REGIST_PNTTM,'%Y-%m-%d') FRST_REGIST_PNTTM   , C.FRST_REGISTER_ID, 
 					DATE_FORMAT(C.LAST_UPDT_PNTTM,'%Y-%m-%d')   LAST_UPDT_PNTTM	    , C.LAST_UPDUSR_ID			 			  			 			  		
 			FROM 	LETTNQAINFO C
-			LEFT 	OUTER JOIN LETTCCMMNDETAILCODE D ON		D.CODE_ID ='COM028' 		AND C.QNA_PROCESS_STTUS_CODE = D.CODE			
+			LEFT 	OUTER JOIN LETTCCMMNDETAILCODE D ON		C.LOCALE = D.LOCALE AND D.CODE_ID ='COM028' 		AND C.QNA_PROCESS_STTUS_CODE = D.CODE			
 			LEFT 	OUTER JOIN LETTNEMPLYRINFO A     ON		A.ESNTL_ID= C.LAST_UPDUSR_ID 
 			LEFT 	OUTER JOIN LETTNORGNZTINFO B     ON		A.ORGNZT_ID = B.ORGNZT_ID                               												
-			WHERE	QA_ID=#qaId#					
+			WHERE	C.LOCALE = #locale# AND QA_ID=#qaId#					
 		]]>
 	</select>
 	
@@ -77,8 +77,8 @@
 				A.LAST_UPDUSR_ID			 			 
 			FROM 	LETTNQAINFO A
 			LEFT OUTER JOIN LETTCCMMNDETAILCODE B
-			ON		B.CODE_ID ='COM028' AND A.QNA_PROCESS_STTUS_CODE = B.CODE                               						                               			
-			WHERE	1=1   			
+			ON		A.LOCALE = B.LOCALE AND B.CODE_ID ='COM028' AND A.QNA_PROCESS_STTUS_CODE = B.CODE                               						                               			
+			WHERE	A.LOCALE = #locale#	
 		]]>					
 			<isEqual prepend="AND" property="searchCondition" compareValue="wrterNm">
 				<![CDATA[WRTER_NM LIKE CONCAT('%', #searchKeyword#, '%')]]>
@@ -94,7 +94,7 @@
 		<![CDATA[
 			SELECT 	COUNT(*) totcnt
 			FROM 	LETTNQAINFO
-			WHERE 	1=1
+			WHERE 	LOCALE = #locale#
 		]]>			
 			<isEqual prepend="AND" property="searchCondition" compareValue="wrterNm">
 				<![CDATA[WRTER_NM LIKE CONCAT('%', #searchKeyword#, '%')]]>
@@ -107,7 +107,7 @@
 	<insert id="QnaManageDAO.insertQnaCn">	
 		<![CDATA[	
 			INSERT INTO LETTNQAINFO
-				   (QA_ID
+				   (LOCALE, QA_ID
 				  , QESTN_SJ
 				  , QESTN_CN
 				  , WRITNG_PASSWORD
@@ -122,7 +122,7 @@
 				  , QNA_PROCESS_STTUS_CODE  					     
 				  , FRST_REGIST_PNTTM 
 				  , FRST_REGISTER_ID )
-			VALUES ( #qaId#
+			VALUES ( #locale#, #qaId#
 				  , #qestnSj#			
 				  , #qestnCn#
 				  , #writngPassword#
@@ -144,7 +144,7 @@
 		<![CDATA[		
 			UPDATE	LETTNQAINFO	SET
 				    RDCNT= IFNULL(RDCNT,0) + 1				  			
- 			WHERE  QA_ID=#qaId#
+ 			WHERE  LOCALE = #locale# AND QA_ID=#qaId#
 		]]>
 	</update>
 
@@ -152,7 +152,7 @@
 		<![CDATA[
 			SELECT 	COUNT(*) totcnt
 			FROM 	LETTNQAINFO
-			WHERE	QA_ID=#qaId#
+			WHERE	LOCALE = #locale# AND QA_ID=#qaId#
 			AND		WRITNG_PASSWORD=#writngPassword#
 		]]>			
 	</select>
@@ -172,14 +172,14 @@
 				  , WRITNG_DE=DATE_FORMAT(sysdate(),'%Y%m%d')
 				  , FRST_REGIST_PNTTM=sysdate()
 				  , FRST_REGISTER_ID=#frstRegisterId#
-			WHERE  QA_ID=#qaId#
+			WHERE  LOCALE = #locale# AND QA_ID=#qaId#
 		]]>
 	</update>
 	
 	<delete id="QnaManageDAO.deleteQnaCn">
 		<![CDATA[
 			DELETE FROM LETTNQAINFO 
-			WHERE  QA_ID=#qaId#
+			WHERE  LOCALE = #locale# AND QA_ID=#qaId#
 		]]>
 	</delete>
 	
@@ -192,10 +192,10 @@
 					DATE_FORMAT(C.FRST_REGIST_PNTTM,'%Y-%m-%d') FRST_REGIST_PNTTM   , C.FRST_REGISTER_ID, 
 					DATE_FORMAT(C.LAST_UPDT_PNTTM,'%Y-%m-%d')   LAST_UPDT_PNTTM	    , C.LAST_UPDUSR_ID			 			  			 			  		
 			FROM 	LETTNQAINFO C
-			LEFT 	OUTER JOIN LETTCCMMNDETAILCODE D ON		D.CODE_ID ='COM028' 		AND C.QNA_PROCESS_STTUS_CODE = D.CODE			
+			LEFT 	OUTER JOIN LETTCCMMNDETAILCODE D ON C.LOCALE = D.LOCALE AND D.CODE_ID ='COM028' 		AND C.QNA_PROCESS_STTUS_CODE = D.CODE			
 			LEFT 	OUTER JOIN LETTNEMPLYRINFO A     ON		A.ESNTL_ID= C.LAST_UPDUSR_ID 
 			LEFT 	OUTER JOIN LETTNORGNZTINFO B     ON		A.ORGNZT_ID = B.ORGNZT_ID                               												
-			WHERE	QA_ID=#qaId#
+			WHERE	C.LOCALE = #locale# AND QA_ID=#qaId#
 		]]>
 	</select>
 	
@@ -208,8 +208,8 @@
 					A.LAST_UPDT_PNTTM   , A.LAST_UPDUSR_ID			 			 
 			FROM 	LETTNQAINFO A
 			LEFT OUTER JOIN LETTCCMMNDETAILCODE B
-			ON		B.CODE_ID ='COM028' AND A.QNA_PROCESS_STTUS_CODE = B.CODE                               						                               			
-			WHERE	1=1   			
+			ON		A.LOCALE = B.LOCALE AND B.CODE_ID ='COM028' AND A.QNA_PROCESS_STTUS_CODE = B.CODE                               						                               			
+			WHERE	A.LOCALE = #locale#   			
 		]]>					
 			<isEqual prepend="AND" property="searchCondition" compareValue="wrterNm">
 				<![CDATA[WRTER_NM LIKE CONCAT('%', #searchKeyword#, '%')]]>
@@ -225,7 +225,7 @@
 		<![CDATA[
 			SELECT 	COUNT(*) totcnt
 			FROM 	LETTNQAINFO
-			WHERE 	1=1
+			WHERE 	LOCALE = #locale#
 		]]>			
 			<isEqual prepend="AND" property="searchCondition" compareValue="wrterNm">
 				<![CDATA[WRTER_NM LIKE CONCAT('%', #searchKeyword#, '%')]]>
@@ -243,14 +243,14 @@
 				  , ANSWER_DE=DATE_FORMAT(sysdate(),'%Y%m%d')
 				  , LAST_UPDT_PNTTM=sysdate()
 				  , LAST_UPDUSR_ID=#lastUpdusrId#
-			WHERE  QA_ID=#qaId#
+			WHERE  LOCALE = #locale# AND QA_ID=#qaId#
 		]]>
 	</update>
 	
 	<delete id="QnaManageDAO.deleteQnaCnAnswer">
 		<![CDATA[
 			DELETE FROM LETTNQAINFO 
-			WHERE  QA_ID=#qaId#
+			WHERE  LOCALE = #locale# AND QA_ID=#qaId#
 		]]>
 	</delete>
 

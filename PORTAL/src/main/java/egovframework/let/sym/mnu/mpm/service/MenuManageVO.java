@@ -1,6 +1,9 @@
 package egovframework.let.sym.mnu.mpm.service;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
+import org.springframework.context.i18n.LocaleContextHolder;
+
+import egovframework.rte.fdl.string.EgovStringUtil;
 
 /** 
  * 메뉴목록관리 처리를 위한 VO 클래스르를 정의한다
@@ -70,6 +73,8 @@ public class MenuManageVO{
    private   String   tmp_UniqId;
    /** tmp_Cmd */
    private   String   tmp_Cmd;
+   
+   private String locale;
    
 	/**
 	 * menuNo attribute를 리턴한다.
@@ -360,4 +365,13 @@ public class MenuManageVO{
     public String toString() {
     	return ToStringBuilder.reflectionToString(this);
     }
+	public String getLocale() {
+		if(EgovStringUtil.isNull(locale)) {
+			locale = LocaleContextHolder.getLocale().getLanguage().toUpperCase();
+		}
+		return locale;
+	}
+	public void setLocale(String locale) {
+		this.locale = locale;
+	}
 }

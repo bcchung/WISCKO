@@ -123,7 +123,7 @@
 	</bean>
 	   
 	<bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
-		<property name="defaultLocale" value="ko_KR" />
+		<property name="defaultLocale" value="KO" />
 	</bean>   
 	   
 	<bean id="handlerMapping" class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">   

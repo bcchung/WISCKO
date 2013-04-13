@@ -13,6 +13,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -33,6 +34,7 @@ import egovframework.let.cop.bbs.service.EgovBBSAttributeManageService;
 import egovframework.let.cop.bbs.service.EgovBBSManageService;
 import egovframework.let.utl.sim.service.EgovFileScrty;
 import egovframework.rte.fdl.property.EgovPropertyService;
+import egovframework.rte.fdl.string.EgovStringUtil;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 
 /**
@@ -215,7 +217,7 @@ public class EgovBBSManageController {
 
 		return "cop/bbs/EgovNoticeList";
 	}
-
+	
 	/**
 	 * 게시물에 대한 상세 정보를 조회한다.
 	 * 
@@ -226,7 +228,8 @@ public class EgovBBSManageController {
 	 * @throws Exception
 	 */
 	@RequestMapping("/cop/bbs/selectBoardArticle.do")
-	public String selectBoardArticle(@ModelAttribute("searchVO") BoardVO boardVO, ModelMap model) throws Exception {
+	public String selectBoardArticle(@ModelAttribute("searchVO") BoardVO boardVO, 
+			ModelMap model) throws Exception {
 		LoginVO user = new LoginVO();
 		if (EgovUserDetailsHelper.isAuthenticated()) {
 			user = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
@@ -283,8 +286,56 @@ public class EgovBBSManageController {
 		// SHT-CUSTOMIZING// model.addAttribute("useScrap", "true");
 		// SHT-CUSTOMIZING//}
 		// //--------------------------
-
 		return "cop/bbs/EgovNoticeInqire";
+	}
+
+	/**
+	 * 메뉴컨텐츠정보를 조회한다.
+	 * @param commandMap
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping("/cop/bbs/selectMenuArticle.do")
+	public String selectMenuArticle(Map<String, Object> commandMap ,ModelMap model) throws Exception {
+		
+		String bbsId = (String) commandMap.get("bbsId");
+		String nttId = (String) commandMap.get("nttId");
+		
+		BoardVO boardVO = new BoardVO();
+		boardVO.setBbsId(bbsId);
+		boardVO.setNttId(Integer.parseInt(nttId));
+		
+		BoardVO vo = bbsMngService.selectBoardArticle(boardVO);
+
+		model.addAttribute("result", vo);
+		
+		LoginVO user;
+		if (EgovUserDetailsHelper.isAuthenticated()) {
+			user = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+		} else {
+			user = new LoginVO();
+			user.setUniqId("anonymous");
+		}
+
+		model.addAttribute("sessionUniqId", user.getUniqId());
+		// ----------------------------
+		// template 처리 (기본 BBS template 지정 포함)
+		// ----------------------------
+		BoardMasterVO master = new BoardMasterVO();
+
+		master.setBbsId(boardVO.getBbsId());
+		master.setUniqId(user.getUniqId());
+
+		BoardMasterVO masterVo = bbsAttrbService.selectBBSMasterInf(master);
+
+		if (masterVo.getTmplatCours() == null || masterVo.getTmplatCours().equals("")) {
+			masterVo.setTmplatCours("/css/egovframework/cop/bbs/egovBaseTemplate.css");
+		}
+
+		model.addAttribute("brdMstrVO", masterVo);
+		
+		return "cop/bbs/EgovNoticeMenuInqire";
 	}
 
 	/**

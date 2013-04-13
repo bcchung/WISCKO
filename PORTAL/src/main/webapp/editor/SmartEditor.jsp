@@ -25,8 +25,8 @@
 	<script type="text/javascript" src="<c:url value='/'/>editor/js/HuskyEZCreator.js" charset="UTF-8"></script>
 	<form id="frmSMEditor">
 		<textarea name="editorData" id="editorData" style="width:100%; height:<%=v_height%>px; min-width:<%=v_width%>px; display:none;"></textarea>
-		<!-- <input id="editorGetBtn" name="editorGetBtn" value="test" type="button" onclick="fn_getEditor()" style="display:none" />
-		<input id="editorSetBtn" name="editorSetBtn" value="" type="button" onclick="fn_setEditor()"  style="display:none" /> -->
+		<input id="editorGetBtn" name="editorGetBtn" value="test" type="button" onclick="fn_getEditor()" style="display:none" />
+		<input id="editorSetBtn" name="editorSetBtn" value="" type="button" onclick="fn_setEditor()"  style="display:none" />
 	</form>
 	<script>
 		var oEditors = [];

@@ -22,7 +22,7 @@
         <dd><a href="#leftmenu_div">좌메뉴 바로가기</a></dd>
     </dl>
 </div>
-<a href="?locale=ko_KR">KOREAN</a> | <a href="?locale=en_US">ENGLISH</a> | <a href="?locale=zh_CN">CHINESE</a>
+<a href="?locale=KO">KOREAN</a> | <a href="?locale=EN">ENGLISH</a> | <a href="?locale=ZH">CHINESE</a>
 <div class="login_area_loc">
 	<div class="loginbg01"></div>
 	<div class="loginbg02">

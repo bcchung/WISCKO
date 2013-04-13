@@ -9,7 +9,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" >
-<!-- <meta http-equiv="content-language" content="ko"> -->
+<meta http-equiv="content-language" content="ko_KR">
 <link href="<c:url value='/'/>css/default.css" rel="stylesheet" type="text/css" >
 <title>WISCKO - 위드미어학원</title>
 <decorator:head/>

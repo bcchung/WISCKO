@@ -151,12 +151,14 @@ public class EgovFileMngController {
 
 		String atchFileId = (String) commandMap.get("atchFileId");
 		String imageWidth = (String) commandMap.get("imageWidth");
+		String delPosbleAt = (String) commandMap.get("delPosbleAt");
 
 		fileVO.setAtchFileId(atchFileId);
 		List<FileVO> result = fileService.selectImageFileList(fileVO);
 
 		model.addAttribute("fileList", result);
 		model.addAttribute("imageWidth", imageWidth);
+		model.addAttribute("delPosbleAt", delPosbleAt);
 
 		return "cmm/fms/EgovImgFileList";
 	}
