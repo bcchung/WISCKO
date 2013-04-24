@@ -4,7 +4,9 @@
 <sqlMap namespace="WisckoUniv">
 	
 	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
-	<typeAlias  alias="wisckoUnivSerarchVO" type="com.wiscko.wisckoUniv.service.WisckoUnivDefaultVO"/>
+	<typeAlias  alias="wisckoUnivSearchVO" type="com.wiscko.wisckoUniv.service.WisckoUnivDefaultVO"/>
+	<typeAlias  alias="wisckoUnivArrayVO" type="com.wiscko.wisckoUniv.service.WisckoUnivArrayVO"/>
+	
 	
 	<resultMap id="wisckoUniv" class="com.wiscko.wisckoUniv.service.WisckoUnivVO">
 		<result property="univId" column="UNIV_ID" columnIndex="1"/>
@@ -55,6 +57,27 @@
 			]]>
 	</update>
 	
+	<update id="wisckoUnivDAO.updateWisckoUnivLocale" parameterClass="wisckoUnivArrayVO">
+		<![CDATA[
+			INSERT INTO wiscko_univ_locale(UNIV_ID
+			                             , LOCALE
+			                             , NTT_CN
+			                             , ATCH_FILE_ID
+			                             , FRST_REGIST_PNTTM
+			                             , FRST_REGISTER_ID)
+			VALUES (#univId#
+			      , #locale#
+			      , #nttCn#
+			      , #localeAtchFileId#
+			      , SYSDATE()
+			      , #frstRegisterId#)
+			ON DUPLICATE KEY UPDATE LAST_UPDT_PNTTM = SYSDATE()
+			                      , LAST_UPDUSR_ID = #lastUpdusrId#
+			                      , NTT_CN = #nttCn#
+			                      , ATCH_FILE_ID = #localeAtchFileId#;
+		]]>
+	</update>
+	
 	<delete id="wisckoUnivDAO.deleteWisckoUniv_S">
 		<![CDATA[
 			DELETE FROM wiscko_univ 
@@ -63,19 +86,41 @@
 	
 	<select id="wisckoUnivDAO.selectWisckoUniv_S" resultMap="wisckoUniv">
 		<![CDATA[
-			SELECT
-				UNIV_ID
-				, SORT_ORDR
-				, USE_AT
-				, CTPRVN_CD
-				, SIGNGU_CD
-				, UNIV_LOGO
-				, UNIV_NM
-			FROM wiscko_univ
-			]]>
+			SELECT UNIV_ID
+			     , SORT_ORDR
+			     , USE_AT
+			     , CTPRVN_CD
+			     , SIGNGU_CD
+			     , UNIV_LOGO
+			     , UNIV_NM
+			  FROM wiscko_univ
+			 WHERE UNIV_ID = #univId#
+		]]>
 	</select>
 	
-	<select id="wisckoUnivDAO.selectWisckoUnivList_D" parameterClass="wisckoUnivSerarchVO" resultClass="egovMap">
+	<select id="wisckoUnivDAO.selectWisckoUnivLocaleList" parameterClass="wisckoUnivSearchVO" resultClass="wisckoUnivArrayVO">
+		<![CDATA[
+			SELECT C.CODE AS "locale"
+			     , C.CODE_NM AS "localeNm"
+			     , U.NTT_CN AS "nttCn"
+			     , U.ATCH_FILE_ID AS "localeAtchFileId" 
+			  FROM    lettccmmndetailcode C
+			       LEFT OUTER JOIN
+			          (SELECT A.UNIV_ID
+			                , B.LOCALE
+			                , B.NTT_CN
+			                , B.ATCH_FILE_ID
+			             FROM    wiscko_univ A
+			                  LEFT OUTER JOIN
+			                     wiscko_univ_locale B
+			                  ON A.UNIV_ID = B.UNIV_ID
+			            WHERE A.UNIV_ID = #univId#) U
+			       ON C.CODE = U.LOCALE
+			 WHERE C.LOCALE = 'KO' AND C.CODE_ID = 'LOCALE_TC'
+		]]>
+	</select>
+	
+	<select id="wisckoUnivDAO.selectWisckoUnivList_D" parameterClass="wisckoUnivSearchVO" resultClass="egovMap">
 		SELECT
 					UNIV_ID
 					, SORT_ORDR
@@ -93,8 +138,9 @@
 		</isEqual>
 			ORDER BY UNIV_ID DESC
 			limit #firstIndex#, #recordCountPerPage#	
-	</select>	
-	<select id="wisckoUnivDAO.selectWisckoUnivListTotCnt_S" parameterClass="wisckoUnivSerarchVO" resultClass="int">
+	</select>
+	
+	<select id="wisckoUnivDAO.selectWisckoUnivListTotCnt_S" parameterClass="wisckoUnivSearchVO" resultClass="int">
 		SELECT COUNT(*) totcnt
 		FROM wiscko_univ
 		WHERE 1=1

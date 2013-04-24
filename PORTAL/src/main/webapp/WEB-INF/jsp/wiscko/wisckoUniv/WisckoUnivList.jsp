@@ -23,9 +23,6 @@
 <head>
 <script type="text/javaScript" language="javascript" defer="defer">
 <!--
-/* Update function */
-
-
 function fn_egov_select(univId) {
     document.getElementById("listForm").univId.value = univId;
    	document.getElementById("listForm").action = "<c:url value='/wiscko/wisckoUniv/updateWisckoUnivView.do'/>";

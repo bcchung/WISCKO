@@ -6,12 +6,14 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import com.wiscko.wisckoUniv.service.WisckoUnivArrayVO;
+import com.wiscko.wisckoUniv.service.WisckoUnivDefaultVO;
+import com.wiscko.wisckoUniv.service.WisckoUnivService;
+import com.wiscko.wisckoUniv.service.WisckoUnivVO;
+
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
 import egovframework.rte.fdl.idgnr.EgovIdGnrService;
-import com.wiscko.wisckoUniv.service.WisckoUnivService;
-import com.wiscko.wisckoUniv.service.WisckoUnivDefaultVO;
-import com.wiscko.wisckoUniv.service.WisckoUnivVO;
-import com.wiscko.wisckoUniv.service.impl.WisckoUnivDAO;
+import egovframework.rte.fdl.string.EgovObjectUtil;
 
 /**
  * @Class Name : WisckoUnivServiceImpl.java
@@ -51,6 +53,20 @@ public class WisckoUnivServiceImpl extends AbstractServiceImpl implements
     	vo.setUnivId(id);
     	
     	wisckoUnivDAO.insertWisckoUniv(vo);
+    	
+    	List<WisckoUnivArrayVO> localeArray = vo.getLocaleArray();
+    	WisckoUnivArrayVO arrayVO = null;
+    	
+    	for(int i = 0; i < localeArray.size(); i++) {
+    		arrayVO = (WisckoUnivArrayVO) localeArray.get(i);
+
+    		arrayVO.setUnivId(vo.getUnivId());
+    		arrayVO.setFrstRegisterId(vo.getFrstRegisterId());
+    		arrayVO.setLastUpdusrId(vo.getFrstRegisterId());
+    		
+    		wisckoUnivDAO.mergeWisckoUnivLocale(arrayVO);
+    	}
+    	
         return null;
     }
 
@@ -62,6 +78,19 @@ public class WisckoUnivServiceImpl extends AbstractServiceImpl implements
 	 */
     public void updateWisckoUniv(WisckoUnivVO vo) throws Exception {
         wisckoUnivDAO.updateWisckoUniv(vo);
+        
+        List<WisckoUnivArrayVO> localeArray = vo.getLocaleArray();
+    	WisckoUnivArrayVO arrayVO = null;
+    	
+    	for(int i = 0; i < localeArray.size(); i++) {
+    		arrayVO = (WisckoUnivArrayVO) localeArray.get(i);
+
+    		arrayVO.setUnivId(vo.getUnivId());
+    		arrayVO.setFrstRegisterId(vo.getLastUpdusrId());
+    		arrayVO.setLastUpdusrId(vo.getLastUpdusrId());
+    		
+    		wisckoUnivDAO.mergeWisckoUnivLocale(arrayVO);
+    	}
     }
 
     /**
@@ -84,6 +113,11 @@ public class WisckoUnivServiceImpl extends AbstractServiceImpl implements
         WisckoUnivVO resultVO = wisckoUnivDAO.selectWisckoUniv(vo);
         if (resultVO == null)
             throw processException("info.nodata.msg");
+        
+        List<WisckoUnivArrayVO> localeArray = wisckoUnivDAO.selectWisckoUnivLocaleList(vo);
+        if(!EgovObjectUtil.isNull(localeArray)) {
+        	resultVO.setLocaleArray(localeArray);
+        }        
         return resultVO;
     }
 

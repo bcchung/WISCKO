@@ -280,7 +280,7 @@ insert into LETTNPROGRMLIST(LOCALE,PROGRM_FILE_NM,PROGRM_STRE_PATH,PROGRM_KOREAN
 insert into LETTNPROGRMLIST(LOCALE,PROGRM_FILE_NM,PROGRM_STRE_PATH,PROGRM_KOREAN_NM,PROGRM_DC,URL) values ('KO', 'EgovTemplateList','/cop/com/','템플릿 목록 조회','템플릿 목록 조회','/cop/com/selectTemplateInfs.do');
 insert into LETTNPROGRMLIST(LOCALE,PROGRM_FILE_NM,PROGRM_STRE_PATH,PROGRM_KOREAN_NM,PROGRM_DC,URL) values ('KO', 'EgovTemplateRegist','/cop/com/','템플릿 등록','템플릿 등록','/cop/com/addTemplateInf.do');
 insert into LETTNPROGRMLIST(LOCALE,PROGRM_FILE_NM,PROGRM_STRE_PATH,PROGRM_KOREAN_NM,PROGRM_DC,URL) values ('KO', 'EgovTemplateUpdt','/cop/com/','템플릿 수정','템플릿 수정','/cop/com/selectTemplateInf.do');
-insert into LETTNPROGRMLIST(LOCALE,PROGRM_FILE_NM,PROGRM_STRE_PATH,PROGRM_KOREAN_NM,PROGRM_DC,URL) values ('KO', 'WisckoUnivList','/univ/','대학교관리','대학교관리','/wiscko/wisuniv/WisunivList.do');
+insert into LETTNPROGRMLIST(LOCALE,PROGRM_FILE_NM,PROGRM_STRE_PATH,PROGRM_KOREAN_NM,PROGRM_DC,URL) values ('KO', 'WisckoUnivList','/univ/','대학교관리','대학교관리','/wiscko/wisckoUniv/WisckoUnivList.do');
 insert into LETTNPROGRMLIST(LOCALE,PROGRM_FILE_NM,PROGRM_STRE_PATH,PROGRM_KOREAN_NM,PROGRM_DC,URL) values ('KO', 'WisckoCntnMngList','/cop/bbs/','WISCKO컨텐츠관리','WISCKO컨텐츠관리','');
 
 

@@ -41,6 +41,7 @@
         <property name="customArgumentResolvers">
             <list>
                 <bean class="egovframework.rte.ptl.mvc.bind.CommandMapArgumentResolver"/>
+                <bean class="egovframework.com.cmm.CommandArrayArgumentResolver"/>
             </list>
         </property>
     </bean>
@@ -72,10 +73,41 @@
         - returned by Controllers. For example, a logical view name of "vets" 
         - will be mapped to "/WEB-INF/jsp/vets.jsp".
     -->
+    
+	<!-- view resolver -->
+	<!-- <bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+	    <property name="mediaTypes">
+	        <map>
+	            <entry key="html" value="text/html" />
+	            <entry key="json" value="application/json" />
+	        </map>
+	    </property>
+	    <property name="viewResolvers">
+	        <list>
+	            <bean class="org.springframework.web.servlet.view.BeanNameViewResolver" />
+	            <bean class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+	            	<property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+	                <property name="prefix" value="/WEB-INF/jsp/" />
+	                <property name="suffix" value=".jsp" />
+	            </bean>
+	        </list>
+	    </property>
+	    <property name="defaultViews">
+	        <list>
+	            <bean
+	                class="org.springframework.web.servlet.view.json.MappingJacksonJsonView">
+	                <property name="prefixJson" value="true" />
+	            </bean>
+	        </list>
+	    </property>
+	</bean> -->
+    
+    <bean id="jsonView" class="org.springframework.web.servlet.view.json.MappingJacksonJsonView"/>
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.BeanNameViewResolver" p:order="0"/>
+    
     <!-- 화면처리용 JSP 파일명의  prefix, suffix 처리에 대한 mvc 설정  -->
     <bean class="org.springframework.web.servlet.view.UrlBasedViewResolver" p:order="1" 
-    p:viewClass="org.springframework.web.servlet.view.JstlView" 
-    p:prefix="/WEB-INF/jsp/" p:suffix=".jsp"/>
+	    p:viewClass="org.springframework.web.servlet.view.JstlView" p:prefix="/WEB-INF/jsp/" p:suffix=".jsp"/>
 
     <!--
         - Message source for this context, loaded from localized "messages_xx" files.

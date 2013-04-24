@@ -21,10 +21,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<c:set var="registerFlag" value="${empty wisckoUnivVO.univId ? 'Register' : 'Update'}"/>			
-
-<title> <c:out value="${registerFlag}"/> </title>
-
+<c:set var="registerFlag" value="${empty wisckoUnivVO.univId ? 'Register' : 'Update'}"/>	
 <!--For Commons Validator Client Side-->
 <!-- script type="text/javascript" src="<c:url value='/cmmn/validator.do'/>"></script -->
 <!-- validator:javascript formName="wisckoUnivVO" staticJavascript="false" xhtml="true" cdata="false"/ -->
@@ -54,7 +51,18 @@ function fn_egov_delete() {
 /* Register function */
 function fn_egov_save() {	
 	frm = document.getElementById("detailForm");
-
+	
+	var editorData = $j("#editorData");
+	var textNttCn = $j('textarea[name*=".nttCn"]');
+	
+	$j(":radio[name=localeRdo]").each(function (index, domEle) {
+		if($j(domEle).is(":checked")) {
+			//에디터값 textarea에 set
+			$j(":button[name=editorGetBtn]").click();
+			textNttCn.eq(index).text(editorData.text());
+		}
+	});
+	
 	/* TODO Validation Function update */
 	
   	frm.action = "<c:url value="${registerFlag == 'Register' ? '/wiscko/wisckoUniv/addWisckoUniv.do' : '/wiscko/wisckoUniv/updateWisckoUniv.do'}"/>";
@@ -69,8 +77,35 @@ function fn_egov_check_file(flag) {
 		document.getElementById('file_upload_posbl').style.display = "none";
 		document.getElementById('file_upload_imposbl').style.display = "block";
 	}
-}	
+}
 
+var $j = jQuery.noConflict();
+
+$j(document).ready(function() {
+	
+	var editorData = $j("#editorData");
+	var beforeIndex = $j("#beforeIndex");
+	var textNttCn = $j('textarea[name*=".nttCn"]');
+	
+	editorData.text(textNttCn.eq(0).text());
+	beforeIndex.val(0);
+	
+	$j(":radio[name=localeRdo]").click( function() {
+		$j(":radio[name=localeRdo]").each(function (index, domEle) {
+			if($j(domEle).is(":checked")) {
+				//에디터값 textarea에 set
+				$j(":button[name=editorGetBtn]").click();
+				textNttCn.eq(beforeIndex.val()).text(editorData.text());
+				
+				//선택한 locale textarea값 에디터에 set
+				editorData.text(textNttCn.eq(index).text());
+				beforeIndex.val(index);
+				$j(":button[name=editorSetBtn]").click();
+			}
+		});
+	});
+	
+});
 // -->
 </script>
 <style type="text/css">
@@ -108,6 +143,7 @@ function fn_egov_check_file(flag) {
 	<input type="hidden" name="returnUrl" value="<c:url value='/wiscko/wisckoUniv/updateWisckoUnivView.do'/>"/>
 	<input type="hidden" name="atchFileId" value="${wisckoUnivVO.univLogo}">
 	<input type="hidden" name="fileSn">
+	<input type="hidden" id="beforeIndex"/>
 	
 	<!-- 중복방지 Token Parameter -->
 	<input type="hidden" name="TOKEN_KEY" value="<%=request.getAttribute("TOKEN_KEY")%>" />
@@ -128,11 +164,6 @@ function fn_egov_check_file(flag) {
 			<col width="15%"/>
 			<col width="35%"/>
 		</colgroup>
-			
-		<c:if test="${registerFlag == 'Update'}">
-		</c:if>
-		<c:if test="${registerFlag == 'Register'}">
-		</c:if>
 		<tr>
 			<td class="td_width">대학교명</td>
 			<td class="td_content" colspan="3">
@@ -150,7 +181,7 @@ function fn_egov_check_file(flag) {
 						<c:import url="/cmm/fms/selectImageFileInfs.do" charEncoding="UTF-8">
 			                <c:param name="atchFileId" value="${wisckoUnivVO.univLogo}" />
 			                <c:param name="imageWidth" value="200" />
-			                <c:param name="delPosbleAt" value="Y" />
+			                <c:param name="delPosbleAt" value="Y" />	
 			            </c:import>
 		            </c:otherwise>
 				</c:choose>
@@ -207,17 +238,40 @@ function fn_egov_check_file(flag) {
 			</td>
 		</tr>
 		<tr>
-			<td class="td_width">Locale</td>
+			<td class="td_width">국가</td>
 			<td class="td_content" colspan="3">
-				<c:forEach var="result" items="${natTcList}">
-					<form:radiobutton path="locale" label="${result.codeNm}" value="${result.code}" />
+			
+			<c:if test="${registerFlag == 'Register'}">
+				<c:forEach var="result" items="${localeTcList}" varStatus="status">
+					<input type="radio" name="localeRdo" value="${result.code}" <c:if test="${status.first}">checked="checked"</c:if>/>${result.codeNm}
+					<input type="hidden" name="localeArray[${status.index}].locale" value="${result.code}"/>
+					<input type="hidden" name="localeArray[${status.index}].localAtchFileId" value=""/>
+					<textarea name="localeArray[${status.index}].nttCn" id="localeArray[${status.index}].nttCn" style="display:none;"></textarea>
 				</c:forEach>
+			</c:if>
+			<c:if test="${registerFlag == 'Update'}">
+				<c:if test="${cntnYn == 'Y'}">
+					<c:forEach var="result" items="${localeArray}" varStatus="status">
+						<input type="radio" name="localeRdo" value="${result.locale}" <c:if test="${status.first}">checked="checked"</c:if>/>${result.localeNm}
+						<input type="hidden" name="localeArray[${status.index}].locale" value="${result.locale}"/>
+						<input type="hidden" name="localeArray[${status.index}].localAtchFileId" value="${result.localeAtchFileId}"/>
+						<textarea name="localeArray[${status.index}].nttCn" id="localeArray[${status.index}].nttCn" style="display:none;">${result.nttCn}</textarea>
+					</c:forEach>
+				</c:if>
+				<c:if test="${cntnYn == 'N'}">
+					<c:forEach var="result" items="${localeTcList}" varStatus="status">
+						<input type="radio" name="localeRdo" value="${result.code}" <c:if test="${status.first}">checked="checked"</c:if>/>${result.codeNm}
+						<input type="hidden" name="localeArray[${status.index}].locale" value="${result.code}"/>
+						<input type="hidden" name="localeArray[${status.index}].localAtchFileId" value=""/>
+						<textarea name="localeArray[${status.index}].nttCn" id="localeArray[${status.index}].nttCn" style="display:none;"></textarea>
+					</c:forEach>
+				</c:if>
+			</c:if>
 			</td>
 		</tr>
 		<tr>
 			<td class="td_width">대학소개</td>
 			<td class="td_content" colspan="3">
-	            <textarea name="nttCn" id="nttCn" style="display:none;"></textarea>
 	            
 	            <!-- ##Smart Editor Start## -->
 	            <c:import url="/editor/SmartEditor.jsp" charEncoding="UTF-8">
@@ -226,7 +280,6 @@ function fn_egov_check_file(flag) {
 	            </c:import>
 	            <!-- ##Smart Editor End## -->
 	          
-	            <form:errors path="nttCn" />
             </td>
 		</tr>
 	</table>
@@ -256,9 +309,9 @@ function fn_egov_check_file(flag) {
 	
   	</div>
 	<div class="buttons" align="center" style="margin-bottom:100px">
-		<a href="#LINK" onclick="javascript:fn_egov_selectList(); return fasle;"><spring:message code="button.list" /></a>
-		<a href="#LINK" onclick="javascript:fn_egov_save(); return fasle;"><spring:message code="button.save" /></a>
-		<a href="#LINK" onclick="javascript:fn_egov_delete(); return fasle;"><spring:message code="button.delete" /></a>		
+		<a href="#" onclick="javascript:fn_egov_selectList();"><spring:message code="button.list" /></a>
+		<a href="#" onclick="javascript:fn_egov_save();"><spring:message code="button.save" /></a>
+		<a href="#" onclick="javascript:fn_egov_delete();"><spring:message code="button.delete" /></a>		
 	</div>
 
 
@@ -268,4 +321,3 @@ function fn_egov_check_file(flag) {
 </form:form>
 </body>
 </html>
-

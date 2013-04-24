@@ -80,6 +80,3 @@ request.setAttribute("result", result); */
 <!-- //wrap end -->
 </body>
 </html>
-<%
-
-%>

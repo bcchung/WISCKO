@@ -34,6 +34,7 @@
                 <enabled>false</enabled>
             </snapshots>
         </repository>
+        
     </repositories>
 
     <dependencies>
@@ -423,6 +424,27 @@
         	<groupId>org.apache.tiles</groupId>
         	<artifactId>tiles-core</artifactId>
         	<version>2.1.4</version>
+        </dependency>
+
+        <!-- <dependency>
+        	<groupId>com.fasterxml.jackson.core</groupId>
+        	<artifactId>jackson-annotations</artifactId>
+        	<version>2.1.4</version>
+        </dependency>
+        <dependency>
+        	<groupId>com.fasterxml.jackson.core</groupId>
+        	<artifactId>jackson-core</artifactId>
+        	<version>2.1.4</version>
+        </dependency>
+        <dependency>
+        	<groupId>com.fasterxml.jackson.core</groupId>
+        	<artifactId>jackson-databind</artifactId>
+        	<version>2.1.4</version>
+        </dependency> -->
+        <dependency>
+        	<groupId>org.codehaus.jackson</groupId>
+        	<artifactId>jackson-mapper-asl</artifactId>
+        	<version>1.9.12</version>
         </dependency>
     </dependencies>
         

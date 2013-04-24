@@ -42,7 +42,9 @@ public class WisckoUnivDefaultVO implements Serializable {
     /** recordCountPerPage */
     private int recordCountPerPage = 10;
     
-        
+    /** UNIV_ID */
+    private String univId;
+    
 	public int getFirstIndex() {
 		return firstIndex;
 	}
@@ -118,5 +120,13 @@ public class WisckoUnivDefaultVO implements Serializable {
     public String toString() {
         return ToStringBuilder.reflectionToString(this);
     }
+
+	public String getUnivId() {
+		return univId;
+	}
+
+	public void setUnivId(String univId) {
+		this.univId = univId;
+	}
 
 }

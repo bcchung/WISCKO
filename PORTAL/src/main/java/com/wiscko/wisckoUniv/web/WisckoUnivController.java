@@ -1,5 +1,6 @@
 package com.wiscko.wisckoUniv.web;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,10 +13,12 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.wiscko.wisckoUniv.service.WisckoUnivDefaultVO;
 import com.wiscko.wisckoUniv.service.WisckoUnivService;
@@ -31,6 +34,7 @@ import egovframework.com.cmm.service.EgovFileMngUtil;
 import egovframework.com.cmm.service.FileVO;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.rte.fdl.property.EgovPropertyService;
+import egovframework.rte.fdl.string.EgovObjectUtil;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 
 /**
@@ -109,19 +113,21 @@ public class WisckoUnivController {
 	@RequestMapping("/wiscko/wisckoUniv/addWisckoUnivView.do")
 	public String addWisckoUnivView(HttpServletRequest request,
 			@ModelAttribute("searchVO") WisckoUnivDefaultVO searchVO, Model model) throws Exception {
-		model.addAttribute("wisckoUnivVO", new WisckoUnivVO());
+		
+		WisckoUnivVO wisckoUnivVO = new WisckoUnivVO();
+		model.addAttribute("wisckoUnivVO", wisckoUnivVO);
 
 		/* 중복방지 Token 생성 */
 		TokenMngUtil.saveToken(request);
 		
 		/** 코드 조회 **/
 		ComDefaultCodeVO vo = new ComDefaultCodeVO();
-        vo.setCodeId("CITYTC");
+        vo.setCodeId("CITY_TC");
         vo.setUpperCode("0");
         model.addAttribute("cityTcList", cmmUseService.selectLevelCodeDetail(vo));
         
-        vo.setCodeId("NATTC");
-        model.addAttribute("natTcList", cmmUseService.selectCmmCodeDetail(vo));
+        vo.setCodeId("LOCALE_TC");
+        model.addAttribute("localeTcList", cmmUseService.selectCmmCodeDetail(vo));
         /** 코드 조회 **/
         
 		return "/wiscko/wisckoUniv/WisckoUnivRegister";
@@ -162,6 +168,7 @@ public class WisckoUnivController {
 
 		wisckoUnivVO.setUnivLogo(atchFileId);
 		wisckoUnivVO.setFrstRegisterId(user.getUniqId());
+		
 		wisckoUnivService.insertWisckoUniv(wisckoUnivVO);
 		status.setComplete();
 
@@ -180,16 +187,25 @@ public class WisckoUnivController {
 
 		WisckoUnivVO wisckoUnivVO = new WisckoUnivVO();
 		wisckoUnivVO.setUnivId(univId);
-		model.addAttribute(selectWisckoUniv(wisckoUnivVO, searchVO));
+		
+		WisckoUnivVO resultVO = wisckoUnivService.selectWisckoUniv(wisckoUnivVO);
+		
+		model.addAttribute("wisckoUnivVO", resultVO);
 		
 		/** 코드 조회 **/
 		ComDefaultCodeVO vo = new ComDefaultCodeVO();
-        vo.setCodeId("CITYTC");
+        vo.setCodeId("CITY_TC");
         vo.setUpperCode("0");
         model.addAttribute("cityTcList", cmmUseService.selectLevelCodeDetail(vo));
         
-        vo.setCodeId("NATTC");
-        model.addAttribute("natTcList", cmmUseService.selectCmmCodeDetail(vo));
+        if(EgovObjectUtil.isNull(resultVO.getLocaleArray())) {
+	        vo.setCodeId("LOCALE_TC");
+	        model.addAttribute("localeTcList", cmmUseService.selectCmmCodeDetail(vo));
+	        model.addAttribute("cntnYn", "N");
+        } else {
+        	model.addAttribute("localeArray", resultVO.getLocaleArray());
+        	model.addAttribute("cntnYn", "Y");
+        }
         /** 코드 조회 **/
 		
 		return "/wiscko/wisckoUniv/WisckoUnivRegister";
@@ -260,6 +276,18 @@ public class WisckoUnivController {
 		wisckoUnivService.deleteWisckoUniv(wisckoUnivVO);
 		status.setComplete();
 		return "redirect:/wiscko/wisckoUniv/WisckoUnivList.do";
+	}
+	
+	@RequestMapping("/wiscko/wisckoUniv/getJSONData.do")
+	public ModelAndView getJSONData() {
+		Map map = new HashMap();
+		map.put("key","value");
+		
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("jsonView");
+		mav.addObject("map", map);
+		
+		return mav;
 	}
 
 }

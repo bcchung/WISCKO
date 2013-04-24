@@ -1,5 +1,8 @@
 package com.wiscko.wisckoUniv.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @Class Name : WisckoUnivVO.java
  * @Description : WisckoUniv VO class
@@ -15,10 +18,7 @@ package com.wiscko.wisckoUniv.service;
 public class WisckoUnivVO extends WisckoUnivDefaultVO{
     private static final long serialVersionUID = 1L;
     
-    /** UNIV_ID */
-    private String univId;
-    
-    private String locale;
+    private List<WisckoUnivArrayVO> localeArray = new ArrayList<WisckoUnivArrayVO>();
     
     /** SORT_ORDR */
     private long sortOrdr = 0L;
@@ -52,20 +52,8 @@ public class WisckoUnivVO extends WisckoUnivDefaultVO{
     
     private long nttNo = 0L;
     
-    private String nttSj;
+    private String[] locale;
     
-    private String nttCn;
-    
-    private String atchFileId;
-
-	public String getUnivId() {
-		return univId;
-	}
-
-	public void setUnivId(String univId) {
-		this.univId = univId;
-	}
-
 	public long getSortOrdr() {
 		return sortOrdr;
 	}
@@ -154,36 +142,20 @@ public class WisckoUnivVO extends WisckoUnivDefaultVO{
 		this.nttNo = nttNo;
 	}
 
-	public String getNttSj() {
-		return nttSj;
-	}
-
-	public void setNttSj(String nttSj) {
-		this.nttSj = nttSj;
-	}
-
-	public String getNttCn() {
-		return nttCn;
-	}
-
-	public void setNttCn(String nttCn) {
-		this.nttCn = nttCn;
-	}
-
-	public String getAtchFileId() {
-		return atchFileId;
-	}
-
-	public void setAtchFileId(String atchFileId) {
-		this.atchFileId = atchFileId;
-	}
-
-	public String getLocale() {
+	public String[] getLocale() {
 		return locale;
 	}
 
-	public void setLocale(String locale) {
+	public void setLocale(String[] locale) {
 		this.locale = locale;
 	}
-    
+
+	public List<WisckoUnivArrayVO> getLocaleArray() {
+		return localeArray;
+	}
+
+	public void setLocaleArray(List<WisckoUnivArrayVO> localeArray) {
+		this.localeArray = localeArray;
+	}
+
 }

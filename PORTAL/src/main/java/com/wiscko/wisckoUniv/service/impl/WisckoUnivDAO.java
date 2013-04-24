@@ -1,10 +1,13 @@
 package com.wiscko.wisckoUniv.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
 import egovframework.rte.psl.dataaccess.EgovAbstractDAO;
+
+import com.wiscko.wisckoUniv.service.WisckoUnivArrayVO;
 import com.wiscko.wisckoUniv.service.WisckoUnivVO;
 import com.wiscko.wisckoUniv.service.WisckoUnivDefaultVO;
 
@@ -42,6 +45,15 @@ public class WisckoUnivDAO extends EgovAbstractDAO {
 	 */
     public void updateWisckoUniv(WisckoUnivVO vo) throws Exception {
         update("wisckoUnivDAO.updateWisckoUniv_S", vo);
+    }
+    
+    /**
+     * Locale Merge
+     * @param vo
+     * @throws Exception
+     */
+    public void mergeWisckoUnivLocale(WisckoUnivArrayVO vo) throws Exception {
+        update("wisckoUnivDAO.updateWisckoUnivLocale", vo);
     }
 
     /**
@@ -83,5 +95,15 @@ public class WisckoUnivDAO extends EgovAbstractDAO {
     public int selectWisckoUnivListTotCnt(WisckoUnivDefaultVO searchVO) {
         return (Integer)getSqlMapClientTemplate().queryForObject("wisckoUnivDAO.selectWisckoUnivListTotCnt_S", searchVO);
     }
+    
+    /**
+     * LocaleCntn List 
+     * @param vo
+     * @return
+     */
+	@SuppressWarnings("unchecked")
+	public List<WisckoUnivArrayVO> selectWisckoUnivLocaleList(WisckoUnivVO vo) {
+		return (List<WisckoUnivArrayVO>)list("wisckoUnivDAO.selectWisckoUnivLocaleList", vo);
+	}
 
 }

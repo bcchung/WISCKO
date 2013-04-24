@@ -23,23 +23,28 @@
           }
     </style>
 	<script type="text/javascript" src="<c:url value='/'/>editor/js/HuskyEZCreator.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="<c:url value='/'/>js/jquery-1.9.1.js" charset="UTF-8"></script>
 	<form id="frmSMEditor">
 		<textarea name="editorData" id="editorData" style="width:100%; height:<%=v_height%>px; min-width:<%=v_width%>px; display:none;"></textarea>
 		<input id="editorGetBtn" name="editorGetBtn" value="test" type="button" onclick="fn_getEditor()" style="display:none" />
 		<input id="editorSetBtn" name="editorSetBtn" value="" type="button" onclick="fn_setEditor()"  style="display:none" />
 	</form>
 	<script>
+		var $j = jQuery.noConflict();
+		
 		var oEditors = [];
 		nhn.husky.EZCreator.createInIFrame({
 			oAppRef: oEditors,
 			elPlaceHolder: "editorData",
 			sSkinURI: "<c:url value='/'/>editor/SmartEditor2Skin.html",
-			fCreator: "createSEditor2"
+			fCreator: "createSEditor2",
+			htParams: { fOnBeforeUnload : function() {} }
 		});
 	
 		// 화면의 데이터셋 CONTENTS값을 웹에디터에 세팅(정상작동 확인)
 		function fn_setEditor(){
-			sHTML = document.getElementById("editorData").value;
+			//sHTML = document.getElementById("editorData").value; chrome에서 동작안되서 jquery문으로 변경
+			sHTML = $j("#editorData").text();
 			oEditors[0].exec("SET_IR", [sHTML]);
 		}
 		
