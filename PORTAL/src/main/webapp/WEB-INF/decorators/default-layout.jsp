@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="ui" uri="http://egovframework.gov/ctl/ui"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
@@ -9,10 +9,16 @@
 <html>
 <head>
 <script type="text/javascript" src="<c:url value='/'/>js/jquery-1.9.1.js"></script>
+<script type="text/javascript" src="<c:url value='/'/>js/jquery.popupWindow.js"></script>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" >
-<meta http-equiv="content-language" content="ko_KR">
+<meta http-equiv="content-language" content="ko">
 <link href="<c:url value='/'/>css/default.css" rel="stylesheet" type="text/css" >
-<title>WISCKO - 위드미어학원</title>
+<title>전자정부프레임워크</title>
+<script type="text/javascript">
+<!--
+var $j = jQuery.noConflict();
+//-->
+</script>
 <decorator:head/>
 </head>
 <body>
@@ -30,7 +36,7 @@
         <div id="middle_content">
 <!-- ################################################################################################################################## -->
 <!-- #### ==== SiteMesh Body Start =============================================================================================== #### -->
-	        <decorator:body/>
+	        <decorator:body />
 <!-- #### ==== SiteMesh Body End   =============================================================================================== #### -->
 <!-- ################################################################################################################################## -->
         </div> 

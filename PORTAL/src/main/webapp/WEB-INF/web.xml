@@ -8,7 +8,7 @@
         </filter-class>
         <init-param>
             <param-name>encoding</param-name>
-            <param-value>utf-8</param-value>
+            <param-value>UTF-8</param-value>
         </init-param>
     </filter>    
     <filter>
@@ -55,9 +55,9 @@
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
     
-    <listener>
+    <!-- <listener>
 	    <listener-class>egovframework.com.cmm.RequestContextListener</listener-class>
-	</listener>
+	</listener> -->
 
     <servlet>
         <servlet-name>action</servlet-name>
@@ -133,4 +133,11 @@
         <error-code>500</error-code>
         <location>/common/error.jsp</location>
     </error-page>
+
+	<!-- <jsp-config>
+		<jsp-property-group>
+			<page-encoding>UTF-8</page-encoding>
+			<url-pattern>/*</url-pattern>
+		</jsp-property-group>
+	</jsp-config> --> 
 </web-app>

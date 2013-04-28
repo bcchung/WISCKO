@@ -7,6 +7,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <!-- <meta http-equiv="content-language" content="ko"> -->
 <title>사이트소개</title>
+<script type="text/javascript" src="<c:url value='/'/>js/jquery-1.9.1.js"></script>
+<script type="text/javascript" src="<c:url value='/'/>js/jquery.popupWindow.js"></script>
 <link href="css/default.css" rel="stylesheet" type="text/css" >
 	<decorator:head/>
 </head>

@@ -49,7 +49,7 @@ public class ComDefaultCodeVO implements Serializable {
 
 	private String	upperCode;
 
-	private String	locale;
+	private String	searchLocale;
 
 	/**
 	 * codeId attribute를 리턴한다.
@@ -199,14 +199,14 @@ public class ComDefaultCodeVO implements Serializable {
 		this.upperCode = upperCode;
 	}
 
-	public String getLocale() {
-		if(EgovStringUtil.isNull(locale)) {
-			locale = LocaleContextHolder.getLocale().getLanguage().toUpperCase();
+	public String getSearchLocale() {
+		if(EgovStringUtil.isNull(searchLocale)) {
+			searchLocale = LocaleContextHolder.getLocale().getLanguage().toUpperCase();
 		}
-		return locale;
+		return searchLocale;
 	}
 
-	public void setLocale(String locale) {
-		this.locale = locale;
+	public void setSearchLocale(String searchLocale) {
+		this.searchLocale = searchLocale;
 	}
 }

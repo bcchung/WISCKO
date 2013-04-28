@@ -143,7 +143,7 @@ public class EgovFileDownloadController {
 				response.setContentType(mimetype);
 				// response.setHeader("Content-Disposition",
 				// "attachment; filename=\"" +
-				// URLEncoder.encode(fvo.getOrignlFileNm(), "utf-8") + "\"");
+				// URLEncoder.encode(fvo.getOrignlFileNm(), "UTF-8") + "\"");
 				setDisposition(fvo.getOrignlFileNm(), request, response);
 				response.setContentLength(fSize);
 

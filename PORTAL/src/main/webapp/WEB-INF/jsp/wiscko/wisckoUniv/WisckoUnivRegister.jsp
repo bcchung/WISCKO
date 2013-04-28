@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="validator" uri="http://www.springmodules.org/tags/commons-validator" %>
@@ -27,14 +27,14 @@
 <!-- validator:javascript formName="wisckoUnivVO" staticJavascript="false" xhtml="true" cdata="false"/ -->
 <script type="text/javascript" src="<c:url value='/js/EgovMultiFile.js'/>" ></script>
 <!-- AjaxTags Library -->
-<script type="text/javascript" src="<c:url value='/ajaxtags/js/prototype.js'/>"></script>
+<%-- <script type="text/javascript" src="<c:url value='/ajaxtags/js/prototype.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/ajaxtags/js/scriptaculous/scriptaculous.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/ajaxtags/js/overlibmws/overlibmws.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/ajaxtags/js/ajaxtags.js'/>"></script>
 <link type="text/css" rel="stylesheet" href="<c:url value='/ajaxtags/css/ajaxtags.css'/>" />
-<link type="text/css" rel="stylesheet" href="<c:url value='/ajaxtags/css/displaytag.css'/>" />
+<link type="text/css" rel="stylesheet" href="<c:url value='/ajaxtags/css/displaytag.css'/>" /> --%>
 <!-- AjaxTags Library -->
-<script type="text/javaScript" language="javascript" defer="defer">
+<script type="text/javaScript" language="javascript">
 <!--
 /* List View function */
 function fn_egov_selectList() {
@@ -52,14 +52,11 @@ function fn_egov_delete() {
 function fn_egov_save() {	
 	frm = document.getElementById("detailForm");
 	
-	var editorData = $j("#editorData");
-	var textNttCn = $j('textarea[name*=".nttCn"]');
-	
 	$j(":radio[name=localeRdo]").each(function (index, domEle) {
 		if($j(domEle).is(":checked")) {
 			//에디터값 textarea에 set
 			$j(":button[name=editorGetBtn]").click();
-			textNttCn.eq(index).text(editorData.text());
+			$j('textarea[name*="nttCn"]').eq(index).text($j("#editorData").text());
 		}
 	});
 	
@@ -79,27 +76,21 @@ function fn_egov_check_file(flag) {
 	}
 }
 
-var $j = jQuery.noConflict();
-
 $j(document).ready(function() {
+
+	$j("#editorData").text(($j('textarea[name*="nttCn"]').eq(0).text()));
+	$j("#beforeIndex").val(0);
 	
-	var editorData = $j("#editorData");
-	var beforeIndex = $j("#beforeIndex");
-	var textNttCn = $j('textarea[name*=".nttCn"]');
-	
-	editorData.text(textNttCn.eq(0).text());
-	beforeIndex.val(0);
-	
-	$j(":radio[name=localeRdo]").click( function() {
+	$j(":radio[name=localeRdo]").on('click', function() {
 		$j(":radio[name=localeRdo]").each(function (index, domEle) {
 			if($j(domEle).is(":checked")) {
 				//에디터값 textarea에 set
 				$j(":button[name=editorGetBtn]").click();
-				textNttCn.eq(beforeIndex.val()).text(editorData.text());
+				$j('textarea[name*="nttCn"]').eq($j("#beforeIndex").val()).text($j("#editorData").text());
 				
 				//선택한 locale textarea값 에디터에 set
-				editorData.text(textNttCn.eq(index).text());
-				beforeIndex.val(index);
+				$j("#editorData").text($j('textarea[name*="nttCn"]').eq(index).text());
+				$j("#beforeIndex").val(index);
 				$j(":button[name=editorSetBtn]").click();
 			}
 		});
@@ -138,6 +129,7 @@ $j(document).ready(function() {
 <form:form commandName="wisckoUnivVO" id="detailForm" method="post" enctype="multipart/form-data">
 	<input type="hidden" name="searchCondition" value="<c:out value='${searchVO.searchCondition}'/>"/>
 	<input type="hidden" name="searchKeyword" value="<c:out value='${searchVO.searchKeyword}'/>"/>
+	<input type="hidden" name="searchUseYn" value="<c:out value='${searchVO.searchUseYn}'/>"/>
 	<input type="hidden" name="pageIndex" value="<c:out value='${searchVO.pageIndex}'/>"/>
 	<input type="hidden" name="univId" value="<c:out value='${wisckoUnivVO.univId}'/>"/>
 	<input type="hidden" name="returnUrl" value="<c:url value='/wiscko/wisckoUniv/updateWisckoUnivView.do'/>"/>
@@ -219,9 +211,9 @@ $j(document).ready(function() {
 				<form:select path="signguCd">
 					<option value=""> :: 선택 :: </option>
 				</form:select>
-				<ajax:select baseUrl="${pageContext.request.contextPath}/selectCityCodeSecond.do" 
+				<%-- <ajax:select baseUrl="${pageContext.request.contextPath}/selectCityCodeSecond.do" 
 					source="ctprvnCd" target="signguCd" parameters="cityCodeFirst={ctprvnCd}" />
-				&nbsp;<form:errors path="signguCd" />
+				&nbsp;<form:errors path="signguCd" /> --%>
 			</td>
 		</tr>	
 		<tr>

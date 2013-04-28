@@ -5,7 +5,7 @@
 	
 	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
 	<typeAlias  alias="wisckoUnivSearchVO" type="com.wiscko.wisckoUniv.service.WisckoUnivDefaultVO"/>
-	<typeAlias  alias="wisckoUnivArrayVO" type="com.wiscko.wisckoUniv.service.WisckoUnivArrayVO"/>
+	<typeAlias  alias="wisckoArrayVO" type="com.wiscko.wisckoUniv.service.WisckoArrayVO"/>
 	
 	
 	<resultMap id="wisckoUniv" class="com.wiscko.wisckoUniv.service.WisckoUnivVO">
@@ -16,6 +16,13 @@
 		<result property="signguCd" column="SIGNGU_CD" columnIndex="5"/>
 		<result property="univLogo" column="UNIV_LOGO" columnIndex="6"/>
 		<result property="univNm" column="UNIV_NM" columnIndex="7"/>
+	</resultMap>
+	
+	<resultMap id="wisckoArray" class="com.wiscko.wisckoUniv.service.WisckoArrayVO">
+		<result property="univId" column="UNIV_ID" columnIndex="1"/>
+		<result property="locale" column="LOCALE" columnIndex="2"/>
+		<result property="nttCn" column="NTT_CN" columnIndex="3"/>
+		<result property="localeAtchFileId" column="ATCH_FILE_ID" columnIndex="4"/>
 	</resultMap>
 	
 	<insert id="wisckoUnivDAO.insertWisckoUniv_S">
@@ -32,7 +39,7 @@
 				  , UNIV_NM )
 			VALUES ( #univId#
 				  , #sortOrdr#
-				  , #useAt#
+				  , IFNULL(#useAt#, 'Y')
 				  , SYSDATE()
 				  , #frstRegisterId#
 				  , #ctprvnCd#
@@ -45,8 +52,7 @@
 	<update id="wisckoUnivDAO.updateWisckoUniv_S">
 		<![CDATA[
 			UPDATE wiscko_univ
-			SET UNIV_ID=#univId#
-				, SORT_ORDR=#sortOrdr#
+			SET SORT_ORDR=#sortOrdr#
 				, USE_AT=#useAt#
 				, LAST_UPDT_PNTTM=SYSDATE()
 				, LAST_UPDUSR_ID=#lastUpdusrId#
@@ -54,10 +60,11 @@
 				, SIGNGU_CD=#signguCd#
 				, UNIV_LOGO=#univLogo#
 				, UNIV_NM=#univNm#
+			WHERE UNIV_ID = #univId#
 			]]>
 	</update>
 	
-	<update id="wisckoUnivDAO.updateWisckoUnivLocale" parameterClass="wisckoUnivArrayVO">
+	<update id="wisckoUnivDAO.updateWisckoUnivLocale" parameterClass="wisckoArrayVO">
 		<![CDATA[
 			INSERT INTO wiscko_univ_locale(UNIV_ID
 			                             , LOCALE
@@ -74,13 +81,13 @@
 			ON DUPLICATE KEY UPDATE LAST_UPDT_PNTTM = SYSDATE()
 			                      , LAST_UPDUSR_ID = #lastUpdusrId#
 			                      , NTT_CN = #nttCn#
-			                      , ATCH_FILE_ID = #localeAtchFileId#;
+			                      , ATCH_FILE_ID = #localeAtchFileId#
 		]]>
 	</update>
 	
 	<delete id="wisckoUnivDAO.deleteWisckoUniv_S">
 		<![CDATA[
-			DELETE FROM wiscko_univ 
+			DELETE FROM wiscko_univ WHERE UNIV_ID = #univId#
 			]]>
 	</delete>
 	
@@ -98,12 +105,24 @@
 		]]>
 	</select>
 	
-	<select id="wisckoUnivDAO.selectWisckoUnivLocaleList" parameterClass="wisckoUnivSearchVO" resultClass="wisckoUnivArrayVO">
+	<select id="wisckoUnivDAO.selectWisckoUnivLocaleView" parameterClass="wisckoUnivSearchVO" resultMap="wisckoArray">
+		<![CDATA[
+			SELECT UNIV_ID
+			     , LOCALE
+			     , NTT_CN
+			     , ATCH_FILE_ID
+			  FROM wiscko_univ_locale
+			 WHERE UNIV_ID = #univId#
+				 AND LOCALE = #searchLocale#
+		]]>
+	</select>
+	
+	<select id="wisckoUnivDAO.selectWisckoUnivLocaleList" parameterClass="wisckoUnivSearchVO" resultClass="wisckoArrayVO">
 		<![CDATA[
 			SELECT C.CODE AS "locale"
 			     , C.CODE_NM AS "localeNm"
 			     , U.NTT_CN AS "nttCn"
-			     , U.ATCH_FILE_ID AS "localeAtchFileId" 
+			     , U.ATCH_FILE_ID AS "localeAtchFileId"
 			  FROM    lettccmmndetailcode C
 			       LEFT OUTER JOIN
 			          (SELECT A.UNIV_ID

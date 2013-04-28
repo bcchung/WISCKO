@@ -74,7 +74,7 @@ public class MenuManageVO{
    /** tmp_Cmd */
    private   String   tmp_Cmd;
    
-   private String locale;
+   private String searchLocale;
    
 	/**
 	 * menuNo attribute를 리턴한다.
@@ -365,13 +365,15 @@ public class MenuManageVO{
     public String toString() {
     	return ToStringBuilder.reflectionToString(this);
     }
-	public String getLocale() {
-		if(EgovStringUtil.isNull(locale)) {
-			locale = LocaleContextHolder.getLocale().getLanguage().toUpperCase();
+
+    public String getSearchLocale() {
+		if(EgovStringUtil.isNull(searchLocale)) {
+			searchLocale = LocaleContextHolder.getLocale().getLanguage().toUpperCase();
 		}
-		return locale;
+		return searchLocale;
 	}
-	public void setLocale(String locale) {
-		this.locale = locale;
+
+	public void setSearchLocale(String searchLocale) {
+		this.searchLocale = searchLocale;
 	}
 }

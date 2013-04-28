@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="WisckoCntn">
+	
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="wisckoCntnSearchVO" type="com.wiscko.wisckoCntn.service.WisckoCntnDefaultVO"/>
+	<typeAlias  alias="wisckoArrayVO" type="com.wiscko.wisckoUniv.service.WisckoArrayVO"/>
+	
+	<resultMap id="wisckoCntn" class="com.wiscko.wisckoCntn.service.WisckoCntnVO">
+		<result property="cntnId" column="CNTN_ID" columnIndex="1"/>
+		<result property="nttSj" column="NTT_SJ" columnIndex="2"/>
+	</resultMap>
+	
+	<resultMap id="wisckoArray" class="com.wiscko.wisckoUniv.service.WisckoArrayVO">
+		<result property="cntnId" column="CNTN_ID" columnIndex="1"/>
+		<result property="locale" column="LOCALE" columnIndex="2"/>
+		<result property="nttCn" column="NTT_CN" columnIndex="3"/>
+	</resultMap>
+	
+	<insert id="wisckoCntnDAO.insertWisckoCntn_S">
+		<![CDATA[
+			INSERT INTO wiscko_cntn 
+				( CNTN_ID
+				  , FRST_REGIST_PNTTM
+				  , FRST_REGISTER_ID
+				  , NTT_SJ )
+			VALUES ( #cntnId#
+				  , SYSDATE()
+				  , #frstRegisterId#
+				  , #nttSj# )
+		]]>
+	</insert>
+	
+	<update id="wisckoCntnDAO.updateWisckoCntn_S">
+		<![CDATA[
+			UPDATE wiscko_cntn
+			SET LAST_UPDT_PNTTM=#lastUpdtPnttm#
+				, LAST_UPDUSR_ID=#lastUpdusrId#
+				, NTT_SJ=#nttSj#
+			WHERE CNTN_ID=#cntnId#
+			]]>
+	</update>
+	
+	<update id="wisckoCntnDAO.updateWisckoCntnLocale" parameterClass="wisckoArrayVO">
+		<![CDATA[
+			INSERT INTO wiscko_cntn_locale(CNTN_ID
+			                             , LOCALE
+			                             , NTT_CN
+			                             , FRST_REGIST_PNTTM
+			                             , FRST_REGISTER_ID)
+			VALUES (#cntnId#
+			      , #locale#
+			      , #nttCn#
+			      , SYSDATE()
+			      , #frstRegisterId#)
+			ON DUPLICATE KEY UPDATE LAST_UPDT_PNTTM = SYSDATE()
+			                      , LAST_UPDUSR_ID = #lastUpdusrId#
+			                      , NTT_CN = #nttCn#
+		]]>
+	</update>
+	
+	<delete id="wisckoCntnDAO.deleteWisckoCntn_S">
+		<![CDATA[
+			DELETE FROM wiscko_cntn WHERE CNTN_ID=#cntnId#
+			]]>
+	</delete>
+	
+	<select id="wisckoCntnDAO.selectWisckoCntn_S" resultMap="wisckoCntn">
+		<![CDATA[
+			SELECT
+				CNTN_ID
+				, NTT_SJ
+			FROM wiscko_cntn
+			WHERE CNTN_ID = #cntnId#
+			]]>
+	</select>
+	
+	<select id="wisckoCntnDAO.selectWisckoCntnLocaleView" parameterClass="wisckoCntnSearchVO" resultMap="wisckoArray">
+		<![CDATA[
+			SELECT CNTN_ID
+			     , LOCALE
+			     , NTT_CN
+			  FROM wiscko_cntn_locale
+			 WHERE CNTN_ID = #cntnId#
+				 AND LOCALE = #searchLocale#
+		]]>
+	</select>
+	
+	<select id="wisckoCntnDAO.selectWisckoCntnLocaleList" parameterClass="wisckoCntnSearchVO" resultClass="wisckoArrayVO">
+		<![CDATA[
+			SELECT C.CODE AS "locale"
+			     , C.CODE_NM AS "localeNm"
+			     , U.NTT_CN AS "nttCn"
+			  FROM    lettccmmndetailcode C
+			       LEFT OUTER JOIN
+			          (SELECT A.CNTN_ID
+			                , B.LOCALE
+			                , B.NTT_CN
+			             FROM    wiscko_cntn A
+			                  LEFT OUTER JOIN
+			                     wiscko_cntn_locale B
+			                  ON A.CNTN_ID = B.CNTN_ID
+			            WHERE A.CNTN_ID = #cntnId#) U
+			       ON C.CODE = U.LOCALE
+			 WHERE C.LOCALE = 'KO' AND C.CODE_ID = 'LOCALE_TC'
+		]]>
+	</select>
+	
+	<select id="wisckoCntnDAO.selectWisckoCntnList_D" parameterClass="wisckoCntnSearchVO" resultClass="egovMap">
+			SELECT
+				CNTN_ID
+				, FRST_REGIST_PNTTM
+				, FRST_REGISTER_ID
+				, NTT_SJ
+			FROM wiscko_cntn
+			WHERE 1=1
+			<isEqual prepend="AND" property="searchCondition" compareValue="0">
+				NTT_SJ LIKE CONCAT('%',#searchKeyword#,'%')
+			</isEqual>
+				ORDER BY CNTN_ID DESC
+				limit #firstIndex#, #recordCountPerPage#	
+	</select>	
+	<select id="wisckoCntnDAO.selectWisckoCntnListTotCnt_S" parameterClass="wisckoCntnSearchVO" resultClass="int">
+			SELECT COUNT(*) totcnt
+			FROM wiscko_cntn
+			WHERE 1=1
+			<isEqual prepend="AND" property="searchCondition" compareValue="0">
+				NTT_SJ LIKE CONCAT('%',#searchKeyword#,'%')
+			</isEqual>
+	</select>
+
+</sqlMap>

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import egovframework.rte.psl.dataaccess.EgovAbstractDAO;
 
-import com.wiscko.wisckoUniv.service.WisckoUnivArrayVO;
+import com.wiscko.wisckoUniv.service.WisckoArrayVO;
 import com.wiscko.wisckoUniv.service.WisckoUnivVO;
 import com.wiscko.wisckoUniv.service.WisckoUnivDefaultVO;
 
@@ -52,7 +52,7 @@ public class WisckoUnivDAO extends EgovAbstractDAO {
      * @param vo
      * @throws Exception
      */
-    public void mergeWisckoUnivLocale(WisckoUnivArrayVO vo) throws Exception {
+    public void mergeWisckoUnivLocale(WisckoArrayVO vo) throws Exception {
         update("wisckoUnivDAO.updateWisckoUnivLocale", vo);
     }
 
@@ -102,8 +102,18 @@ public class WisckoUnivDAO extends EgovAbstractDAO {
      * @return
      */
 	@SuppressWarnings("unchecked")
-	public List<WisckoUnivArrayVO> selectWisckoUnivLocaleList(WisckoUnivVO vo) {
-		return (List<WisckoUnivArrayVO>)list("wisckoUnivDAO.selectWisckoUnivLocaleList", vo);
+	public List<WisckoArrayVO> selectWisckoUnivLocaleList(WisckoUnivVO vo) {
+		return (List<WisckoArrayVO>)list("wisckoUnivDAO.selectWisckoUnivLocaleList", vo);
+	}
+	
+	/**
+	 * Locale Univ View
+	 * @param searchVO
+	 * @return
+	 * @throws Exception
+	 */
+	public WisckoArrayVO selectWisckoUnivLocaleView(WisckoUnivDefaultVO searchVO) throws Exception{
+		return (WisckoArrayVO) selectByPk("wisckoUnivDAO.selectWisckoUnivLocaleView", searchVO);
 	}
 
 }

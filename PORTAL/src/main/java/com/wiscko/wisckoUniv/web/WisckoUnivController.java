@@ -13,13 +13,13 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.wiscko.wisckoUniv.service.WisckoArrayVO;
 import com.wiscko.wisckoUniv.service.WisckoUnivDefaultVO;
 import com.wiscko.wisckoUniv.service.WisckoUnivService;
 import com.wiscko.wisckoUniv.service.WisckoUnivVO;
@@ -117,9 +117,6 @@ public class WisckoUnivController {
 		WisckoUnivVO wisckoUnivVO = new WisckoUnivVO();
 		model.addAttribute("wisckoUnivVO", wisckoUnivVO);
 
-		/* 중복방지 Token 생성 */
-		TokenMngUtil.saveToken(request);
-		
 		/** 코드 조회 **/
 		ComDefaultCodeVO vo = new ComDefaultCodeVO();
         vo.setCodeId("CITY_TC");
@@ -129,6 +126,9 @@ public class WisckoUnivController {
         vo.setCodeId("LOCALE_TC");
         model.addAttribute("localeTcList", cmmUseService.selectCmmCodeDetail(vo));
         /** 코드 조회 **/
+        
+        /* 중복방지 Token 생성 */
+		TokenMngUtil.saveToken(request);
         
 		return "/wiscko/wisckoUniv/WisckoUnivRegister";
 	}
@@ -182,9 +182,6 @@ public class WisckoUnivController {
 	public String updateWisckoUnivView(HttpServletRequest request, @RequestParam("univId") String univId,
 			@ModelAttribute("searchVO") WisckoUnivDefaultVO searchVO, Model model) throws Exception {
 
-		/* 중복방지 Token 생성 */
-		TokenMngUtil.saveToken(request);
-
 		WisckoUnivVO wisckoUnivVO = new WisckoUnivVO();
 		wisckoUnivVO.setUnivId(univId);
 		
@@ -207,6 +204,9 @@ public class WisckoUnivController {
         	model.addAttribute("cntnYn", "Y");
         }
         /** 코드 조회 **/
+        
+        /* 중복방지 Token 생성 */
+		TokenMngUtil.saveToken(request);
 		
 		return "/wiscko/wisckoUniv/WisckoUnivRegister";
 	}
@@ -268,6 +268,24 @@ public class WisckoUnivController {
 	WisckoUnivVO selectWisckoUniv(WisckoUnivVO wisckoUnivVO, @ModelAttribute("searchVO") WisckoUnivDefaultVO searchVO)
 			throws Exception {
 		return wisckoUnivService.selectWisckoUniv(wisckoUnivVO);
+	}
+	
+	/**
+	 * Locale Univ View
+	 * @param univId
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping("/wiscko/wisckoUniv/selectWisckoUnivLocaleView.do")
+	public String selectWisckoUnivLocaleView(@RequestParam(value="univId") String univId, Model model)
+			throws Exception {
+		WisckoUnivDefaultVO searchVO = new WisckoUnivDefaultVO();
+		searchVO.setUnivId(univId);
+		
+		WisckoArrayVO resultVO = wisckoUnivService.selectWisckoUnivLocaleView(searchVO);
+		model.addAttribute("resultVO", resultVO);
+		
+		return "/wiscko/wisckoUniv/WisckoUnivLocaleView";
 	}
 
 	@RequestMapping("/wiscko/wisckoUniv/deleteWisckoUniv.do")

@@ -30,8 +30,6 @@
 		<input id="editorSetBtn" name="editorSetBtn" value="" type="button" onclick="fn_setEditor()"  style="display:none" />
 	</form>
 	<script>
-		var $j = jQuery.noConflict();
-		
 		var oEditors = [];
 		nhn.husky.EZCreator.createInIFrame({
 			oAppRef: oEditors,
@@ -43,7 +41,7 @@
 	
 		// 화면의 데이터셋 CONTENTS값을 웹에디터에 세팅(정상작동 확인)
 		function fn_setEditor(){
-			//sHTML = document.getElementById("editorData").value; chrome에서 동작안되서 jquery문으로 변경
+			//sHTML = document.getElementById("editorData").value; //chrome에서 동작안되서 jquery문으로 변경
 			sHTML = $j("#editorData").text();
 			oEditors[0].exec("SET_IR", [sHTML]);
 		}

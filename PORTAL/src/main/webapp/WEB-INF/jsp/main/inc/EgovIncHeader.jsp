@@ -46,7 +46,7 @@
 <h1><a href="<c:url value='/'/>cmm/main/mainPage.do">템플릿 로고</a>
 </h1>
 <%-- <a href="<c:url value='/EgovPageLink.do?link=main/sample_menu/Intro'/>" target="_blank"><img width="20" height="20" src="<c:url value='/images/question.jpg'/>" alt="메뉴구성 설명" title="메뉴구성 설명"></a> --%>
-<a href="?locale=KO">KOREAN</a> | <a href="?locale=EN">ENGLISH</a> | <a href="?locale=ZH">CHINESE</a>
+<a href="?siteLanguage=KO">KOREAN</a> | <a href="?siteLanguage=EN">ENGLISH</a> | <a href="?siteLanguage=ZH">CHINESE</a>
 
 <div id="TopSearch">
 <dl style="display: block;">

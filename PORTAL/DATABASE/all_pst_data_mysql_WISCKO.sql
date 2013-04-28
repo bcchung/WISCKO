@@ -280,8 +280,8 @@ insert into LETTNPROGRMLIST(LOCALE,PROGRM_FILE_NM,PROGRM_STRE_PATH,PROGRM_KOREAN
 insert into LETTNPROGRMLIST(LOCALE,PROGRM_FILE_NM,PROGRM_STRE_PATH,PROGRM_KOREAN_NM,PROGRM_DC,URL) values ('KO', 'EgovTemplateList','/cop/com/','템플릿 목록 조회','템플릿 목록 조회','/cop/com/selectTemplateInfs.do');
 insert into LETTNPROGRMLIST(LOCALE,PROGRM_FILE_NM,PROGRM_STRE_PATH,PROGRM_KOREAN_NM,PROGRM_DC,URL) values ('KO', 'EgovTemplateRegist','/cop/com/','템플릿 등록','템플릿 등록','/cop/com/addTemplateInf.do');
 insert into LETTNPROGRMLIST(LOCALE,PROGRM_FILE_NM,PROGRM_STRE_PATH,PROGRM_KOREAN_NM,PROGRM_DC,URL) values ('KO', 'EgovTemplateUpdt','/cop/com/','템플릿 수정','템플릿 수정','/cop/com/selectTemplateInf.do');
-insert into LETTNPROGRMLIST(LOCALE,PROGRM_FILE_NM,PROGRM_STRE_PATH,PROGRM_KOREAN_NM,PROGRM_DC,URL) values ('KO', 'WisckoUnivList','/univ/','대학교관리','대학교관리','/wiscko/wisckoUniv/WisckoUnivList.do');
-insert into LETTNPROGRMLIST(LOCALE,PROGRM_FILE_NM,PROGRM_STRE_PATH,PROGRM_KOREAN_NM,PROGRM_DC,URL) values ('KO', 'WisckoCntnMngList','/cop/bbs/','WISCKO컨텐츠관리','WISCKO컨텐츠관리','');
+insert into LETTNPROGRMLIST(LOCALE,PROGRM_FILE_NM,PROGRM_STRE_PATH,PROGRM_KOREAN_NM,PROGRM_DC,URL) values ('KO', 'WisckoUnivList','/wiscko/wisckoUniv/','대학교관리','대학교관리','/wiscko/wisckoUniv/WisckoUnivList.do');
+insert into LETTNPROGRMLIST(LOCALE,PROGRM_FILE_NM,PROGRM_STRE_PATH,PROGRM_KOREAN_NM,PROGRM_DC,URL) values ('KO', 'WisckoCntnList','/wiscko/wisckoCntn/','컨텐츠관리','컨텐츠관리','/wiscko/wisckoCntn/WisckoCntnList.do');
 
 
 --insert into LETTNPROGRMLIST(PROGRM_FILE_NM,PROGRM_STRE_PATH,PROGRM_KOREAN_NM,PROGRM_DC,URL) values ('EgovSiteAddress','/','찾아오시는 길','찾아오시는 길','/EgovPageLink.do?link=main/sample_menu/EgovAboutSite');
@@ -340,7 +340,7 @@ insert into LETTNMENUINFO(LOCALE,MENU_NM,PROGRM_FILE_NM,MENU_NO,UPPER_MENU_NO,ME
 insert into LETTNMENUINFO(LOCALE,MENU_NM,PROGRM_FILE_NM,MENU_NO,UPPER_MENU_NO,MENU_ORDR,MENU_DC,RELATE_IMAGE_PATH,RELATE_IMAGE_NM) values ('KO','공지사항관리','EgovInfoNoticeAdmin',9030400,9030000,4,'공지사항관리','/','/');
 insert into LETTNMENUINFO(LOCALE,MENU_NM,PROGRM_FILE_NM,MENU_NO,UPPER_MENU_NO,MENU_ORDR,MENU_DC,RELATE_IMAGE_PATH,RELATE_IMAGE_NM) values ('KO','자유게시판관리','EgovInfoFreeAdmin',9030500,9030000,5,'자유게시판관리','/','/');
 insert into LETTNMENUINFO(LOCALE,MENU_NM,PROGRM_FILE_NM,MENU_NO,UPPER_MENU_NO,MENU_ORDR,MENU_DC,RELATE_IMAGE_PATH,RELATE_IMAGE_NM) values ('KO','대학교관리','WisckoUnivList',9030600,9030000,6,'대학교관리','/','/');
-insert into LETTNMENUINFO(LOCALE,MENU_NM,PROGRM_FILE_NM,MENU_NO,UPPER_MENU_NO,MENU_ORDR,MENU_DC,RELATE_IMAGE_PATH,RELATE_IMAGE_NM) values ('KO','WISCKO컨텐츠관리','WisckoCntnMngList',9030700,9030000,7,'WISCKO컨텐츠관리','/','/');
+insert into LETTNMENUINFO(LOCALE,MENU_NM,PROGRM_FILE_NM,MENU_NO,UPPER_MENU_NO,MENU_ORDR,MENU_DC,RELATE_IMAGE_PATH,RELATE_IMAGE_NM) values ('KO','컨텐츠관리','WisckoCntnList',9030700,9030000,7,'컨텐츠관리','/','/');
 
 #메뉴생성목록
 insert into LETTNMENUCREATDTLS(LOCALE,MENU_NO,AUTHOR_CODE,MAPNG_CREAT_ID) values ('KO',0,'ROLE_ADMIN',null);

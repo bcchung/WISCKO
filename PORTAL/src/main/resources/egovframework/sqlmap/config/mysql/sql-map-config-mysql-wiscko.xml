@@ -3,5 +3,6 @@
     "http://www.ibatis.com/dtd/sql-map-config-2.dtd">
 
 <sqlMapConfig>
-	<sqlMap resource="egovframework/sqlmap/wiscko/wisckoUniv/WisckoUniv_SQL.xml"/>
+	<sqlMap resource="egovframework/sqlmap/wiscko/WisckoUniv_SQL.xml"/>
+	<sqlMap resource="egovframework/sqlmap/wiscko/WisckoCntn_SQL.xml"/>
 </sqlMapConfig>

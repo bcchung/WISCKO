@@ -5,7 +5,9 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link href="css/default.css" rel="stylesheet" type="text/css" >
+<script type="text/javascript" src="<c:url value='/'/>js/jquery-1.9.1.js"></script>
+<script type="text/javascript" src="<c:url value='/'/>js/jquery.popupWindow.js"></script>
+<link href="<c:url value='/'/>css/default.css" rel="stylesheet" type="text/css" >
 	<decorator:head/>
 </head>
 <body>

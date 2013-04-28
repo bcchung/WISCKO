@@ -18,7 +18,7 @@
 <%@ page import="com.oreilly.servlet.multipart.DefaultFileRenamePolicy"%>
 
 <%
-	//request.setCharacterEncoding("utf-8");
+	//request.setCharacterEncoding("UTF-8");
 
 	String url = "";
 
@@ -32,6 +32,8 @@
 	
 	contextRealPath = request.getSession().getServletContext().getRealPath("\\")+ "FILE\\";
 	savePath = contextRealPath + PATH + "\\";
+	
+	System.out.println("savePath = " + savePath);
 
 	File dir = new File(savePath);
 
@@ -94,6 +96,6 @@
 		//System.out.println(e.toString());
 		url += "&errstr=error";
 	}
-	//System.out.println(url);
+	System.out.println(url);
 	response.sendRedirect(url);
 %>

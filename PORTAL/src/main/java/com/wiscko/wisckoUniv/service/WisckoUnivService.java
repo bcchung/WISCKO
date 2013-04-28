@@ -66,4 +66,12 @@ public interface WisckoUnivService {
 	 */
     int selectWisckoUnivListTotCnt(WisckoUnivDefaultVO searchVO);
     
+    /**
+     * View Locale Univ
+     * @param searchVO
+     * @return
+     * @throws Exception
+     */
+	WisckoArrayVO selectWisckoUnivLocaleView(WisckoUnivDefaultVO searchVO) throws Exception;
+    
 }

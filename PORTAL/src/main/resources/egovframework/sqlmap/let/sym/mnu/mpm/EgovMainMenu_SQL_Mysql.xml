@@ -26,7 +26,7 @@
 			AND    A.MENU_NO  = B.MENU_NO 
 			AND    A.AUTHOR_CODE = (SELECT C.AUTHOR_CODE from LETTNEMPLYRSCRTYESTBS C
 	                                WHERE  C.SCRTY_DTRMN_TRGET_ID = #tmp_UniqId#)
-	        AND A.LOCALE = #locale#
+	        AND A.LOCALE = #searchLocale#
 			ORDER BY MENU_ORDR
 		]]> 
 	</select>
@@ -46,7 +46,7 @@
 			AND    A.MENU_NO  = B.MENU_NO 
 			AND    A.AUTHOR_CODE = (SELECT AUTHOR_CODE from LETTNEMPLYRSCRTYESTBS
 	                                WHERE  SCRTY_DTRMN_TRGET_ID = #tmp_UniqId#)
-	        AND A.LOCALE = #locale#
+	        AND A.LOCALE = #searchLocale#
 			ORDER BY B.MENU_ORDR
 		]]> 
 	</select>
@@ -55,10 +55,10 @@
 		<![CDATA[ 
 			SELECT URL 
 			FROM   LETTNPROGRMLIST
-			WHERE LOCALE = #locale# 
+			WHERE LOCALE = #searchLocale# 
 			  AND PROGRM_FILE_NM =
 			       (SELECT PROGRM_FILE_NM FROM LETTNMENUINFO
-				    WHERE LOCALE = #locale# AND MENU_NO = #menuNo#)
+				    WHERE LOCALE = #searchLocale# AND MENU_NO = #menuNo#)
 				    
 		]]> 
 	</select>
@@ -67,7 +67,7 @@
 		<![CDATA[ 
 			select MIN(MENU_NO) 
 			from   LETTNMENUINFO
-			where  LOCALE = #locale# and UPPER_MENU_NO = #menuNo#
+			where  LOCALE = #searchLocale# and UPPER_MENU_NO = #menuNo#
 			and    MENU_ORDR =
 			      (select MIN(MENU_ORDR) 
 			       from LETTNMENUCREATDTLS A, LETTNMENUINFO B
@@ -83,7 +83,7 @@
 		<![CDATA[ 
 			select count(MENU_NO) 
 			from   LETTNMENUINFO
-			where  LOCALE = #locale# and UPPER_MENU_NO = #menuNo#
+			where  LOCALE = #searchLocale# and UPPER_MENU_NO = #menuNo#
 			and    MENU_ORDR =
 			      (select MIN(MENU_ORDR) 
 			       from LETTNMENUCREATDTLS A, LETTNMENUINFO B
@@ -91,7 +91,7 @@
 			       AND   A.AUTHOR_CODE = (SELECT AUTHOR_CODE from LETTNEMPLYRSCRTYESTBS
 	                                      WHERE  SCRTY_DTRMN_TRGET_ID = #tempValue#)
 			       AND   B.UPPER_MENU_NO = #menuNo#)
-			       AND A.LOCALE = #locale#
+			       AND A.LOCALE = #searchLocale#
 		]]> 
 	</select>
 	
@@ -112,7 +112,7 @@
             AND    B.UPPER_MENU_NO = 0  
             AND    A.LOCALE = B.LOCALE
             AND    A.MENU_NO  = B.MENU_NO 
-            AND    A.LOCALE = #locale#
+            AND    A.LOCALE = #searchLocale#
             AND    A.AUTHOR_CODE = #authorCode#
             ORDER BY B.MENU_ORDR
         ]]> 
@@ -130,7 +130,7 @@
                  , (SELECT C.URL FROM LETTNPROGRMLIST C WHERE B.PROGRM_FILE_NM = C.PROGRM_FILE_NM) AS chkURL    
             FROM   LETTNMENUCREATDTLS A, LETTNMENUINFO B
             WHERE  A.LOCALE = B.LOCALE AND A.MENU_NO  = B.MENU_NO 
-            AND    A.LOCALE = #locale#
+            AND    A.LOCALE = #searchLocale#
             AND    A.AUTHOR_CODE =  #authorCode#
             ORDER BY B.MENU_ORDR
         ]]> 

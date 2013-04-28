@@ -48,7 +48,7 @@
 			LEFT 	OUTER JOIN LETTCCMMNDETAILCODE D ON		C.LOCALE = D.LOCALE AND D.CODE_ID ='COM028' 		AND C.QNA_PROCESS_STTUS_CODE = D.CODE			
 			LEFT 	OUTER JOIN LETTNEMPLYRINFO A     ON		A.ESNTL_ID= C.LAST_UPDUSR_ID 
 			LEFT 	OUTER JOIN LETTNORGNZTINFO B     ON		A.ORGNZT_ID = B.ORGNZT_ID                               												
-			WHERE	C.LOCALE = #locale# AND QA_ID=#qaId#					
+			WHERE	C.LOCALE = #searchLocale# AND QA_ID=#qaId#					
 		]]>
 	</select>
 	
@@ -78,7 +78,7 @@
 			FROM 	LETTNQAINFO A
 			LEFT OUTER JOIN LETTCCMMNDETAILCODE B
 			ON		A.LOCALE = B.LOCALE AND B.CODE_ID ='COM028' AND A.QNA_PROCESS_STTUS_CODE = B.CODE                               						                               			
-			WHERE	A.LOCALE = #locale#	
+			WHERE	A.LOCALE = #searchLocale#	
 		]]>					
 			<isEqual prepend="AND" property="searchCondition" compareValue="wrterNm">
 				<![CDATA[WRTER_NM LIKE CONCAT('%', #searchKeyword#, '%')]]>
@@ -94,7 +94,7 @@
 		<![CDATA[
 			SELECT 	COUNT(*) totcnt
 			FROM 	LETTNQAINFO
-			WHERE 	LOCALE = #locale#
+			WHERE 	LOCALE = #searchLocale#
 		]]>			
 			<isEqual prepend="AND" property="searchCondition" compareValue="wrterNm">
 				<![CDATA[WRTER_NM LIKE CONCAT('%', #searchKeyword#, '%')]]>
@@ -122,7 +122,7 @@
 				  , QNA_PROCESS_STTUS_CODE  					     
 				  , FRST_REGIST_PNTTM 
 				  , FRST_REGISTER_ID )
-			VALUES ( #locale#, #qaId#
+			VALUES ( #searchLocale#, #qaId#
 				  , #qestnSj#			
 				  , #qestnCn#
 				  , #writngPassword#
@@ -144,7 +144,7 @@
 		<![CDATA[		
 			UPDATE	LETTNQAINFO	SET
 				    RDCNT= IFNULL(RDCNT,0) + 1				  			
- 			WHERE  LOCALE = #locale# AND QA_ID=#qaId#
+ 			WHERE  LOCALE = #searchLocale# AND QA_ID=#qaId#
 		]]>
 	</update>
 
@@ -152,7 +152,7 @@
 		<![CDATA[
 			SELECT 	COUNT(*) totcnt
 			FROM 	LETTNQAINFO
-			WHERE	LOCALE = #locale# AND QA_ID=#qaId#
+			WHERE	LOCALE = #searchLocale# AND QA_ID=#qaId#
 			AND		WRITNG_PASSWORD=#writngPassword#
 		]]>			
 	</select>
@@ -172,14 +172,14 @@
 				  , WRITNG_DE=DATE_FORMAT(sysdate(),'%Y%m%d')
 				  , FRST_REGIST_PNTTM=sysdate()
 				  , FRST_REGISTER_ID=#frstRegisterId#
-			WHERE  LOCALE = #locale# AND QA_ID=#qaId#
+			WHERE  LOCALE = #searchLocale# AND QA_ID=#qaId#
 		]]>
 	</update>
 	
 	<delete id="QnaManageDAO.deleteQnaCn">
 		<![CDATA[
 			DELETE FROM LETTNQAINFO 
-			WHERE  LOCALE = #locale# AND QA_ID=#qaId#
+			WHERE  LOCALE = #searchLocale# AND QA_ID=#qaId#
 		]]>
 	</delete>
 	
@@ -195,7 +195,7 @@
 			LEFT 	OUTER JOIN LETTCCMMNDETAILCODE D ON C.LOCALE = D.LOCALE AND D.CODE_ID ='COM028' 		AND C.QNA_PROCESS_STTUS_CODE = D.CODE			
 			LEFT 	OUTER JOIN LETTNEMPLYRINFO A     ON		A.ESNTL_ID= C.LAST_UPDUSR_ID 
 			LEFT 	OUTER JOIN LETTNORGNZTINFO B     ON		A.ORGNZT_ID = B.ORGNZT_ID                               												
-			WHERE	C.LOCALE = #locale# AND QA_ID=#qaId#
+			WHERE	C.LOCALE = #searchLocale# AND QA_ID=#qaId#
 		]]>
 	</select>
 	
@@ -209,7 +209,7 @@
 			FROM 	LETTNQAINFO A
 			LEFT OUTER JOIN LETTCCMMNDETAILCODE B
 			ON		A.LOCALE = B.LOCALE AND B.CODE_ID ='COM028' AND A.QNA_PROCESS_STTUS_CODE = B.CODE                               						                               			
-			WHERE	A.LOCALE = #locale#   			
+			WHERE	A.LOCALE = #searchLocale#   			
 		]]>					
 			<isEqual prepend="AND" property="searchCondition" compareValue="wrterNm">
 				<![CDATA[WRTER_NM LIKE CONCAT('%', #searchKeyword#, '%')]]>
@@ -225,7 +225,7 @@
 		<![CDATA[
 			SELECT 	COUNT(*) totcnt
 			FROM 	LETTNQAINFO
-			WHERE 	LOCALE = #locale#
+			WHERE 	LOCALE = #searchLocale#
 		]]>			
 			<isEqual prepend="AND" property="searchCondition" compareValue="wrterNm">
 				<![CDATA[WRTER_NM LIKE CONCAT('%', #searchKeyword#, '%')]]>
@@ -243,14 +243,14 @@
 				  , ANSWER_DE=DATE_FORMAT(sysdate(),'%Y%m%d')
 				  , LAST_UPDT_PNTTM=sysdate()
 				  , LAST_UPDUSR_ID=#lastUpdusrId#
-			WHERE  LOCALE = #locale# AND QA_ID=#qaId#
+			WHERE  LOCALE = #searchLocale# AND QA_ID=#qaId#
 		]]>
 	</update>
 	
 	<delete id="QnaManageDAO.deleteQnaCnAnswer">
 		<![CDATA[
 			DELETE FROM LETTNQAINFO 
-			WHERE  LOCALE = #locale# AND QA_ID=#qaId#
+			WHERE  LOCALE = #searchLocale# AND QA_ID=#qaId#
 		]]>
 	</delete>
 

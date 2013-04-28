@@ -4,11 +4,14 @@ import java.io.Serializable;
 
 
 @SuppressWarnings("serial")
-public class WisckoUnivArrayVO implements Serializable {
+public class WisckoArrayVO implements Serializable {
 	
+	private String cntnId;
 	private String univId;
 	private String locale;
     private String localeNm;
+    
+    private String nttSj;
     private String nttCn;
     private String localeAtchFileId;
     
@@ -59,5 +62,17 @@ public class WisckoUnivArrayVO implements Serializable {
 	}
 	public void setUnivId(String univId) {
 		this.univId = univId;
+	}
+	public String getCntnId() {
+		return cntnId;
+	}
+	public void setCntnId(String cntnId) {
+		this.cntnId = cntnId;
+	}
+	public String getNttSj() {
+		return nttSj;
+	}
+	public void setNttSj(String nttSj) {
+		this.nttSj = nttSj;
 	}
 }

@@ -1,4 +1,4 @@
-package com.wiscko.wisckoUniv.service;
+package com.wiscko.wisckoCntn.service;
 
 import java.io.Serializable;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -7,19 +7,18 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import egovframework.rte.fdl.string.EgovStringUtil;
 
 /**
- * @Class Name : WisckoUnivDefaultVO.java
- * @Description : WisckoUniv Default VO class
+ * @Class Name : WisckoCntnDefaultVO.java
+ * @Description : WisckoCntn Default VO class
  * @Modification Information
  *
  * @author bcchung
- * @since 2013-04-08
+ * @since 2013-04-28
  * @version 1.0
  * @see
  *  
  *  Copyright (C)  All right reserved.
  */
-@SuppressWarnings("serial")
-public class WisckoUnivDefaultVO implements Serializable {
+public class WisckoCntnDefaultVO implements Serializable {
 	
     private String searchCondition = "";
     
@@ -45,11 +44,12 @@ public class WisckoUnivDefaultVO implements Serializable {
     /** recordCountPerPage */
     private int recordCountPerPage = 10;
     
-    /** UNIV_ID */
-    private String univId;
+    /** CNTN_ID */
+    private java.lang.String cntnId;
     
     private String searchLocale;
     
+        
 	public int getFirstIndex() {
 		return firstIndex;
 	}
@@ -126,12 +126,12 @@ public class WisckoUnivDefaultVO implements Serializable {
         return ToStringBuilder.reflectionToString(this);
     }
 
-	public String getUnivId() {
-		return univId;
+	public java.lang.String getCntnId() {
+		return cntnId;
 	}
 
-	public void setUnivId(String univId) {
-		this.univId = univId;
+	public void setCntnId(java.lang.String cntnId) {
+		this.cntnId = cntnId;
 	}
 
 	public String getSearchLocale() {
@@ -140,4 +140,9 @@ public class WisckoUnivDefaultVO implements Serializable {
 		}
 		return searchLocale;
 	}
+
+	public void setSearchLocale(String searchLocale) {
+		this.searchLocale = searchLocale;
+	}
+
 }

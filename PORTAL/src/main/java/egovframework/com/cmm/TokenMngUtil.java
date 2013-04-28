@@ -86,6 +86,11 @@ public class TokenMngUtil {
 		HttpSession session = request.getSession(true);
 		String requestToken = request.getParameter(TOKEN_KEY);
 		String sessionToken = (String) session.getAttribute(TOKEN_KEY);
+		
+		logger.error("###########################################################################");
+		logger.error("# requestToken  = " + requestToken + " #");
+		logger.error("# sessionToken  = " + sessionToken + " #");
+		logger.error("###########################################################################");
 
 		if (requestToken == null || sessionToken == null) {
 			return false;

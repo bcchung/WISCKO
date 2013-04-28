@@ -56,4 +56,8 @@
         <pattern>/EgovPageLink.do</pattern>
     </decorator>
     
+    <decorator name="popup" page="popup-layout.jsp">
+        <pattern>/wiscko/*LocaleView.do</pattern>
+    </decorator>
+    
 </decorators>

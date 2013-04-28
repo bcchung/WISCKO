@@ -1997,4 +1997,23 @@
     </bean>     
     <!-- wisckoUnivIdGnrService... END-->
     
+    <!-- wisckoCntnIdGnrService... START-->          
+    <bean name="egovCntnIdGnrService"
+        class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrService"
+        destroy-method="destroy">
+        <property name="dataSource" ref="dataSource" />
+        <property name="strategy"   ref="egovCntnIdStrategy" />
+        <property name="blockSize"  value="1"/>
+        <property name="table"      value="IDS"/>
+        <property name="tableName"  value="CNTN_ID"/>
+    </bean>
+
+    <bean name="egovCntnIdStrategy"
+        class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">
+        <property name="prefix" value="CNTN_" />
+        <property name="cipers" value="15" />
+        <property name="fillChar" value="0" />
+    </bean>     
+    <!-- wisckoCntnIdGnrService... END-->
+    
 </beans>

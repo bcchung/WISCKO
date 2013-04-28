@@ -15,10 +15,10 @@ import java.util.List;
  *  
  *  Copyright (C)  All right reserved.
  */
-public class WisckoUnivVO extends WisckoUnivDefaultVO{
+public class WisckoUnivVO extends WisckoUnivDefaultVO {
     private static final long serialVersionUID = 1L;
     
-    private List<WisckoUnivArrayVO> localeArray = new ArrayList<WisckoUnivArrayVO>();
+    private List<WisckoArrayVO> localeArray = new ArrayList<WisckoArrayVO>();
     
     /** SORT_ORDR */
     private long sortOrdr = 0L;
@@ -150,11 +150,11 @@ public class WisckoUnivVO extends WisckoUnivDefaultVO{
 		this.locale = locale;
 	}
 
-	public List<WisckoUnivArrayVO> getLocaleArray() {
+	public List<WisckoArrayVO> getLocaleArray() {
 		return localeArray;
 	}
 
-	public void setLocaleArray(List<WisckoUnivArrayVO> localeArray) {
+	public void setLocaleArray(List<WisckoArrayVO> localeArray) {
 		this.localeArray = localeArray;
 	}
 
