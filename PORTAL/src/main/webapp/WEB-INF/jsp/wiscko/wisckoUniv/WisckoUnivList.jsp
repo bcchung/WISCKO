@@ -23,9 +23,11 @@
 <head>
 <script type="text/javaScript" language="javascript" defer="defer">
 <!--
+var $j = jQuery.noConflict();
+
 $j(document).ready(function() {
 	$j(".preViewPopup").popupWindow({
-		centerScreen : 1
+		centerScreen : 1, scrollbars : 1, width : 1200, height : 900, resizable : 1	
 	});
 });
 
@@ -142,7 +144,7 @@ A:hover {
 <div id="table">
 	<table width="100%" border="0" cellpadding="0" cellspacing="0">
 		<colgroup>
-			<col />
+			<col width="5%"/>
 			<col />
 			<col />
 			<col />
@@ -151,12 +153,12 @@ A:hover {
 			<col />
 		</colgroup>
 		<tr>
+			<th align="center">번호</th>
 			<th align="center">대학교명</th>
-			<th align="center">로고</th>
 			<th align="center">도시코드</th>
 			<th align="center">정렬순서</th>
 			<th align="center">사용여부</th>
-			<th align="center"></th>
+			<th align="center">미리보기</th>
 			<th align="center">수정일자</th>
 		</tr>
 		<c:if test="${fn:length(resultList) == 0}">
@@ -166,21 +168,15 @@ A:hover {
 		</c:if>
 		<c:forEach var="result" items="${resultList}" varStatus="status">
 			<tr>
-				<td align="center" class="listtd"><a href="javascript:fn_egov_select('<c:out value="${result.univId}"/>')"><c:out
-							value="${result.univNm}"
-						/></a>&nbsp;</td>
-				<td align="center" class="listtd"><c:import url="/cmm/fms/selectImageFileInfs.do" charEncoding="UTF-8">
-						<c:param name="atchFileId" value="${result.univLogo}" />
-						<c:param name="imageWidth" value="100" />
-						<c:param name="delPosbleAt" value="N" />
-					</c:import> &nbsp;</td>
+				<td align="center" class="listtd"><c:out value="${paginationInfo.totalRecordCount+1 - ((searchVO.pageIndex-1) * searchVO.pageSize + status.count)}"/></td>
+				<td align="center" class="listtd">
+					<a href="javascript:fn_egov_select('<c:out value="${result.univId}"/>')"><c:out value="${result.univNm}"/></a>&nbsp;</td>
 				<td align="center" class="listtd"><c:out value="${result.ctprvnCd}" />&nbsp;</td>
 				<td align="center" class="listtd"><c:out value="${result.sortOrdr}" />&nbsp;</td>
 				<td align="center" class="listtd"><c:out value="${result.useAt}" />&nbsp;</td>
 				<td align="center" class="listtd"><a
 					href="<c:url value="/wiscko/wisckoUniv/selectWisckoUnivLocaleView.do"/>?univId=<c:out value="${result.univId}"/>"
-					class="preViewPopup"
-				>미리보기</a></td>
+					class="preViewPopup">(보기)</a></td>
 				<td align="center" class="listtd"><c:out value="${result.lastUpdtPnttm}" />&nbsp;</td>
 			</tr>
 		</c:forEach>

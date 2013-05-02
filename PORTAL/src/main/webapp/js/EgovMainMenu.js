@@ -1,10 +1,10 @@
 /*
  * 노드 , 트리 구성 정보 선언
  */
-var treeNodes			= new Array();;
-var openTreeNodes	    = new Array();
+var treeNodesLeft			= new Array();;
+var opentreeNodesLeft	    = new Array();
 var treeIcons			= new Array(6);
-var imgpath         = "/images/egovframework/com/cmm/utl/";
+//var imgpath         = "/images/egovframework/com/cmm/utl/";
 var treeYeobu       = false;
 var chkValue        = "";
 var vHtmlCode       = "";
@@ -29,29 +29,29 @@ function preloadIcons() {
 /*
 * 트리생성함수
 */
-function createTree(arrName, vYeobu, checkValue) {
+function createTreeLeft(arrName, vYeobu, checkValue) {
    var startNode, openNode;
-	treeNodes = arrName;
+	treeNodesLeft = arrName;
 	treeYeobu = vYeobu;
 	chkValue = checkValue;//"2000000"
 	startNode = chkValue;
-	if (treeNodes.length > 0) {
+	if (treeNodesLeft.length > 0) {
 		preloadIcons();
 		
 		//vHtmlCode +="<table width='181' height='94' border='2' align='center' cellpadding='0' cellspacing='0'><tr>";
 		//vHtmlCode +="<td valign='bottom' background='/images/egovframework/com/left_menu_top.gif' style='background-repeat:no-repeat'>";
 	
 		if (startNode == null) startNode = 0;
-		if (openNode != 0 || openNode != null) setOpenTreeNodes(openNode);
+		if (openNode != 0 || openNode != null) setOpenTreeNodesLeft(openNode);
 		if (startNode !=0) {
-			var _getTreeArrayId = getTreeArrayId(startNode)
-			var nodeValues = treeNodes[getTreeArrayId(startNode)].split("|");
+			var _getTreeArrayIdLeft = getTreeArrayIdLeft(startNode)
+			var nodeValues = treeNodesLeft[getTreeArrayIdLeft(startNode)].split("|");
 			//vHtmlCode +="<div class='LeftMenuTitle'><font color='#ffffff'>" + nodeValues[2] + "</font></div></td></tr>"
 		} else {
 			//vHtmlCode +="<img src='"+imgpath+"menu_base.gif' border='0' align='absbottom' alt='' >메뉴목록<br></td></tr>";
 		}
 		var recursedNodes = new Array();
-		addTreeNode(startNode, recursedNodes);
+		addTreeNodeLeft(startNode, recursedNodes);
 		//vHtmlCode +="<tr><td height='30' valign='bottom' background='/images/egovframework/com/left_menu_btm.gif' style='background-repeat:no-repeat'>&nbsp;</td></tr></table>";
 		document.write("<ul>"+vHtmlCode+"</ul>");
 	}
@@ -59,9 +59,9 @@ function createTree(arrName, vYeobu, checkValue) {
 /*
 * 노드위치 확인
 */
-function getTreeArrayId(node) {
-	for (i=0; i<treeNodes.length; i++) {
-		var nodeValues = treeNodes[i].split("|");
+function getTreeArrayIdLeft(node) {
+	for (i=0; i<treeNodesLeft.length; i++) {
+		var nodeValues = treeNodesLeft[i].split("|");
 		if (nodeValues[0]==node) return i;
 	}
 	return 0;
@@ -69,31 +69,31 @@ function getTreeArrayId(node) {
 /*
 * 트리 노드 열기
 */
-function setOpenTreeNodes(openNode) {
-	for (i=0; i<treeNodes.length; i++) {
-		var nodeValues = treeNodes[i].split("|");
+function setOpenTreeNodesLeft(openNode) {
+	for (i=0; i<treeNodesLeft.length; i++) {
+		var nodeValues = treeNodesLeft[i].split("|");
 		if (nodeValues[0]==openNode) {
-			openTreeNodes.push(nodeValues[0]);
-			setOpenTreeNodes(nodeValues[1]);
+			opentreeNodesLeft.push(nodeValues[0]);
+			setOpenTreeNodesLeft(nodeValues[1]);
 		}
 	} 
 }
 /*
 * 트리노드 오픈 여부 확인
 */
-function isTreeNodeOpen(node) {
+function isTreeNodeOpenLeft(node) {
    if (treeYeobu){ return true; }
-   for (i=0; i<openTreeNodes.length; i++){
-	   if (openTreeNodes[i]==node){ return true; }
+   for (i=0; i<opentreeNodesLeft.length; i++){
+	   if (opentreeNodesLeft[i]==node){ return true; }
    }
    return false;
 }
 /*
 * 하위 트리노드 존재여부 확인
 */
-function hasChildTreeNode(parentNode) {
-	for (i=0; i< treeNodes.length; i++) {
-		var nodeValues = treeNodes[i].split("|");
+function hasChildTreeNodeLeft(parentNode) {
+	for (i=0; i< treeNodesLeft.length; i++) {
+		var nodeValues = treeNodesLeft[i].split("|");
 		if (nodeValues[1] == parentNode) return true;
 	}
 	return false;
@@ -101,10 +101,10 @@ function hasChildTreeNode(parentNode) {
 /*
 * 트리노드 최하위 여부 확인
 */
-function lastTreeSibling (node, parentNode) {
+function lastTreeSiblingLeft (node, parentNode) {
 	var lastChild = 0;
-	for (i=0; i< treeNodes.length; i++) {
-		var nodeValues = treeNodes[i].split("|");
+	for (i=0; i< treeNodesLeft.length; i++) {
+		var nodeValues = treeNodesLeft[i].split("|");
 		if (nodeValues[1] == parentNode)
 			lastChild = nodeValues[0];
 	}
@@ -114,15 +114,15 @@ function lastTreeSibling (node, parentNode) {
 /*
 * 신규 트리노드 추가
 */
-function addTreeNode(parentNode, recursedNodes) {
-	for (var i = 0; i < treeNodes.length; i++) {
+function addTreeNodeLeft(parentNode, recursedNodes) {
+	for (var i = 0; i < treeNodesLeft.length; i++) {
 
-		var nodeValues = treeNodes[i].split("|");
+		var nodeValues = treeNodesLeft[i].split("|");
 		if (nodeValues[1] == parentNode) {
 		
-			var lastSibling	= lastTreeSibling(nodeValues[0], nodeValues[1]);
-			var hasChildNode	= hasChildTreeNode(nodeValues[0]);
-			var isNodeOpen = isTreeNodeOpen(nodeValues[0]);
+			var lastSibling	= lastTreeSiblingLeft(nodeValues[0], nodeValues[1]);
+			var hasChildNode	= hasChildTreeNodeLeft(nodeValues[0]);
+			var isNodeOpen = isTreeNodeOpenLeft(nodeValues[0]);
 			vHtmlCodeBg      ="<div><li class='leftmenu_dept01'>";
 			vHtmlCodeBgList  ="<li class='dept02'>";
 			
@@ -147,10 +147,10 @@ function addTreeNode(parentNode, recursedNodes) {
 			}
 		
 			if (hasChildNode) {
-				vHtmlCode +="<div id='div" + nodeValues[0] + "'";
+				vHtmlCode +="<div id='divLeft" + nodeValues[0] + "'";
 					if (!isNodeOpen) vHtmlCode +=" style='display: none;'";
 				vHtmlCode +=">";
-				addTreeNode(nodeValues[0], recursedNodes);
+				addTreeNodeLeft(nodeValues[0], recursedNodes);
 				vHtmlCode +="</div>";
 			}
 			recursedNodes.pop();

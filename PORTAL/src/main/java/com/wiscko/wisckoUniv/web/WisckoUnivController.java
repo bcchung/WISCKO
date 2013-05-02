@@ -179,14 +179,10 @@ public class WisckoUnivController {
 	}
 
 	@RequestMapping("/wiscko/wisckoUniv/updateWisckoUnivView.do")
-	public String updateWisckoUnivView(HttpServletRequest request, @RequestParam("univId") String univId,
+	public String updateWisckoUnivView(HttpServletRequest request,
 			@ModelAttribute("searchVO") WisckoUnivDefaultVO searchVO, Model model) throws Exception {
 
-		WisckoUnivVO wisckoUnivVO = new WisckoUnivVO();
-		wisckoUnivVO.setUnivId(univId);
-		
-		WisckoUnivVO resultVO = wisckoUnivService.selectWisckoUniv(wisckoUnivVO);
-		
+		WisckoUnivVO resultVO = wisckoUnivService.selectWisckoUniv(searchVO);
 		model.addAttribute("wisckoUnivVO", resultVO);
 		
 		/** 코드 조회 **/
@@ -277,7 +273,7 @@ public class WisckoUnivController {
 	 * @throws Exception
 	 */
 	@RequestMapping("/wiscko/wisckoUniv/selectWisckoUnivLocaleView.do")
-	public String selectWisckoUnivLocaleView(@RequestParam(value="univId") String univId, Model model)
+	public String selectWisckoUnivLocaleView(@RequestParam(value="univId", required=false) String univId, Model model)
 			throws Exception {
 		WisckoUnivDefaultVO searchVO = new WisckoUnivDefaultVO();
 		searchVO.setUnivId(univId);

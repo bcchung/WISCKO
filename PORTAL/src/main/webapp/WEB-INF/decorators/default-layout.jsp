@@ -14,11 +14,6 @@
 <meta http-equiv="content-language" content="ko">
 <link href="<c:url value='/'/>css/default.css" rel="stylesheet" type="text/css" >
 <title>전자정부프레임워크</title>
-<script type="text/javascript">
-<!--
-var $j = jQuery.noConflict();
-//-->
-</script>
 <decorator:head/>
 </head>
 <body>

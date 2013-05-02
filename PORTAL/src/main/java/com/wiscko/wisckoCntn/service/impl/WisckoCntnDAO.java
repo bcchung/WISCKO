@@ -61,8 +61,8 @@ public class WisckoCntnDAO extends EgovAbstractDAO {
 	 * @return Inquire wiscko_cntn
 	 * @exception Exception
 	 */
-    public WisckoCntnVO selectWisckoCntn(WisckoCntnVO vo) throws Exception {
-        return (WisckoCntnVO) selectByPk("wisckoCntnDAO.selectWisckoCntn_S", vo);
+    public WisckoCntnVO selectWisckoCntn(WisckoCntnDefaultVO searchVO) throws Exception {
+        return (WisckoCntnVO) selectByPk("wisckoCntnDAO.selectWisckoCntn_S", searchVO);
     }
 
     /**
@@ -95,6 +95,10 @@ public class WisckoCntnDAO extends EgovAbstractDAO {
 
 	public WisckoArrayVO selectWisckoCntnLocaleView(WisckoCntnDefaultVO searchVO) {
 		return (WisckoArrayVO) selectByPk("wisckoCntnDAO.selectWisckoCntnLocaleView", searchVO);
+	}
+
+	public void updateWisckoMenuCntnId(WisckoCntnVO vo) {
+		update("wisckoCntnDAO.updateWisckoMenuCntnId", vo);
 	}
 
 }

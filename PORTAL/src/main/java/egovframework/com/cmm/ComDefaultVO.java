@@ -3,6 +3,9 @@ package egovframework.com.cmm;
 import java.io.Serializable;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
+import org.springframework.context.i18n.LocaleContextHolder;
+
+import egovframework.rte.fdl.string.EgovStringUtil;
 
 /**
  * @Class Name : ComDefaultVO.java
@@ -53,6 +56,8 @@ public class ComDefaultVO implements Serializable {
 
 	/** 검색KeywordTo */
     private String searchKeywordTo = "";  
+    
+    private String locale;
     
 	public int getFirstIndex() {
 		return firstIndex;
@@ -161,5 +166,16 @@ public class ComDefaultVO implements Serializable {
 	 */
 	public void setSearchKeywordTo(String searchKeywordTo) {
 		this.searchKeywordTo = searchKeywordTo;
+	}
+
+	public String getLocale() {
+		if(EgovStringUtil.isNull(locale)) {
+			locale = LocaleContextHolder.getLocale().getLanguage().toUpperCase();
+		}
+		return locale;
+	}
+
+	public void setLocale(String locale) {
+		this.locale = locale;
 	}
 }

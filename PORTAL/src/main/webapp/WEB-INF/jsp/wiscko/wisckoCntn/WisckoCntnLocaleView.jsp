@@ -8,6 +8,14 @@
 <head>
 </head>
 <body>
-<c:out value="${resultVO.nttCn}" escapeXml="false"/>
+<c:choose>
+	<c:when test="${not empty resultVO}">
+		<c:out value="${resultVO.nttCn}" escapeXml="false"/>
+	</c:when>
+	<c:otherwise>
+		<div style="width:100%; text-align:center; padding-top:100px;"><img src="<c:url value='/'/>/images/ready_page.png" alt="준비중입니다." /></div>
+		<div style="padding-top:30px; text-align:center;">페이지 준비중입니다.</div>
+	</c:otherwise>
+</c:choose>
 </body>
 </html>

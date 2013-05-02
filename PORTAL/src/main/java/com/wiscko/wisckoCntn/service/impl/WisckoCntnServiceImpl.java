@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
 import egovframework.rte.fdl.idgnr.EgovIdGnrService;
 import egovframework.rte.fdl.string.EgovObjectUtil;
+import egovframework.rte.fdl.string.EgovStringUtil;
 
 import com.wiscko.wisckoCntn.service.WisckoCntnService;
 import com.wiscko.wisckoCntn.service.WisckoCntnDefaultVO;
@@ -65,6 +66,8 @@ public class WisckoCntnServiceImpl extends AbstractServiceImpl implements
     		
     		wisckoCntnDAO.mergeWisckoCntnLocale(arrayVO);
     	}
+    	
+    	wisckoCntnDAO.updateWisckoMenuCntnId(vo);
         return null;
     }
 
@@ -89,6 +92,8 @@ public class WisckoCntnServiceImpl extends AbstractServiceImpl implements
     		
     		wisckoCntnDAO.mergeWisckoCntnLocale(arrayVO);
     	}
+    	
+    	wisckoCntnDAO.updateWisckoMenuCntnId(vo);
     }
 
     /**
@@ -107,12 +112,18 @@ public class WisckoCntnServiceImpl extends AbstractServiceImpl implements
 	 * @return wiscko_cntn
 	 * @exception Exception
 	 */
-    public WisckoCntnVO selectWisckoCntn(WisckoCntnVO vo) throws Exception {
-        WisckoCntnVO resultVO = wisckoCntnDAO.selectWisckoCntn(vo);
+    public WisckoCntnVO selectWisckoCntn(WisckoCntnDefaultVO searchVO) throws Exception {
+        WisckoCntnVO resultVO = wisckoCntnDAO.selectWisckoCntn(searchVO);
         if (resultVO == null)
             throw processException("info.nodata.msg");
         
-        List<WisckoArrayVO> localeArray = wisckoCntnDAO.selectWisckoCntnLocaleList(vo);
+        String forwardUrl = null;
+        if(!EgovStringUtil.isNull(resultVO.getCntnId())) {
+        	forwardUrl = "/wiscko/wisckoCntn/selectWisckoCntnLocaleView.do" + "?cntnId="+resultVO.getCntnId();
+        }
+        resultVO.setForwardUrl(forwardUrl);
+        
+        List<WisckoArrayVO> localeArray = wisckoCntnDAO.selectWisckoCntnLocaleList(resultVO);
         if(!EgovObjectUtil.isNull(localeArray)) {
         	resultVO.setLocaleArray(localeArray);
         }
@@ -140,11 +151,7 @@ public class WisckoCntnServiceImpl extends AbstractServiceImpl implements
 	}
 
 	public WisckoArrayVO selectWisckoCntnLocaleView(WisckoCntnDefaultVO searchVO) throws Exception {
-		WisckoArrayVO resultVO = wisckoCntnDAO.selectWisckoCntnLocaleView(searchVO);
-		if (resultVO == null)
-            throw processException("info.nodata.msg");
-        
-		return resultVO;
+		return wisckoCntnDAO.selectWisckoCntnLocaleView(searchVO);
 	}
     
 }

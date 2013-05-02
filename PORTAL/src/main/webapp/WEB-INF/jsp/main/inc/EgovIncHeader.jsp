@@ -105,7 +105,7 @@
 <ul>
     <li></li>
 	<c:forEach var="result" items="${list_headmenu}" varStatus="status">
-    <li><a href="#LINK" onclick="javascript:goMenuPage('<c:out value="${result.menuNo}"/>')"><c:out value="${result.menuNm}"/></a></li>  
+    <li><a href="#LINK" onclick="javascript:goMenuPage('<c:out value="${result.menuNo}"/>')"><c:out value="${result.menuNm}"/></a></li>
     </c:forEach>
 </ul>
 </div>

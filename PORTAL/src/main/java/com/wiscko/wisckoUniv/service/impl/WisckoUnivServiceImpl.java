@@ -109,12 +109,12 @@ public class WisckoUnivServiceImpl extends AbstractServiceImpl implements
 	 * @return wiscko_univ
 	 * @exception Exception
 	 */
-    public WisckoUnivVO selectWisckoUniv(WisckoUnivVO vo) throws Exception {
-        WisckoUnivVO resultVO = wisckoUnivDAO.selectWisckoUniv(vo);
+    public WisckoUnivVO selectWisckoUniv(WisckoUnivDefaultVO searchVO) throws Exception {
+        WisckoUnivVO resultVO = wisckoUnivDAO.selectWisckoUniv(searchVO);
         if (resultVO == null)
             throw processException("info.nodata.msg");
         
-        List<WisckoArrayVO> localeArray = wisckoUnivDAO.selectWisckoUnivLocaleList(vo);
+        List<WisckoArrayVO> localeArray = wisckoUnivDAO.selectWisckoUnivLocaleList(searchVO);
         if(!EgovObjectUtil.isNull(localeArray)) {
         	resultVO.setLocaleArray(localeArray);
         }        
@@ -142,11 +142,7 @@ public class WisckoUnivServiceImpl extends AbstractServiceImpl implements
 	}
 
 	public WisckoArrayVO selectWisckoUnivLocaleView(WisckoUnivDefaultVO searchVO) throws Exception {
-		WisckoArrayVO resultVO = wisckoUnivDAO.selectWisckoUnivLocaleView(searchVO);
-        if (resultVO == null)
-            throw processException("info.nodata.msg");
-        
-		return resultVO;
+		return wisckoUnivDAO.selectWisckoUnivLocaleView(searchVO);
 	}
     
 }

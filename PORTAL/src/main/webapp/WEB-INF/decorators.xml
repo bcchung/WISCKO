@@ -41,14 +41,6 @@
     </decorator>
     
     <decorator name="default" page="default-layout.jsp">
-        <!-- <pattern>/cop/com/*</pattern>
-        <pattern>/cop/bbs/*</pattern>
-        <pattern>/uss/umt/*</pattern>
-        <pattern>/sec/ram/*</pattern>
-        <pattern>/sec/gmt/*</pattern>
-        <pattern>/sec/rgm/*</pattern>
-        <pattern>/uss/olh/*</pattern>
-        <pattern>/wiscko/wisckoUniv/*</pattern> -->
         <pattern>/*</pattern>
     </decorator>
     
@@ -57,7 +49,9 @@
     </decorator>
     
     <decorator name="popup" page="popup-layout.jsp">
-        <pattern>/wiscko/*LocaleView.do</pattern>
+        <pattern>/wiscko/wisckoUniv/selectWisckoUnivLocaleView.do</pattern>
+        <pattern>/sym/mnu/mpm/EgovMenuListSelectMvmn.do</pattern>
+        <pattern>/sym/prm/EgovProgramListSearch.do</pattern>
     </decorator>
     
 </decorators>

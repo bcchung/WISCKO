@@ -177,10 +177,12 @@ public class EgovMainController {
      */
     @RequestMapping(value="/sym/mms/EgovMainMenuHead.do")
     public String selectMainMenuHead(
-    		@ModelAttribute("menuManageVO") MenuManageVO menuManageVO,
+    		//@ModelAttribute("menuManageVO") MenuManageVO menuManageVO,
     		@RequestParam(value="flag", required=false) String flag,
     		ModelMap model)
             throws Exception { 
+    	
+    	MenuManageVO menuManageVO = new MenuManageVO();
     	
     	LoginVO user = 
     		EgovUserDetailsHelper.isAuthenticated()? (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser():null;

@@ -49,7 +49,7 @@ public interface WisckoCntnService {
 	 * @return Inquire wiscko_cntn
 	 * @exception Exception
 	 */
-    WisckoCntnVO selectWisckoCntn(WisckoCntnVO vo) throws Exception;
+    WisckoCntnVO selectWisckoCntn(WisckoCntnDefaultVO searchVO) throws Exception;
     
     /**
 	 * wiscko_cntn List

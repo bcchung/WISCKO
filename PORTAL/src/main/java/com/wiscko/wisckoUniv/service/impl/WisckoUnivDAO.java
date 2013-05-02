@@ -72,8 +72,8 @@ public class WisckoUnivDAO extends EgovAbstractDAO {
 	 * @return Inquire wiscko_univ
 	 * @exception Exception
 	 */
-    public WisckoUnivVO selectWisckoUniv(WisckoUnivVO vo) throws Exception {
-        return (WisckoUnivVO) selectByPk("wisckoUnivDAO.selectWisckoUniv_S", vo);
+    public WisckoUnivVO selectWisckoUniv(WisckoUnivDefaultVO searchVO) throws Exception {
+        return (WisckoUnivVO) selectByPk("wisckoUnivDAO.selectWisckoUniv_S", searchVO);
     }
 
     /**
@@ -102,8 +102,8 @@ public class WisckoUnivDAO extends EgovAbstractDAO {
      * @return
      */
 	@SuppressWarnings("unchecked")
-	public List<WisckoArrayVO> selectWisckoUnivLocaleList(WisckoUnivVO vo) {
-		return (List<WisckoArrayVO>)list("wisckoUnivDAO.selectWisckoUnivLocaleList", vo);
+	public List<WisckoArrayVO> selectWisckoUnivLocaleList(WisckoUnivDefaultVO searchVO) {
+		return (List<WisckoArrayVO>)list("wisckoUnivDAO.selectWisckoUnivLocaleList", searchVO);
 	}
 	
 	/**

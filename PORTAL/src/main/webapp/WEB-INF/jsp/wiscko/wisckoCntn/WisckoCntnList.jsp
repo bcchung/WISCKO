@@ -10,15 +10,17 @@
 <head>
 <script type="text/javaScript" language="javascript" defer="defer">
 <!--
+var $j = jQuery.noConflict();
+
 /* Update function */
 $j(document).ready(function() {
 	$j(".preViewPopup").popupWindow({
-		centerScreen : 1
+		centerScreen : 1, width : 1200, height : 900, resizable : 1	
 	});
 });
 
-function fn_egov_select(cntnId) {
-	document.getElementById("listForm").cntnId.value = cntnId;
+function fn_egov_select(cntnMenuNo) {
+	document.getElementById("listForm").cntnMenuNo.value = cntnMenuNo;
 	document.getElementById("listForm").action = "<c:url value='/wiscko/wisckoCntn/updateWisckoCntnView.do'/>";
 	document.getElementById("listForm").submit();
 }
@@ -94,8 +96,8 @@ A:hover {
 <!--contents start-->
 
 <form:form commandName="searchVO" name="listForm" id="listForm" method="post">
-	<input type="hidden" name="cntnId" />
 	<input name="pageIndex" type="hidden" value="<c:out value='${searchVO.pageIndex}'/>" />
+	<form:hidden path="cntnMenuNo" />
 
 <!-- sub title start -->
 <div>
@@ -126,30 +128,38 @@ A:hover {
 <div id="table">
 	<table width="100%" border="0" cellpadding="0" cellspacing="0">
 		<colgroup>
+			<col width="5%"/>
 			<col />
 			<col />
 			<col />
 			<col />
 		</colgroup>
 		<tr>
-			<th align="center">컨텐츠명</th>
+			<th align="center">번호</th>
+			<th align="center">메뉴명</th>
 			<th align="center">등록일</th>
 			<th align="center">등록자</th>
 			<th align="center">미리보기</th>
 		</tr>
 		<c:if test="${fn:length(resultList) == 0}">
 			<tr>
-				<td colspan="4"><spring:message code="common.nodata.msg" /></td>
+				<td colspan="5"><spring:message code="common.nodata.msg" /></td>
 			</tr>
 		</c:if>
 		<c:forEach var="result" items="${resultList}" varStatus="status">
 			<tr>
-				<td align="center" class="listtd"><a href="javascript:fn_egov_select('<c:out value="${result.cntnId}"/>')"><c:out value="${result.nttSj}"/></a>&nbsp;</td>
+				<td align="center" class="listtd"><c:out value="${paginationInfo.totalRecordCount+1 - ((searchVO.pageIndex-1) * searchVO.pageSize + status.count)}"/></td>
+				<td align="center" class="listtd"><a href="javascript:fn_egov_select('<c:out value="${result.cntnMenuNo}"/>')"><c:out value="${result.cntnMenuNm}"/></a>&nbsp;</td>
 				<td align="center" class="listtd"><c:out value="${result.frstRegistPnttm}" />&nbsp;</td>
 				<td align="center" class="listtd"><c:out value="${result.frstRegisterId}" />&nbsp;</td>
 				<td align="center" class="listtd">
-				<a href="<c:url value="/wiscko/wisckoCntn/selectWisckoCntnLocaleView.do"/>?cntnId=<c:out value="${result.cntnId}"/>"
-					class="preViewPopup">미리보기</a></td>
+				<c:choose>
+					<c:when test="${not empty result.cntnId}">
+						<a href="<c:url value="/wiscko/wisckoCntn/selectWisckoCntnLocaleView.do"/>?cntnId=<c:out value="${result.cntnId}"/>"
+							class="preViewPopup">미리보기</a></td>
+					</c:when>
+					<c:otherwise>컨텐츠없음</c:otherwise>
+				</c:choose>
 			</tr>
 		</c:forEach>
 	</table>

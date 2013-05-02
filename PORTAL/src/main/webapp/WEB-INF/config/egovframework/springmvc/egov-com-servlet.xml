@@ -165,7 +165,8 @@
         </property>
     </bean>
     -->
-	
+    
+	<!-- ### 국제화 Locale Resolver 설정 -->
 	<bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
 	    <property name="cookieName" value="clientlanguage"/>
 	    <property name="cookieMaxAge" value="100000"/>
@@ -183,5 +184,6 @@
 	        <ref bean="localeChangeInterceptor" />
 	    </property>   
 	</bean>
+	<!-- ### 국제화 Locale Resolver 설정 -->
 	
 </beans>

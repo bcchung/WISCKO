@@ -47,6 +47,8 @@ public class WisckoCntnDefaultVO implements Serializable {
     /** CNTN_ID */
     private java.lang.String cntnId;
     
+    private String cntnMenuNo;
+    
     private String searchLocale;
     
         
@@ -143,6 +145,14 @@ public class WisckoCntnDefaultVO implements Serializable {
 
 	public void setSearchLocale(String searchLocale) {
 		this.searchLocale = searchLocale;
+	}
+
+	public String getCntnMenuNo() {
+		return cntnMenuNo;
+	}
+
+	public void setCntnMenuNo(String cntnMenuNo) {
+		this.cntnMenuNo = cntnMenuNo;
 	}
 
 }

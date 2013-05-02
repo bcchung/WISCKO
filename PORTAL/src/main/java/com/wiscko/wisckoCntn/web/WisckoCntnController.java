@@ -149,16 +149,12 @@ public class WisckoCntnController {
     
     @RequestMapping("/wiscko/wisckoCntn/updateWisckoCntnView.do")
     public String updateWisckoCntnView(HttpServletRequest request,
-            @RequestParam("cntnId") java.lang.String cntnId ,
             @ModelAttribute("searchVO") WisckoCntnDefaultVO searchVO, Model model)
             throws Exception {
     	
-        WisckoCntnVO wisckoCntnVO = new WisckoCntnVO();
-        wisckoCntnVO.setCntnId(cntnId);        
-        
-        WisckoCntnVO resultVO = wisckoCntnService.selectWisckoCntn(wisckoCntnVO);
+        WisckoCntnVO resultVO = wisckoCntnService.selectWisckoCntn(searchVO);
 		model.addAttribute("wisckoCntnVO", resultVO);
-        
+		
         /** 코드 조회 **/
 		ComDefaultCodeVO vo = new ComDefaultCodeVO();
         
@@ -219,7 +215,7 @@ public class WisckoCntnController {
     }
     
 	@RequestMapping("/wiscko/wisckoCntn/selectWisckoCntnLocaleView.do")
-	public String selectWisckoCntnLocaleView(@RequestParam(value="cntnId") String cntnId, Model model)
+	public String selectWisckoCntnLocaleView(@RequestParam(value="cntnId", required=false) String cntnId, Model model)
 			throws Exception {
 		WisckoCntnDefaultVO searchVO = new WisckoCntnDefaultVO();
 		searchVO.setCntnId(cntnId);

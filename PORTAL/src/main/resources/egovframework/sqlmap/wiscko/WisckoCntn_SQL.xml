@@ -8,8 +8,10 @@
 	<typeAlias  alias="wisckoArrayVO" type="com.wiscko.wisckoUniv.service.WisckoArrayVO"/>
 	
 	<resultMap id="wisckoCntn" class="com.wiscko.wisckoCntn.service.WisckoCntnVO">
-		<result property="cntnId" column="CNTN_ID" columnIndex="1"/>
-		<result property="nttSj" column="NTT_SJ" columnIndex="2"/>
+		<result property="cntnMenuNo" column="MENU_NO"/>
+		<result property="cntnMenuNm" column="MENU_NM"/>
+		<result property="cntnId" column="CNTN_ID"/>
+		<result property="nttSj" column="NTT_SJ"/>
 	</resultMap>
 	
 	<resultMap id="wisckoArray" class="com.wiscko.wisckoUniv.service.WisckoArrayVO">
@@ -60,6 +62,14 @@
 		]]>
 	</update>
 	
+	<update id="wisckoCntnDAO.updateWisckoMenuCntnId">
+		<![CDATA[
+			UPDATE lettnmenuinfo
+			SET CNTN_ID=#cntnId#
+			WHERE MENU_NO=#cntnMenuNo#
+		]]>
+	</update>
+	
 	<delete id="wisckoCntnDAO.deleteWisckoCntn_S">
 		<![CDATA[
 			DELETE FROM wiscko_cntn WHERE CNTN_ID=#cntnId#
@@ -68,11 +78,13 @@
 	
 	<select id="wisckoCntnDAO.selectWisckoCntn_S" resultMap="wisckoCntn">
 		<![CDATA[
-			SELECT
-				CNTN_ID
-				, NTT_SJ
-			FROM wiscko_cntn
-			WHERE CNTN_ID = #cntnId#
+			SELECT A.MENU_NO
+			     , A.MENU_NM
+			     , A.CNTN_ID
+			     , B.NTT_SJ
+			  FROM lettnmenuinfo A LEFT OUTER JOIN wiscko_cntn B ON A.CNTN_ID = B.CNTN_ID
+			 WHERE A.PROGRM_FILE_NM = 'WisckoCntnView'
+			   AND A.MENU_NO = #cntnMenuNo#
 			]]>
 	</select>
 	
@@ -108,26 +120,33 @@
 	</select>
 	
 	<select id="wisckoCntnDAO.selectWisckoCntnList_D" parameterClass="wisckoCntnSearchVO" resultClass="egovMap">
-			SELECT
-				CNTN_ID
-				, FRST_REGIST_PNTTM
-				, FRST_REGISTER_ID
-				, NTT_SJ
-			FROM wiscko_cntn
-			WHERE 1=1
-			<isEqual prepend="AND" property="searchCondition" compareValue="0">
-				NTT_SJ LIKE CONCAT('%',#searchKeyword#,'%')
-			</isEqual>
-				ORDER BY CNTN_ID DESC
-				limit #firstIndex#, #recordCountPerPage#	
+		<![CDATA[
+			SELECT A.MENU_NO AS CNTN_MENU_NO
+			     , A.MENU_NM AS CNTN_MENU_NM
+			     , A.CNTN_ID
+			     , B.NTT_SJ
+			     , B.FRST_REGIST_PNTTM
+			     , B.FRST_REGISTER_ID
+			  FROM lettnmenuinfo A LEFT OUTER JOIN wiscko_cntn B ON A.CNTN_ID = B.CNTN_ID
+			 WHERE A.PROGRM_FILE_NM = 'WisckoCntnView'
+		]]>
+		<isEqual prepend="AND" property="searchCondition" compareValue="0">
+			B.NTT_SJ LIKE CONCAT('%',#searchKeyword#,'%')
+		</isEqual>
+		<![CDATA[
+			ORDER BY A.CNTN_ID DESC
+			limit #firstIndex#, #recordCountPerPage#
+		]]>
 	</select>	
 	<select id="wisckoCntnDAO.selectWisckoCntnListTotCnt_S" parameterClass="wisckoCntnSearchVO" resultClass="int">
+		<![CDATA[
 			SELECT COUNT(*) totcnt
-			FROM wiscko_cntn
-			WHERE 1=1
-			<isEqual prepend="AND" property="searchCondition" compareValue="0">
-				NTT_SJ LIKE CONCAT('%',#searchKeyword#,'%')
-			</isEqual>
+			  FROM lettnmenuinfo A LEFT OUTER JOIN wiscko_cntn B ON A.CNTN_ID = B.CNTN_ID
+			 WHERE A.PROGRM_FILE_NM = 'WisckoCntnView'
+		]]>
+		<isEqual prepend="AND" property="searchCondition" compareValue="0">
+			B.NTT_SJ LIKE CONCAT('%',#searchKeyword#,'%')
+		</isEqual>
 	</select>
 
 </sqlMap>

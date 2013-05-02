@@ -48,7 +48,7 @@ public interface WisckoUnivService {
 	 * @return Inquire wiscko_univ
 	 * @exception Exception
 	 */
-    WisckoUnivVO selectWisckoUniv(WisckoUnivVO vo) throws Exception;
+    WisckoUnivVO selectWisckoUniv(WisckoUnivDefaultVO searchVO) throws Exception;
     
     /**
 	 * wiscko_univ List

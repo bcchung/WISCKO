@@ -21,7 +21,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 
-<c:set var="registerFlag" value="${empty wisckoCntnVO.cntnId ? 'Register' : 'Update'}"/>			
+<c:set var="registerFlag" value="${empty wisckoCntnVO.cntnId ? 'Register' : 'Update'}"/>		
 
 <title> <c:out value="${registerFlag}"/> </title>
 
@@ -31,6 +31,8 @@
 
 <script type="text/javaScript" language="javascript" defer="defer">
 <!--
+var $j = jQuery.noConflict();
+
 /* List View function */
 function fn_egov_selectList() {
    	document.getElementById("detailForm").action = "<c:url value='/wiscko/wisckoCntn/WisckoCntnList.do'/>";
@@ -114,8 +116,9 @@ $j(document).ready(function() {
 	<input type="hidden" name="searchCondition" value="<c:out value='${searchVO.searchCondition}'/>"/>
 	<input type="hidden" name="searchKeyword" value="<c:out value='${searchVO.searchKeyword}'/>"/>
 	<input type="hidden" name="pageIndex" value="<c:out value='${searchVO.pageIndex}'/>"/>
-	<input type="hidden" name="cntnId" value="<c:out value='${searchVO.cntnId}'/>"/>
 	<input type="hidden" id="beforeIndex"/>
+	<form:hidden path="cntnId" />
+	<form:hidden path="cntnMenuNo" />
 
 	<!-- Double Submit Token Parameter -->
 	<input type="hidden" name="TOKEN_KEY" value="<%=request.getAttribute("TOKEN_KEY")%>" />
@@ -129,49 +132,44 @@ $j(document).ready(function() {
 <div class="search_service">
     <div class="search_top_table">
 
-	<table width="100%" border="1" cellpadding="0" cellspacing="0" >
+	<table width="100%" border="1" cellpadding="0" cellspacing="0">
 		<colgroup>
-			<col width="150"/>
-			<col width=""/>
+			<col width="15%"/>
+			<col width="35%"/>
+			<col width="15%"/>
+			<col width="35%"/>
 		</colgroup>
 			
-		<c:if test="${registerFlag == 'Update'}">
-		</c:if>
-		<c:if test="${registerFlag == 'Register'}">
-		</c:if>		
 		<tr>
 			<td class="td_width">컨텐츠명</td>
-			<td class="td_content">
-				<form:input path="nttSj" cssClass="txt" size="80"/>
-				&nbsp;<form:errors path="nttSj" />
+			<td class="td_content" colspan="3">
+				<form:input path="cntnMenuNm" cssClass="txt" size="80"/>
+				&nbsp;<form:errors path="cntnMenuNm" />
+			</td>
+		</tr>
+		<tr>
+			<td class="td_width">접속URL</td>
+			<td class="td_content" colspan="3">
+				<form:input path="forwardUrl" cssClass="txt" size="100" readonly="true"/>
+				&nbsp;<form:errors path="forwardUrl" />
 			</td>
 		</tr>
 		<tr>
 			<td class="td_width">국가</td>
 			<td class="td_content" colspan="3">
-			
-			<c:if test="${registerFlag == 'Register'}">
+			<c:if test="${cntnYn == 'Y'}">
+				<c:forEach var="result" items="${localeArray}" varStatus="status">
+					<input type="radio" name="localeRdo" value="${result.locale}" <c:if test="${status.first}">checked="checked"</c:if>/>${result.localeNm}
+					<input type="hidden" name="localeArray[${status.index}].locale" value="${result.locale}"/>
+					<textarea name="localeArray[${status.index}].nttCn" id="localeArray[${status.index}].nttCn" style="display:none;">${result.nttCn}</textarea>
+				</c:forEach>
+			</c:if>
+			<c:if test="${cntnYn == 'N'}">
 				<c:forEach var="result" items="${localeTcList}" varStatus="status">
 					<input type="radio" name="localeRdo" value="${result.code}" <c:if test="${status.first}">checked="checked"</c:if>/>${result.codeNm}
 					<input type="hidden" name="localeArray[${status.index}].locale" value="${result.code}"/>
 					<textarea name="localeArray[${status.index}].nttCn" id="localeArray[${status.index}].nttCn" style="display:none;"></textarea>
 				</c:forEach>
-			</c:if>
-			<c:if test="${registerFlag == 'Update'}">
-				<c:if test="${cntnYn == 'Y'}">
-					<c:forEach var="result" items="${localeArray}" varStatus="status">
-						<input type="radio" name="localeRdo" value="${result.locale}" <c:if test="${status.first}">checked="checked"</c:if>/>${result.localeNm}
-						<input type="hidden" name="localeArray[${status.index}].locale" value="${result.locale}"/>
-						<textarea name="localeArray[${status.index}].nttCn" id="localeArray[${status.index}].nttCn" style="display:none;">${result.nttCn}</textarea>
-					</c:forEach>
-				</c:if>
-				<c:if test="${cntnYn == 'N'}">
-					<c:forEach var="result" items="${localeTcList}" varStatus="status">
-						<input type="radio" name="localeRdo" value="${result.code}" <c:if test="${status.first}">checked="checked"</c:if>/>${result.codeNm}
-						<input type="hidden" name="localeArray[${status.index}].locale" value="${result.code}"/>
-						<textarea name="localeArray[${status.index}].nttCn" id="localeArray[${status.index}].nttCn" style="display:none;"></textarea>
-					</c:forEach>
-				</c:if>
 			</c:if>
 			</td>
 		</tr>
@@ -182,7 +180,7 @@ $j(document).ready(function() {
 	            <!-- ##Smart Editor Start## -->
 	            <c:import url="/editor/SmartEditor.jsp" charEncoding="UTF-8">
 	                <c:param name="v_width">600</c:param>
-	                <c:param name="v_height">400</c:param>
+	                <c:param name="v_height">600</c:param>
 	            </c:import>
 	            <!-- ##Smart Editor End## -->
 	          

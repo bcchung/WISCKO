@@ -12,15 +12,17 @@
 --%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>     
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <script type="text/javascript" src="<c:url value="/js/EgovMainMenu.js"/>"/></script>
 <script type="text/javascript">
 <!--
+var imgpath = "<c:url value='/images/egovframework/com/cmm/utl/'/>";
+
 /* ********************************************************
  * 상세내역조회 함수
  ******************************************************** */
 function fn_MovePage(nodeNum) {
-    var nodeValues = treeNodes[nodeNum].split("|");
+    var nodeValues = treeNodesLeft[nodeNum].split("|");
     //parent.main_right.location.href = nodeValues[5];
     document.menuListForm.action = "${pageContext.request.contextPath}"+nodeValues[5];
     //alert(document.menuListForm.action);
@@ -29,8 +31,8 @@ function fn_MovePage(nodeNum) {
 //-->
 </script>
 <div class="left_wrap">
-	<div class="top"><img src="<c:url value='/'/>images/title_image/img_menu_title01.gif" alt="서브메뉴" /></div>             
-	<div class="nav_style" >
+	<div class="top"><img src="<c:url value='/'/>images/title_image/img_menu_title01.gif" alt="서브메뉴" /></div>
+	<div class="nav_style">
 		<script type="text/javascript">
          var Tree = new Array;
          if(document.menuListForm.tmp_menuNm != null){
@@ -40,7 +42,7 @@ function fn_MovePage(nodeNum) {
          }
          var leftStartMenuValue = document.getElementById("menuNo").value;
          if (leftStartMenuValue==null || leftStartMenuValue=="" || leftStartMenuValue=="null") leftStartMenuValue = '1000000';
-         createTree(Tree, true, leftStartMenuValue);
+         createTreeLeft(Tree, true, leftStartMenuValue);
          </script>
 	</div>	
 </div>

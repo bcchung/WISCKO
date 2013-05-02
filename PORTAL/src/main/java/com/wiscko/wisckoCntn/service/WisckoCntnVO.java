@@ -37,6 +37,10 @@ public class WisckoCntnVO extends WisckoCntnDefaultVO{
     /** NTT_SJ */
     private java.lang.String nttSj;
     
+    private String cntnMenuNm;
+    
+    private String forwardUrl;
+    
     public java.util.Date getFrstRegistPnttm() {
         return this.frstRegistPnttm;
     }
@@ -83,6 +87,22 @@ public class WisckoCntnVO extends WisckoCntnDefaultVO{
 
 	public void setLocaleArray(List<WisckoArrayVO> localeArray) {
 		this.localeArray = localeArray;
+	}
+
+	public String getForwardUrl() {
+		return forwardUrl;
+	}
+
+	public void setForwardUrl(String forwardUrl) {
+		this.forwardUrl = forwardUrl;
+	}
+
+	public String getCntnMenuNm() {
+		return cntnMenuNm;
+	}
+
+	public void setCntnMenuNm(String cntnMenuNm) {
+		this.cntnMenuNm = cntnMenuNm;
 	}
     
 }

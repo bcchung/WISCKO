@@ -36,6 +36,8 @@
 <!-- AjaxTags Library -->
 <script type="text/javaScript" language="javascript">
 <!--
+var $j = jQuery.noConflict();
+
 /* List View function */
 function fn_egov_selectList() {
    	document.getElementById("detailForm").action = "<c:url value='/wiscko/wisckoUniv/WisckoUnivList.do'/>";
@@ -268,7 +270,7 @@ $j(document).ready(function() {
 	            <!-- ##Smart Editor Start## -->
 	            <c:import url="/editor/SmartEditor.jsp" charEncoding="UTF-8">
 	                <c:param name="v_width">600</c:param>
-	                <c:param name="v_height">400</c:param>
+	                <c:param name="v_height">600</c:param>
 	            </c:import>
 	            <!-- ##Smart Editor End## -->
 	          
